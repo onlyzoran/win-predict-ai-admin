@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import { LogOut } from '@lucide/vue'
 import { locale, localeLabels, locales, setLocale, type Locale } from '~/i18n'
 import {
   DropdownMenu,
@@ -12,6 +13,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 const { t } = useI18n()
+const { status, signOut } = useAuth()
+
+const isAuthenticated = computed(() => status.value === 'authenticated')
 
 const mode = useColorMode({
   modes: {
@@ -30,6 +34,10 @@ function onLocaleChange(value: string) {
   if (locales.includes(value as Locale)) {
     setLocale(value as Locale)
   }
+}
+
+async function logout() {
+  await signOut({ callbackUrl: '/login' })
 }
 </script>
 
@@ -92,6 +100,16 @@ function onLocaleChange(value: string) {
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
         </svg>
       </button>
+      <template v-if="isAuthenticated">
+        <div class="mx-1 h-5 w-px bg-border" aria-hidden="true" />
+        <button
+          class="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          @click="logout"
+        >
+          <LogOut class="size-4" />
+          {{ t('common.logout') }}
+        </button>
+      </template>
     </div>
   </header>
 </template>

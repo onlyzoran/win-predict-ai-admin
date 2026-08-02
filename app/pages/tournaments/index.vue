@@ -2,7 +2,7 @@
 import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
-import { LogOut, Plus } from '@lucide/vue'
+import { Plus } from '@lucide/vue'
 import { SPORT_VALUES } from '@/lib/utils'
 import Button from '@/components/ui/button/Button.vue'
 import Input from '@/components/ui/input/Input.vue'
@@ -19,7 +19,7 @@ const { t } = useI18n()
 useHead({ title: () => t('tournaments.title') })
 
 const store = useTournamentsStore()
-const { signOut, data: session } = useAuth()
+const { data: session } = useAuth()
 const ready = ref(false)
 
 onMounted(async () => {
@@ -54,10 +54,6 @@ async function onDelete(id: string) {
   }
 }
 
-async function logout() {
-  await signOut({ callbackUrl: '/login' })
-}
-
 const sportModel = computed({
   get: () => store.sportFilter,
   set: (value: string) => {
@@ -77,16 +73,10 @@ const sportModel = computed({
           {{ t('tournaments.subtitle', { email: session?.user?.email || '' }) }}
         </p>
       </div>
-      <div class="flex gap-2">
-        <Button variant="outline" @click="logout">
-          <LogOut class="size-4" />
-          {{ t('common.logout') }}
-        </Button>
-        <Button @click="navigateTo('/tournaments/new')">
-          <Plus class="size-4" />
-          {{ t('tournaments.create') }}
-        </Button>
-      </div>
+      <Button @click="navigateTo('/tournaments/new')">
+        <Plus class="size-4" />
+        {{ t('tournaments.create') }}
+      </Button>
     </div>
 
     <div class="flex flex-col gap-3 sm:flex-row">

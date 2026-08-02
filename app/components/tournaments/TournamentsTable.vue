@@ -68,6 +68,22 @@ const table = useVueTable({
   getSortedRowModel: getSortedRowModel(),
 })
 
+const isSorting = computed(() => sorting.value.length > 0)
+const canDrag = computed(() => Boolean(props.dragEnabled) && !isSorting.value)
+
+const displayRows = computed({
+  get() {
+    const source = rows.value
+    if (!isSorting.value) {
+      return source
+    }
+    return table.getRowModel().rows.map((row) => row.original)
+  },
+  set(value: Tournament[]) {
+    rows.value = value
+  },
+})
+
 function onDragEnd() {
   emit('reorder', rows.value.map((item) => item.id))
 }
@@ -112,11 +128,11 @@ function onDragEnd() {
       </thead>
 
       <draggable
-        v-model="rows"
+        v-model="displayRows"
         item-key="id"
         tag="tbody"
         handle=".drag-handle"
-        :disabled="!dragEnabled"
+        :disabled="!canDrag"
         class="[&_tr:last-child]:border-0"
         @end="onDragEnd"
       >
@@ -126,7 +142,7 @@ function onDragEnd() {
               <button
                 type="button"
                 class="drag-handle inline-flex cursor-grab text-muted-foreground active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-40"
-                :disabled="!dragEnabled"
+                :disabled="!canDrag"
                 :aria-label="t('tournaments.drag')"
               >
                 <GripVertical class="size-4" />
