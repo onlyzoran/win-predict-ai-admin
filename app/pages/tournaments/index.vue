@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
+import { useI18n } from 'vue-i18n'
 import { LogOut, Plus } from '@lucide/vue'
-import { SPORT_VALUES, SPORT_LABELS } from '@/lib/utils'
+import { SPORT_VALUES } from '@/lib/utils'
 import Button from '@/components/ui/button/Button.vue'
 import Input from '@/components/ui/input/Input.vue'
 import NativeSelect from '@/components/ui/select/NativeSelect.vue'
@@ -13,7 +14,9 @@ definePageMeta({
   middleware: 'auth',
 })
 
-useHead({ title: 'Турниры' })
+const { t } = useI18n()
+
+useHead({ title: () => t('tournaments.title') })
 
 const store = useTournamentsStore()
 const { signOut, data: session } = useAuth()
@@ -24,7 +27,7 @@ onMounted(async () => {
     await store.fetchAll()
   }
   catch {
-    toast.error('Не удалось загрузить турниры')
+    toast.error(t('tournaments.loadError'))
   }
   finally {
     ready.value = true
@@ -34,20 +37,20 @@ onMounted(async () => {
 async function onReorder(ids: string[]) {
   try {
     await store.reorderTournaments(ids)
-    toast.success('Порядок обновлён')
+    toast.success(t('tournaments.reorderSuccess'))
   }
   catch {
-    toast.error('Не удалось сохранить порядок')
+    toast.error(t('tournaments.reorderError'))
   }
 }
 
 async function onDelete(id: string) {
   try {
     await store.deleteTournament(id)
-    toast.success('Турнир удалён')
+    toast.success(t('tournaments.deleteSuccess'))
   }
   catch {
-    toast.error('Не удалось удалить турнир')
+    toast.error(t('tournaments.deleteError'))
   }
 }
 
@@ -68,20 +71,20 @@ const sportModel = computed({
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 class="text-2xl font-semibold tracking-tight">
-          Турниры
+          {{ t('tournaments.title') }}
         </h1>
         <p class="text-sm text-muted-foreground">
-          Управление списком турниров · {{ session?.user?.email }}
+          {{ t('tournaments.subtitle', { email: session?.user?.email || '' }) }}
         </p>
       </div>
       <div class="flex gap-2">
         <Button variant="outline" @click="logout">
           <LogOut class="size-4" />
-          Выйти
+          {{ t('common.logout') }}
         </Button>
         <Button @click="navigateTo('/tournaments/new')">
           <Plus class="size-4" />
-          Создать турнир
+          {{ t('tournaments.create') }}
         </Button>
       </div>
     </div>
@@ -90,20 +93,20 @@ const sportModel = computed({
       <Input
         v-model="store.searchQuery"
         class="sm:max-w-xs"
-        placeholder="Поиск по названию…"
+        :placeholder="t('tournaments.searchPlaceholder')"
       />
       <NativeSelect v-model="sportModel" class="sm:max-w-xs">
         <option value="all">
-          Все виды спорта
+          {{ t('sports.all') }}
         </option>
         <option v-for="sport in SPORT_VALUES" :key="sport" :value="sport">
-          {{ SPORT_LABELS[sport] }}
+          {{ t(`sports.${sport}`) }}
         </option>
       </NativeSelect>
     </div>
 
     <div v-if="!ready || store.loading" class="text-sm text-muted-foreground">
-      Загрузка…
+      {{ t('common.loading') }}
     </div>
 
     <TournamentsTable

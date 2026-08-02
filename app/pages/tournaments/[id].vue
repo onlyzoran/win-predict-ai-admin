@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
+import { useI18n } from 'vue-i18n'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
 import type { Tournament } from '~/composables/useTournaments'
 
@@ -8,6 +9,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
+const { t } = useI18n()
 const route = useRoute()
 const store = useTournamentsStore()
 const api = useTournamentsApi()
@@ -18,7 +20,7 @@ const tournament = ref<Tournament | null>(null)
 const id = computed(() => String(route.params.id))
 
 useHead({
-  title: computed(() => tournament.value?.title || 'Редактирование'),
+  title: computed(() => tournament.value?.title || t('tournaments.editFallbackTitle')),
 })
 
 onMounted(async () => {
@@ -26,7 +28,7 @@ onMounted(async () => {
     tournament.value = await api.getById(id.value)
   }
   catch {
-    toast.error('Турнир не найден')
+    toast.error(t('tournaments.notFound'))
     await navigateTo('/tournaments')
   }
   finally {
@@ -48,10 +50,10 @@ async function onSubmit(payload: {
       id.value,
       payload as Parameters<typeof store.updateTournament>[1],
     )
-    toast.success('Изменения сохранены')
+    toast.success(t('tournaments.updateSuccess'))
   }
   catch {
-    toast.error('Не удалось сохранить изменения')
+    toast.error(t('tournaments.updateError'))
   }
   finally {
     submitting.value = false
@@ -63,7 +65,7 @@ async function onSubmit(payload: {
   <div class="mx-auto max-w-3xl space-y-6 px-4 py-8">
     <div>
       <h1 class="text-2xl font-semibold tracking-tight">
-        Редактирование турнира
+        {{ t('tournaments.editTitle') }}
       </h1>
       <p class="text-sm text-muted-foreground">
         {{ tournament?.id || id }}
@@ -71,7 +73,7 @@ async function onSubmit(payload: {
     </div>
 
     <div v-if="loading" class="text-sm text-muted-foreground">
-      Загрузка…
+      {{ t('common.loading') }}
     </div>
 
     <TournamentForm

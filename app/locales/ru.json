@@ -8,5 +8,89 @@
   },
   "language": {
     "label": "Язык"
+  },
+  "common": {
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "loading": "Загрузка…",
+    "save": "Сохранить",
+    "create": "Создать",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "logout": "Выйти",
+    "saving": "Сохранение…"
+  },
+  "sports": {
+    "all": "Все виды спорта",
+    "football": "Футбол",
+    "basketball": "Баскетбол",
+    "americanFootball": "Американский футбол",
+    "hockey": "Хоккей",
+    "baseball": "Бейсбол",
+    "golf": "Гольф",
+    "politics": "Политика"
+  },
+  "login": {
+    "title": "Вход",
+    "subtitle": "Войдите, чтобы управлять турнирами",
+    "email": "Email",
+    "password": "Пароль",
+    "submit": "Войти",
+    "submitting": "Вход…",
+    "invalidCredentials": "Неверный email или пароль",
+    "error": "Ошибка входа"
+  },
+  "tournaments": {
+    "title": "Турниры",
+    "subtitle": "Управление списком турниров · {email}",
+    "create": "Создать турнир",
+    "searchPlaceholder": "Поиск по названию…",
+    "empty": "Турниры не найдены",
+    "drag": "Перетащить",
+    "loadError": "Не удалось загрузить турниры",
+    "reorderSuccess": "Порядок обновлён",
+    "reorderError": "Не удалось сохранить порядок",
+    "deleteSuccess": "Турнир удалён",
+    "deleteError": "Не удалось удалить турнир",
+    "deleteConfirmTitle": "Удалить турнир?",
+    "deleteConfirmDescription": "«{title}» будет удалён без возможности восстановления.",
+    "newTitle": "Новый турнир",
+    "newSubtitle": "Заполните поля и сохраните запись",
+    "createSuccess": "Турнир создан",
+    "createConflict": "Турнир с таким id уже существует",
+    "createError": "Не удалось создать турнир",
+    "editTitle": "Редактирование турнира",
+    "editFallbackTitle": "Редактирование",
+    "notFound": "Турнир не найден",
+    "updateSuccess": "Изменения сохранены",
+    "updateError": "Не удалось сохранить изменения",
+    "columns": {
+      "title": "Название",
+      "sport": "Спорт",
+      "start": "Начало",
+      "end": "Окончание",
+      "priority": "Приоритет"
+    }
+  },
+  "form": {
+    "title": "Название",
+    "id": "ID (slug)",
+    "idLocked": "ID нельзя изменить",
+    "idHint": "Генерируется из названия при создании",
+    "sport": "Спорт",
+    "file": "Файл данных",
+    "startDate": "Дата начала",
+    "endDate": "Дата окончания",
+    "endDateTo": "Окончание до (опционально)",
+    "endDateToHint": "Верхняя граница возможной даты окончания (например, затяжные плей-офф)",
+    "errors": {
+      "titleRequired": "Название обязательно",
+      "sportRequired": "Выберите спорт",
+      "fileRequired": "Имя файла обязательно",
+      "startDateRequired": "Дата начала обязательна",
+      "endDateRequired": "Дата окончания обязательна",
+      "endBeforeStart": "Дата окончания не может быть раньше даты начала",
+      "endDateToBeforeEnd": "«Окончание до» не может быть раньше даты окончания"
+    }
   }
 }

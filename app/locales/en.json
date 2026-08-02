@@ -8,5 +8,89 @@
   },
   "language": {
     "label": "Language"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading…",
+    "save": "Save",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "logout": "Log out",
+    "saving": "Saving…"
+  },
+  "sports": {
+    "all": "All sports",
+    "football": "Football",
+    "basketball": "Basketball",
+    "americanFootball": "American Football",
+    "hockey": "Hockey",
+    "baseball": "Baseball",
+    "golf": "Golf",
+    "politics": "Politics"
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Sign in to manage tournaments",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "invalidCredentials": "Invalid email or password",
+    "error": "Sign-in failed"
+  },
+  "tournaments": {
+    "title": "Tournaments",
+    "subtitle": "Manage tournament list · {email}",
+    "create": "Create tournament",
+    "searchPlaceholder": "Search by title…",
+    "empty": "No tournaments found",
+    "drag": "Drag to reorder",
+    "loadError": "Failed to load tournaments",
+    "reorderSuccess": "Order updated",
+    "reorderError": "Failed to save order",
+    "deleteSuccess": "Tournament deleted",
+    "deleteError": "Failed to delete tournament",
+    "deleteConfirmTitle": "Delete tournament?",
+    "deleteConfirmDescription": "“{title}” will be permanently deleted.",
+    "newTitle": "New tournament",
+    "newSubtitle": "Fill in the fields and save",
+    "createSuccess": "Tournament created",
+    "createConflict": "A tournament with this id already exists",
+    "createError": "Failed to create tournament",
+    "editTitle": "Edit tournament",
+    "editFallbackTitle": "Edit",
+    "notFound": "Tournament not found",
+    "updateSuccess": "Changes saved",
+    "updateError": "Failed to save changes",
+    "columns": {
+      "title": "Title",
+      "sport": "Sport",
+      "start": "Start",
+      "end": "End",
+      "priority": "Priority"
+    }
+  },
+  "form": {
+    "title": "Title",
+    "id": "ID (slug)",
+    "idLocked": "ID cannot be changed",
+    "idHint": "Generated from the title on create",
+    "sport": "Sport",
+    "file": "Data file",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "endDateTo": "End by (optional)",
+    "endDateToHint": "Upper bound for a possible end date (e.g. extended playoffs)",
+    "errors": {
+      "titleRequired": "Title is required",
+      "sportRequired": "Select a sport",
+      "fileRequired": "File name is required",
+      "startDateRequired": "Start date is required",
+      "endDateRequired": "End date is required",
+      "endBeforeStart": "End date cannot be earlier than start date",
+      "endDateToBeforeEnd": "“End by” cannot be earlier than the end date"
+    }
   }
 }

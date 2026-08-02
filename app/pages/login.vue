@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
+import { useI18n } from 'vue-i18n'
 import Button from '@/components/ui/button/Button.vue'
 import Input from '@/components/ui/input/Input.vue'
 import Label from '@/components/ui/label/Label.vue'
@@ -11,7 +12,9 @@ definePageMeta({
   },
 })
 
-useHead({ title: 'Вход' })
+const { t } = useI18n()
+
+useHead({ title: () => t('login.title') })
 
 const { signIn, status } = useAuth()
 const email = ref('')
@@ -47,7 +50,7 @@ async function onSubmit() {
     })
 
     if (result?.error) {
-      toast.error('Неверный email или пароль')
+      toast.error(t('login.invalidCredentials'))
       return
     }
 
@@ -56,7 +59,7 @@ async function onSubmit() {
     await navigateTo(callbackUrl)
   }
   catch {
-    toast.error('Ошибка входа')
+    toast.error(t('login.error'))
   }
   finally {
     loading.value = false
@@ -65,22 +68,22 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center px-4">
+  <div class="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
     <form
       class="w-full max-w-sm space-y-6 rounded-lg border bg-card p-6 shadow-sm"
       @submit.prevent="onSubmit"
     >
       <div class="space-y-1">
         <h1 class="text-2xl font-semibold tracking-tight">
-          Win Predict Admin
+          {{ t('app.title') }}
         </h1>
         <p class="text-sm text-muted-foreground">
-          Войдите, чтобы управлять турнирами
+          {{ t('login.subtitle') }}
         </p>
       </div>
 
       <div class="space-y-2">
-        <Label for="email">Email</Label>
+        <Label for="email">{{ t('login.email') }}</Label>
         <Input
           id="email"
           v-model="email"
@@ -91,7 +94,7 @@ async function onSubmit() {
       </div>
 
       <div class="space-y-2">
-        <Label for="password">Пароль</Label>
+        <Label for="password">{{ t('login.password') }}</Label>
         <Input
           id="password"
           v-model="password"
@@ -102,7 +105,7 @@ async function onSubmit() {
       </div>
 
       <Button type="submit" class="w-full" :disabled="loading">
-        {{ loading ? 'Вход…' : 'Войти' }}
+        {{ loading ? t('login.submitting') : t('login.submit') }}
       </Button>
     </form>
   </div>

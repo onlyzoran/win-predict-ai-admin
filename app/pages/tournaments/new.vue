@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
+import { useI18n } from 'vue-i18n'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
 
 definePageMeta({
   middleware: 'auth',
 })
 
-useHead({ title: 'Новый турнир' })
+const { t } = useI18n()
+
+useHead({ title: () => t('tournaments.newTitle') })
 
 const store = useTournamentsStore()
 const submitting = ref(false)
@@ -23,7 +26,7 @@ async function onSubmit(payload: {
   submitting.value = true
   try {
     const created = await store.createTournament(payload as Parameters<typeof store.createTournament>[0])
-    toast.success('Турнир создан')
+    toast.success(t('tournaments.createSuccess'))
     await navigateTo(`/tournaments/${created.id}`)
   }
   catch (err: unknown) {
@@ -31,10 +34,10 @@ async function onSubmit(payload: {
       ? (err as { statusCode?: number }).statusCode
       : undefined
     if (status === 409) {
-      toast.error('Турнир с таким id уже существует')
+      toast.error(t('tournaments.createConflict'))
     }
     else {
-      toast.error('Не удалось создать турнир')
+      toast.error(t('tournaments.createError'))
     }
   }
   finally {
@@ -47,10 +50,10 @@ async function onSubmit(payload: {
   <div class="mx-auto max-w-3xl space-y-6 px-4 py-8">
     <div>
       <h1 class="text-2xl font-semibold tracking-tight">
-        Новый турнир
+        {{ t('tournaments.newTitle') }}
       </h1>
       <p class="text-sm text-muted-foreground">
-        Заполните поля и сохраните запись
+        {{ t('tournaments.newSubtitle') }}
       </p>
     </div>
 

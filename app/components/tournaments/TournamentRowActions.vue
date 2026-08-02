@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Pencil, Trash2 } from '@lucide/vue'
+import { useI18n } from 'vue-i18n'
 import type { Tournament } from '~/composables/useTournaments'
 import Button from '@/components/ui/button/Button.vue'
 import AlertDialog from '@/components/ui/alert-dialog/AlertDialog.vue'
@@ -12,6 +13,7 @@ const emit = defineEmits<{
   delete: [id: string]
 }>()
 
+const { t } = useI18n()
 const confirmOpen = ref(false)
 </script>
 
@@ -25,19 +27,20 @@ const confirmOpen = ref(false)
       @click.prevent="navigateTo(`/tournaments/${props.tournament.id}`)"
     >
       <Pencil class="size-4" />
-      <span class="sr-only">Редактировать</span>
+      <span class="sr-only">{{ t('common.edit') }}</span>
     </Button>
 
     <Button variant="ghost" size="icon" @click="confirmOpen = true">
       <Trash2 class="size-4 text-destructive" />
-      <span class="sr-only">Удалить</span>
+      <span class="sr-only">{{ t('common.delete') }}</span>
     </Button>
 
     <AlertDialog
       v-model:open="confirmOpen"
-      title="Удалить турнир?"
-      :description="`«${tournament.title}» будет удалён без возможности восстановления.`"
-      confirm-label="Удалить"
+      :title="t('tournaments.deleteConfirmTitle')"
+      :description="t('tournaments.deleteConfirmDescription', { title: tournament.title })"
+      :confirm-label="t('common.delete')"
+      :cancel-label="t('common.cancel')"
       destructive
       @confirm="emit('delete', tournament.id)"
     />

@@ -10,12 +10,13 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from 'reka-ui'
+import { useI18n } from 'vue-i18n'
 import { cn } from '@/lib/utils'
 import Button from '@/components/ui/button/Button.vue'
 
 const open = defineModel<boolean>('open', { default: false })
 
-defineProps<{
+const props = defineProps<{
   title: string
   description?: string
   confirmLabel?: string
@@ -26,6 +27,8 @@ defineProps<{
 const emit = defineEmits<{
   confirm: []
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -51,7 +54,7 @@ const emit = defineEmits<{
         <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <AlertDialogCancel as-child>
             <Button variant="outline">
-              {{ cancelLabel || 'Отмена' }}
+              {{ props.cancelLabel || t('common.cancel') }}
             </Button>
           </AlertDialogCancel>
           <AlertDialogAction as-child>
@@ -59,7 +62,7 @@ const emit = defineEmits<{
               :variant="destructive ? 'destructive' : 'default'"
               @click="emit('confirm')"
             >
-              {{ confirmLabel || 'Подтвердить' }}
+              {{ props.confirmLabel || t('common.confirm') }}
             </Button>
           </AlertDialogAction>
         </div>

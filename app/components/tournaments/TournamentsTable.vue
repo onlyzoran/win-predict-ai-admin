@@ -8,8 +8,8 @@ import {
   type SortingState,
 } from '@tanstack/vue-table'
 import draggable from 'vuedraggable'
+import { useI18n } from 'vue-i18n'
 import { GripVertical } from '@lucide/vue'
-import { SPORT_LABELS } from '@/lib/utils'
 import type { Tournament } from '~/composables/useTournaments'
 import Badge from '@/components/ui/badge/Badge.vue'
 import TournamentRowActions from '@/components/tournaments/TournamentRowActions.vue'
@@ -24,6 +24,7 @@ const emit = defineEmits<{
   delete: [id: string]
 }>()
 
+const { t, locale } = useI18n()
 const sorting = ref<SortingState>([])
 const rows = ref<Tournament[]>([...props.data])
 
@@ -35,21 +36,26 @@ watch(
   { deep: true },
 )
 
-const columns: ColumnDef<Tournament>[] = [
-  { id: 'drag', header: '', enableSorting: false },
-  { accessorKey: 'title', header: 'Название' },
-  { accessorKey: 'sport', header: 'Спорт' },
-  { accessorKey: 'startDate', header: 'Начало' },
-  { accessorKey: 'endDate', header: 'Окончание' },
-  { accessorKey: 'popularPriority', header: 'Приоритет' },
-  { id: 'actions', header: '', enableSorting: false },
-]
+const columns = computed<ColumnDef<Tournament>[]>(() => {
+  void locale.value
+  return [
+    { id: 'drag', header: '', enableSorting: false },
+    { accessorKey: 'title', header: t('tournaments.columns.title') },
+    { accessorKey: 'sport', header: t('tournaments.columns.sport') },
+    { accessorKey: 'startDate', header: t('tournaments.columns.start') },
+    { accessorKey: 'endDate', header: t('tournaments.columns.end') },
+    { accessorKey: 'popularPriority', header: t('tournaments.columns.priority') },
+    { id: 'actions', header: '', enableSorting: false },
+  ]
+})
 
 const table = useVueTable({
   get data() {
     return rows.value
   },
-  columns,
+  get columns() {
+    return columns.value
+  },
   state: {
     get sorting() {
       return sorting.value
@@ -121,7 +127,7 @@ function onDragEnd() {
                 type="button"
                 class="drag-handle inline-flex cursor-grab text-muted-foreground active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-40"
                 :disabled="!dragEnabled"
-                aria-label="Перетащить"
+                :aria-label="t('tournaments.drag')"
               >
                 <GripVertical class="size-4" />
               </button>
@@ -131,7 +137,7 @@ function onDragEnd() {
             </td>
             <td class="p-2 align-middle">
               <Badge variant="secondary">
-                {{ SPORT_LABELS[element.sport] }}
+                {{ t(`sports.${element.sport}`) }}
               </Badge>
             </td>
             <td class="p-2 align-middle">
@@ -158,7 +164,7 @@ function onDragEnd() {
     </table>
 
     <div v-if="rows.length === 0" class="p-8 text-center text-sm text-muted-foreground">
-      Турниры не найдены
+      {{ t('tournaments.empty') }}
     </div>
   </div>
 </template>

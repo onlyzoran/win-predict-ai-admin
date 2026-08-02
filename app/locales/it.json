@@ -8,5 +8,89 @@
   },
   "language": {
     "label": "Lingua"
+  },
+  "common": {
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "loading": "Caricamento…",
+    "save": "Salva",
+    "create": "Crea",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "logout": "Esci",
+    "saving": "Salvataggio…"
+  },
+  "sports": {
+    "all": "Tutti gli sport",
+    "football": "Calcio",
+    "basketball": "Basket",
+    "americanFootball": "Football americano",
+    "hockey": "Hockey",
+    "baseball": "Baseball",
+    "golf": "Golf",
+    "politics": "Politica"
+  },
+  "login": {
+    "title": "Accedi",
+    "subtitle": "Accedi per gestire i tornei",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Accedi",
+    "submitting": "Accesso…",
+    "invalidCredentials": "Email o password non validi",
+    "error": "Accesso non riuscito"
+  },
+  "tournaments": {
+    "title": "Tornei",
+    "subtitle": "Gestione elenco tornei · {email}",
+    "create": "Crea torneo",
+    "searchPlaceholder": "Cerca per titolo…",
+    "empty": "Nessun torneo trovato",
+    "drag": "Trascina per riordinare",
+    "loadError": "Impossibile caricare i tornei",
+    "reorderSuccess": "Ordine aggiornato",
+    "reorderError": "Impossibile salvare l’ordine",
+    "deleteSuccess": "Torneo eliminato",
+    "deleteError": "Impossibile eliminare il torneo",
+    "deleteConfirmTitle": "Eliminare il torneo?",
+    "deleteConfirmDescription": "«{title}» verrà eliminato definitivamente.",
+    "newTitle": "Nuovo torneo",
+    "newSubtitle": "Compila i campi e salva",
+    "createSuccess": "Torneo creato",
+    "createConflict": "Esiste già un torneo con questo id",
+    "createError": "Impossibile creare il torneo",
+    "editTitle": "Modifica torneo",
+    "editFallbackTitle": "Modifica",
+    "notFound": "Torneo non trovato",
+    "updateSuccess": "Modifiche salvate",
+    "updateError": "Impossibile salvare le modifiche",
+    "columns": {
+      "title": "Titolo",
+      "sport": "Sport",
+      "start": "Inizio",
+      "end": "Fine",
+      "priority": "Priorità"
+    }
+  },
+  "form": {
+    "title": "Titolo",
+    "id": "ID (slug)",
+    "idLocked": "L’ID non può essere modificato",
+    "idHint": "Generato dal titolo in fase di creazione",
+    "sport": "Sport",
+    "file": "File dati",
+    "startDate": "Data di inizio",
+    "endDate": "Data di fine",
+    "endDateTo": "Fine entro (opzionale)",
+    "endDateToHint": "Limite superiore di una possibile data di fine (es. playoff prolungati)",
+    "errors": {
+      "titleRequired": "Il titolo è obbligatorio",
+      "sportRequired": "Seleziona uno sport",
+      "fileRequired": "Il nome del file è obbligatorio",
+      "startDateRequired": "La data di inizio è obbligatoria",
+      "endDateRequired": "La data di fine è obbligatoria",
+      "endBeforeStart": "La data di fine non può essere precedente a quella di inizio",
+      "endDateToBeforeEnd": "«Fine entro» non può essere precedente alla data di fine"
+    }
   }
 }

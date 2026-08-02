@@ -33,7 +33,7 @@ export const useTournamentsStore = defineStore('tournaments', () => {
       items.value = await api.list()
     }
     catch (err) {
-      error.value = err instanceof Error ? err.message : 'Не удалось загрузить турниры'
+      error.value = err instanceof Error ? err.message : 'Failed to load tournaments'
       throw err
     }
     finally {

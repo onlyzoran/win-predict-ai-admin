@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
+import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
-import { SPORT_VALUES, SPORT_LABELS, slugify } from '@/lib/utils'
+import { SPORT_VALUES, slugify } from '@/lib/utils'
 import type { Tournament } from '~/composables/useTournaments'
 import Button from '@/components/ui/button/Button.vue'
 import Input from '@/components/ui/input/Input.vue'
@@ -26,35 +27,39 @@ const emit = defineEmits<{
   cancel: []
 }>()
 
+const { t, locale } = useI18n()
 const isEdit = computed(() => Boolean(props.tournament))
 
-const formSchema = toTypedSchema(
-  z
-    .object({
-      title: z.string().trim().min(1, 'Название обязательно'),
-      sport: z.enum(SPORT_VALUES, { required_error: 'Выберите спорт' }),
-      file: z.string().trim().min(1, 'Имя файла обязательно'),
-      startDate: z.string().min(1, 'Дата начала обязательна'),
-      endDate: z.string().min(1, 'Дата окончания обязательна'),
-      endDateTo: z.string().optional(),
-    })
-    .superRefine((data, ctx) => {
-      if (data.endDate < data.startDate) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Дата окончания не может быть раньше даты начала',
-          path: ['endDate'],
-        })
-      }
-      if (data.endDateTo && data.endDateTo < data.endDate) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: '«Окончание до» не может быть раньше даты окончания',
-          path: ['endDateTo'],
-        })
-      }
-    }),
-)
+const formSchema = computed(() => {
+  void locale.value
+  return toTypedSchema(
+    z
+      .object({
+        title: z.string().trim().min(1, t('form.errors.titleRequired')),
+        sport: z.enum(SPORT_VALUES, { required_error: t('form.errors.sportRequired') }),
+        file: z.string().trim().min(1, t('form.errors.fileRequired')),
+        startDate: z.string().min(1, t('form.errors.startDateRequired')),
+        endDate: z.string().min(1, t('form.errors.endDateRequired')),
+        endDateTo: z.string().optional(),
+      })
+      .superRefine((data, ctx) => {
+        if (data.endDate < data.startDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t('form.errors.endBeforeStart'),
+            path: ['endDate'],
+          })
+        }
+        if (data.endDateTo && data.endDateTo < data.endDate) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t('form.errors.endDateToBeforeEnd'),
+            path: ['endDateTo'],
+          })
+        }
+      }),
+  )
+})
 
 const { defineField, handleSubmit, errors, setValues } = useForm({
   validationSchema: formSchema,
@@ -107,7 +112,7 @@ const onSubmit = handleSubmit((values) => {
 <template>
   <form class="mx-auto max-w-xl space-y-5" @submit="onSubmit">
     <div class="space-y-2">
-      <Label for="title">Название</Label>
+      <Label for="title">{{ t('form.title') }}</Label>
       <Input id="title" v-model="title" />
       <p v-if="errors.title" class="text-sm text-destructive">
         {{ errors.title }}
@@ -115,18 +120,18 @@ const onSubmit = handleSubmit((values) => {
     </div>
 
     <div class="space-y-2">
-      <Label for="id">ID (slug)</Label>
+      <Label for="id">{{ t('form.id') }}</Label>
       <Input id="id" :model-value="previewId" disabled />
       <p class="text-xs text-muted-foreground">
-        {{ isEdit ? 'ID нельзя изменить' : 'Генерируется из названия при создании' }}
+        {{ isEdit ? t('form.idLocked') : t('form.idHint') }}
       </p>
     </div>
 
     <div class="space-y-2">
-      <Label for="sport">Спорт</Label>
+      <Label for="sport">{{ t('form.sport') }}</Label>
       <NativeSelect id="sport" v-model="sport">
         <option v-for="value in SPORT_VALUES" :key="value" :value="value">
-          {{ SPORT_LABELS[value] }}
+          {{ t(`sports.${value}`) }}
         </option>
       </NativeSelect>
       <p v-if="errors.sport" class="text-sm text-destructive">
@@ -135,7 +140,7 @@ const onSubmit = handleSubmit((values) => {
     </div>
 
     <div class="space-y-2">
-      <Label for="file">Файл данных</Label>
+      <Label for="file">{{ t('form.file') }}</Label>
       <Input id="file" v-model="file" placeholder="ucl-26-27.json" />
       <p v-if="errors.file" class="text-sm text-destructive">
         {{ errors.file }}
@@ -144,14 +149,14 @@ const onSubmit = handleSubmit((values) => {
 
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-2">
-        <Label for="startDate">Дата начала</Label>
+        <Label for="startDate">{{ t('form.startDate') }}</Label>
         <Input id="startDate" v-model="startDate" type="date" />
         <p v-if="errors.startDate" class="text-sm text-destructive">
           {{ errors.startDate }}
         </p>
       </div>
       <div class="space-y-2">
-        <Label for="endDate">Дата окончания</Label>
+        <Label for="endDate">{{ t('form.endDate') }}</Label>
         <Input id="endDate" v-model="endDate" type="date" />
         <p v-if="errors.endDate" class="text-sm text-destructive">
           {{ errors.endDate }}
@@ -160,10 +165,10 @@ const onSubmit = handleSubmit((values) => {
     </div>
 
     <div class="space-y-2">
-      <Label for="endDateTo">Окончание до (опционально)</Label>
+      <Label for="endDateTo">{{ t('form.endDateTo') }}</Label>
       <Input id="endDateTo" v-model="endDateTo" type="date" />
       <p class="text-xs text-muted-foreground">
-        Верхняя граница возможной даты окончания (например, затяжные плей-офф)
+        {{ t('form.endDateToHint') }}
       </p>
       <p v-if="errors.endDateTo" class="text-sm text-destructive">
         {{ errors.endDateTo }}
@@ -172,10 +177,10 @@ const onSubmit = handleSubmit((values) => {
 
     <div class="flex gap-3 pt-2">
       <Button type="submit" :disabled="submitting">
-        {{ submitting ? 'Сохранение…' : (isEdit ? 'Сохранить' : 'Создать') }}
+        {{ submitting ? t('common.saving') : (isEdit ? t('common.save') : t('common.create')) }}
       </Button>
       <Button type="button" variant="outline" @click="emit('cancel')">
-        Отмена
+        {{ t('common.cancel') }}
       </Button>
     </div>
   </form>

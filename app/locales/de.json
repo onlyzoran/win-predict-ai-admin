@@ -8,5 +8,89 @@
   },
   "language": {
     "label": "Sprache"
+  },
+  "common": {
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "loading": "Laden…",
+    "save": "Speichern",
+    "create": "Erstellen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "logout": "Abmelden",
+    "saving": "Speichern…"
+  },
+  "sports": {
+    "all": "Alle Sportarten",
+    "football": "Fußball",
+    "basketball": "Basketball",
+    "americanFootball": "American Football",
+    "hockey": "Hockey",
+    "baseball": "Baseball",
+    "golf": "Golf",
+    "politics": "Politik"
+  },
+  "login": {
+    "title": "Anmelden",
+    "subtitle": "Melden Sie sich an, um Turniere zu verwalten",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "submitting": "Anmeldung…",
+    "invalidCredentials": "Ungültige E-Mail oder Passwort",
+    "error": "Anmeldung fehlgeschlagen"
+  },
+  "tournaments": {
+    "title": "Turniere",
+    "subtitle": "Turnierliste verwalten · {email}",
+    "create": "Turnier erstellen",
+    "searchPlaceholder": "Nach Titel suchen…",
+    "empty": "Keine Turniere gefunden",
+    "drag": "Zum Sortieren ziehen",
+    "loadError": "Turniere konnten nicht geladen werden",
+    "reorderSuccess": "Reihenfolge aktualisiert",
+    "reorderError": "Reihenfolge konnte nicht gespeichert werden",
+    "deleteSuccess": "Turnier gelöscht",
+    "deleteError": "Turnier konnte nicht gelöscht werden",
+    "deleteConfirmTitle": "Turnier löschen?",
+    "deleteConfirmDescription": "„{title}“ wird dauerhaft gelöscht.",
+    "newTitle": "Neues Turnier",
+    "newSubtitle": "Felder ausfüllen und speichern",
+    "createSuccess": "Turnier erstellt",
+    "createConflict": "Ein Turnier mit dieser ID existiert bereits",
+    "createError": "Turnier konnte nicht erstellt werden",
+    "editTitle": "Turnier bearbeiten",
+    "editFallbackTitle": "Bearbeiten",
+    "notFound": "Turnier nicht gefunden",
+    "updateSuccess": "Änderungen gespeichert",
+    "updateError": "Änderungen konnten nicht gespeichert werden",
+    "columns": {
+      "title": "Titel",
+      "sport": "Sport",
+      "start": "Beginn",
+      "end": "Ende",
+      "priority": "Priorität"
+    }
+  },
+  "form": {
+    "title": "Titel",
+    "id": "ID (Slug)",
+    "idLocked": "ID kann nicht geändert werden",
+    "idHint": "Wird beim Erstellen aus dem Titel generiert",
+    "sport": "Sport",
+    "file": "Datendatei",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "endDateTo": "Ende bis (optional)",
+    "endDateToHint": "Obergrenze für ein mögliches Enddatum (z. B. verlängerte Playoffs)",
+    "errors": {
+      "titleRequired": "Titel ist erforderlich",
+      "sportRequired": "Sport auswählen",
+      "fileRequired": "Dateiname ist erforderlich",
+      "startDateRequired": "Startdatum ist erforderlich",
+      "endDateRequired": "Enddatum ist erforderlich",
+      "endBeforeStart": "Enddatum darf nicht vor dem Startdatum liegen",
+      "endDateToBeforeEnd": "„Ende bis“ darf nicht vor dem Enddatum liegen"
+    }
   }
 }
