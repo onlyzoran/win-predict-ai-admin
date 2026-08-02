@@ -5,7 +5,6 @@ import Input from '@/components/ui/input/Input.vue'
 import Label from '@/components/ui/label/Label.vue'
 
 definePageMeta({
-  layout: false,
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/tournaments',

@@ -1,0 +1,12 @@
+{
+  "app": {
+    "title": "Win Predict Admin"
+  },
+  "theme": {
+    "switchToLight": "Zum hellen Modus wechseln",
+    "switchToDark": "Zum dunklen Modus wechseln"
+  },
+  "language": {
+    "label": "Sprache"
+  }
+}
