@@ -148,14 +148,15 @@ const onSubmit = handleSubmit((values) => {
       </p>
     </div>
 
+    <div class="space-y-2">
+      <Label for="startDate">{{ t('form.startDate') }}</Label>
+      <DateInput id="startDate" v-model="startDate" />
+      <p v-if="errors.startDate" class="text-sm text-destructive">
+        {{ errors.startDate }}
+      </p>
+    </div>
+
     <div class="grid gap-4 sm:grid-cols-2">
-      <div class="space-y-2">
-        <Label for="startDate">{{ t('form.startDate') }}</Label>
-        <DateInput id="startDate" v-model="startDate" />
-        <p v-if="errors.startDate" class="text-sm text-destructive">
-          {{ errors.startDate }}
-        </p>
-      </div>
       <div class="space-y-2">
         <Label for="endDate">{{ t('form.endDate') }}</Label>
         <DateInput id="endDate" v-model="endDate" />
@@ -163,17 +164,16 @@ const onSubmit = handleSubmit((values) => {
           {{ errors.endDate }}
         </p>
       </div>
-    </div>
-
-    <div class="space-y-2">
-      <Label for="endDateTo">{{ t('form.endDateTo') }}</Label>
-      <DateInput id="endDateTo" v-model="endDateTo" />
-      <p class="text-xs text-muted-foreground">
-        {{ t('form.endDateToHint') }}
-      </p>
-      <p v-if="errors.endDateTo" class="text-sm text-destructive">
-        {{ errors.endDateTo }}
-      </p>
+      <div class="space-y-2">
+        <Label for="endDateTo">{{ t('form.endDateTo') }}</Label>
+        <DateInput id="endDateTo" v-model="endDateTo" />
+        <p class="text-xs text-muted-foreground">
+          {{ t('form.endDateToHint') }}
+        </p>
+        <p v-if="errors.endDateTo" class="text-sm text-destructive">
+          {{ errors.endDateTo }}
+        </p>
+      </div>
     </div>
 
     <div class="flex gap-3 pt-2">
