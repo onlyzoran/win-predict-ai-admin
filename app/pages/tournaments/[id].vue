@@ -68,25 +68,15 @@ async function onSubmit(payload: {
 
 <template>
   <div class="mx-auto max-w-3xl space-y-6 px-4 py-8">
-    <div class="space-y-3">
-      <Button
-        variant="ghost"
-        size="sm"
-        class="-ml-3 text-muted-foreground"
-        @click="navigateTo('/tournaments')"
-      >
-        <ArrowLeft class="size-4" />
-        {{ t('tournaments.backToList') }}
-      </Button>
-      <div>
-        <h1 class="text-2xl font-semibold tracking-tight">
-          {{ t('tournaments.editTitle') }}
-        </h1>
-        <p class="text-sm text-muted-foreground">
-          {{ tournament?.id || id }}
-        </p>
-      </div>
-    </div>
+    <Button
+      variant="ghost"
+      size="sm"
+      class="-ml-3 text-muted-foreground"
+      @click="navigateTo('/tournaments')"
+    >
+      <ArrowLeft class="size-4" />
+      {{ t('tournaments.backToList') }}
+    </Button>
 
     <div v-if="loading" class="text-sm text-muted-foreground">
       {{ t('common.loading') }}
@@ -98,6 +88,15 @@ async function onSubmit(payload: {
       :submitting="submitting"
       @submit="onSubmit"
       @cancel="navigateTo('/tournaments')"
-    />
+    >
+      <template #title>
+        <h1 class="text-2xl font-semibold tracking-tight">
+          {{ t('tournaments.editTitle') }}
+        </h1>
+        <p class="text-sm text-muted-foreground">
+          {{ tournament.id }}
+        </p>
+      </template>
+    </TournamentForm>
   </div>
 </template>

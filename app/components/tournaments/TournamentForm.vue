@@ -62,7 +62,7 @@ const formSchema = computed(() => {
   )
 })
 
-const { defineField, handleSubmit, errors, setValues } = useForm({
+const { defineField, handleSubmit, errors, meta, resetForm } = useForm({
   validationSchema: formSchema,
   initialValues: {
     title: props.tournament?.title ?? '',
@@ -82,18 +82,21 @@ const [endDate] = defineField('endDate')
 const [endDateTo] = defineField('endDateTo')
 
 const previewId = computed(() => (isEdit.value ? props.tournament!.id : slugify(title.value || '')))
+const canSubmit = computed(() => !props.submitting && (!isEdit.value || meta.dirty))
 
 watch(
   () => props.tournament,
   (value) => {
     if (!value) return
-    setValues({
-      title: value.title,
-      sport: value.sport,
-      file: value.file,
-      startDate: value.startDate,
-      endDate: value.endDate,
-      endDateTo: value.endDateTo ?? '',
+    resetForm({
+      values: {
+        title: value.title,
+        sport: value.sport,
+        file: value.file,
+        startDate: value.startDate,
+        endDate: value.endDate,
+        endDateTo: value.endDateTo ?? '',
+      },
     })
   },
 )
@@ -111,78 +114,85 @@ const onSubmit = handleSubmit((values) => {
 </script>
 
 <template>
-  <form class="mx-auto max-w-xl space-y-5" @submit="onSubmit">
-    <div class="space-y-2">
-      <Label for="title">{{ t('form.title') }}</Label>
-      <Input id="title" v-model="title" />
-      <p v-if="errors.title" class="text-sm text-destructive">
-        {{ errors.title }}
-      </p>
+  <form class="space-y-6" @submit="onSubmit">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div class="min-w-0">
+        <slot name="title" />
+      </div>
+      <div class="flex shrink-0 gap-3">
+        <Button type="button" variant="outline" @click="emit('cancel')">
+          {{ t('common.cancel') }}
+        </Button>
+        <Button type="submit" :disabled="!canSubmit">
+          {{ submitting ? t('common.saving') : (isEdit ? t('common.save') : t('common.create')) }}
+        </Button>
+      </div>
     </div>
 
-    <div class="space-y-2">
-      <Label for="id">{{ t('form.id') }}</Label>
-      <Input id="id" :model-value="previewId" disabled />
-      <p class="text-xs text-muted-foreground">
-        {{ isEdit ? t('form.idLocked') : t('form.idHint') }}
-      </p>
-    </div>
-
-    <div class="space-y-2">
-      <Label for="sport">{{ t('form.sport') }}</Label>
-      <NativeSelect id="sport" v-model="sport">
-        <option v-for="value in SPORT_VALUES" :key="value" :value="value">
-          {{ t(`sports.${value}`) }}
-        </option>
-      </NativeSelect>
-      <p v-if="errors.sport" class="text-sm text-destructive">
-        {{ errors.sport }}
-      </p>
-    </div>
-
-    <div class="space-y-2">
-      <Label for="file">{{ t('form.file') }}</Label>
-      <Input id="file" v-model="file" placeholder="ucl-26-27.json" />
-      <p v-if="errors.file" class="text-sm text-destructive">
-        {{ errors.file }}
-      </p>
-    </div>
-
-    <div class="space-y-2">
-      <Label for="startDate">{{ t('form.startDate') }}</Label>
-      <DateInput id="startDate" v-model="startDate" />
-      <p v-if="errors.startDate" class="text-sm text-destructive">
-        {{ errors.startDate }}
-      </p>
-    </div>
-
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div class="mx-auto max-w-xl space-y-5">
       <div class="space-y-2">
-        <Label for="endDate">{{ t('form.endDate') }}</Label>
-        <DateInput id="endDate" v-model="endDate" />
-        <p v-if="errors.endDate" class="text-sm text-destructive">
-          {{ errors.endDate }}
+        <Label for="title">{{ t('form.title') }}</Label>
+        <Input id="title" v-model="title" />
+        <p v-if="errors.title" class="text-sm text-destructive">
+          {{ errors.title }}
         </p>
       </div>
+
       <div class="space-y-2">
-        <Label for="endDateTo">{{ t('form.endDateTo') }}</Label>
-        <DateInput id="endDateTo" v-model="endDateTo" />
+        <Label for="id">{{ t('form.id') }}</Label>
+        <Input id="id" :model-value="previewId" disabled />
         <p class="text-xs text-muted-foreground">
-          {{ t('form.endDateToHint') }}
-        </p>
-        <p v-if="errors.endDateTo" class="text-sm text-destructive">
-          {{ errors.endDateTo }}
+          {{ isEdit ? t('form.idLocked') : t('form.idHint') }}
         </p>
       </div>
-    </div>
 
-    <div class="flex gap-3 pt-2">
-      <Button type="submit" :disabled="submitting">
-        {{ submitting ? t('common.saving') : (isEdit ? t('common.save') : t('common.create')) }}
-      </Button>
-      <Button type="button" variant="outline" @click="emit('cancel')">
-        {{ t('common.cancel') }}
-      </Button>
+      <div class="space-y-2">
+        <Label for="sport">{{ t('form.sport') }}</Label>
+        <NativeSelect id="sport" v-model="sport">
+          <option v-for="value in SPORT_VALUES" :key="value" :value="value">
+            {{ t(`sports.${value}`) }}
+          </option>
+        </NativeSelect>
+        <p v-if="errors.sport" class="text-sm text-destructive">
+          {{ errors.sport }}
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <Label for="file">{{ t('form.file') }}</Label>
+        <Input id="file" v-model="file" placeholder="ucl-26-27.json" />
+        <p v-if="errors.file" class="text-sm text-destructive">
+          {{ errors.file }}
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <Label for="startDate">{{ t('form.startDate') }}</Label>
+        <DateInput id="startDate" v-model="startDate" />
+        <p v-if="errors.startDate" class="text-sm text-destructive">
+          {{ errors.startDate }}
+        </p>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="space-y-2">
+          <Label for="endDate">{{ t('form.endDate') }}</Label>
+          <DateInput id="endDate" v-model="endDate" />
+          <p v-if="errors.endDate" class="text-sm text-destructive">
+            {{ errors.endDate }}
+          </p>
+        </div>
+        <div class="space-y-2">
+          <Label for="endDateTo">{{ t('form.endDateTo') }}</Label>
+          <DateInput id="endDateTo" v-model="endDateTo" />
+          <p class="text-xs text-muted-foreground">
+            {{ t('form.endDateToHint') }}
+          </p>
+          <p v-if="errors.endDateTo" class="text-sm text-destructive">
+            {{ errors.endDateTo }}
+          </p>
+        </div>
+      </div>
     </div>
   </form>
 </template>
