@@ -62,7 +62,7 @@ const formSchema = computed(() => {
   )
 })
 
-const { defineField, handleSubmit, errors, meta, resetForm } = useForm({
+const { defineField, handleSubmit, errors, values, resetForm } = useForm({
   validationSchema: formSchema,
   initialValues: {
     title: props.tournament?.title ?? '',
@@ -82,7 +82,21 @@ const [endDate] = defineField('endDate')
 const [endDateTo] = defineField('endDateTo')
 
 const previewId = computed(() => (isEdit.value ? props.tournament!.id : slugify(title.value || '')))
-const canSubmit = computed(() => !props.submitting && (!isEdit.value || meta.dirty))
+
+const isDirty = computed(() => {
+  const original = props.tournament
+  if (!original) return true
+  return (
+    values.title !== original.title
+    || values.sport !== original.sport
+    || values.file !== original.file
+    || values.startDate !== original.startDate
+    || values.endDate !== original.endDate
+    || (values.endDateTo || '') !== (original.endDateTo ?? '')
+  )
+})
+
+const canSubmit = computed(() => !props.submitting && (!isEdit.value || isDirty.value))
 
 watch(
   () => props.tournament,
