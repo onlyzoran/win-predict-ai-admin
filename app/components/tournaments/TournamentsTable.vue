@@ -40,6 +40,7 @@ const columns = computed<ColumnDef<Tournament>[]>(() => {
   void locale.value
   return [
     { id: 'drag', header: '', enableSorting: false },
+    { accessorKey: 'id', header: t('tournaments.columns.id') },
     { accessorKey: 'title', header: t('tournaments.columns.title') },
     { accessorKey: 'fullTitle', header: t('tournaments.columns.fullTitle') },
     { accessorKey: 'sport', header: t('tournaments.columns.sport') },
@@ -148,6 +149,9 @@ function onDragEnd() {
               >
                 <GripVertical class="size-4" />
               </button>
+            </td>
+            <td class="p-2 align-middle font-mono text-sm">
+              {{ element.id }}
             </td>
             <td class="p-2 align-middle font-medium">
               {{ element.title }}

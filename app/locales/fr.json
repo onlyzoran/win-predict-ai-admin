@@ -66,6 +66,7 @@
     "updateSuccess": "Modifications enregistrées",
     "updateError": "Impossible d’enregistrer les modifications",
     "columns": {
+      "id": "ID (slug)",
       "title": "Titre",
       "fullTitle": "Titre complet",
       "sport": "Sport",

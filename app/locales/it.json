@@ -66,6 +66,7 @@
     "updateSuccess": "Modifiche salvate",
     "updateError": "Impossibile salvare le modifiche",
     "columns": {
+      "id": "ID (slug)",
       "title": "Titolo",
       "fullTitle": "Titolo completo",
       "sport": "Sport",

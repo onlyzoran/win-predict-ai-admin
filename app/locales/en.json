@@ -66,6 +66,7 @@
     "updateSuccess": "Changes saved",
     "updateError": "Failed to save changes",
     "columns": {
+      "id": "ID (slug)",
       "title": "Title",
       "fullTitle": "Full title",
       "sport": "Sport",

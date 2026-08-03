@@ -66,6 +66,7 @@
     "updateSuccess": "Изменения сохранены",
     "updateError": "Не удалось сохранить изменения",
     "columns": {
+      "id": "ID (slug)",
       "title": "Название",
       "fullTitle": "Полное название",
       "sport": "Спорт",
