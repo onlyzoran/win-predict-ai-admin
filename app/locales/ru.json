@@ -59,6 +59,7 @@
     "createSuccess": "Турнир создан",
     "createConflict": "Турнир с таким id уже существует",
     "createError": "Не удалось создать турнир",
+    "backToList": "К списку турниров",
     "editTitle": "Редактирование турнира",
     "editFallbackTitle": "Редактирование",
     "notFound": "Турнир не найден",

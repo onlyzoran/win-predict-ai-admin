@@ -59,6 +59,7 @@
     "createSuccess": "Torneo creato",
     "createConflict": "Esiste già un torneo con questo id",
     "createError": "Impossibile creare il torneo",
+    "backToList": "Torna ai tornei",
     "editTitle": "Modifica torneo",
     "editFallbackTitle": "Modifica",
     "notFound": "Torneo non trovato",

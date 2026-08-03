@@ -59,6 +59,7 @@
     "createSuccess": "Tournament created",
     "createConflict": "A tournament with this id already exists",
     "createError": "Failed to create tournament",
+    "backToList": "Back to tournaments",
     "editTitle": "Edit tournament",
     "editFallbackTitle": "Edit",
     "notFound": "Tournament not found",

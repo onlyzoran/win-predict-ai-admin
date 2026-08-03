@@ -59,6 +59,7 @@
     "createSuccess": "Tournoi créé",
     "createConflict": "Un tournoi avec cet id existe déjà",
     "createError": "Impossible de créer le tournoi",
+    "backToList": "Retour aux tournois",
     "editTitle": "Modifier le tournoi",
     "editFallbackTitle": "Modification",
     "notFound": "Tournoi introuvable",

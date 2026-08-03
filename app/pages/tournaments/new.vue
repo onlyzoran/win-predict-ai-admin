@@ -2,6 +2,8 @@
 import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
+import { ArrowLeft } from '@lucide/vue'
+import Button from '@/components/ui/button/Button.vue'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
 
 definePageMeta({
@@ -48,13 +50,24 @@ async function onSubmit(payload: {
 
 <template>
   <div class="mx-auto max-w-3xl space-y-6 px-4 py-8">
-    <div>
-      <h1 class="text-2xl font-semibold tracking-tight">
-        {{ t('tournaments.newTitle') }}
-      </h1>
-      <p class="text-sm text-muted-foreground">
-        {{ t('tournaments.newSubtitle') }}
-      </p>
+    <div class="space-y-3">
+      <Button
+        variant="ghost"
+        size="sm"
+        class="-ml-3 text-muted-foreground"
+        @click="navigateTo('/tournaments')"
+      >
+        <ArrowLeft class="size-4" />
+        {{ t('tournaments.backToList') }}
+      </Button>
+      <div>
+        <h1 class="text-2xl font-semibold tracking-tight">
+          {{ t('tournaments.newTitle') }}
+        </h1>
+        <p class="text-sm text-muted-foreground">
+          {{ t('tournaments.newSubtitle') }}
+        </p>
+      </div>
     </div>
 
     <TournamentForm
