@@ -32,17 +32,17 @@
   },
   "login": {
     "title": "Sign in",
-    "subtitle": "Sign in to manage tournaments",
-    "email": "Email",
-    "password": "Password",
+    "subtitle": "Sign in with a GitHub token to manage tournaments",
+    "token": "GitHub personal access token",
+    "tokenHint": "Fine-grained PAT with Contents read/write on win-predict-ai-data",
     "submit": "Sign in",
     "submitting": "Signing in…",
-    "invalidCredentials": "Invalid email or password",
+    "invalidCredentials": "Invalid token or insufficient permissions",
     "error": "Sign-in failed"
   },
   "tournaments": {
     "title": "Tournaments",
-    "subtitle": "Manage tournament list · {email}",
+    "subtitle": "Manage tournament list · leagues.json",
     "create": "Create tournament",
     "searchPlaceholder": "Search by title…",
     "empty": "No tournaments found",
@@ -70,7 +70,8 @@
       "start": "Start",
       "end": "End",
       "priority": "Priority"
-    }
+    },
+    "conflictError": "Data was updated elsewhere. Reload and try again."
   },
   "form": {
     "title": "Title",

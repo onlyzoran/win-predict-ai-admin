@@ -32,17 +32,17 @@
   },
   "login": {
     "title": "Anmelden",
-    "subtitle": "Melden Sie sich an, um Turniere zu verwalten",
-    "email": "E-Mail",
-    "password": "Passwort",
+    "subtitle": "Mit GitHub-Token anmelden, um Turniere zu verwalten",
+    "token": "GitHub Personal Access Token",
+    "tokenHint": "Fine-grained PAT mit Contents read/write für win-predict-ai-data",
     "submit": "Anmelden",
     "submitting": "Anmeldung…",
-    "invalidCredentials": "Ungültige E-Mail oder Passwort",
+    "invalidCredentials": "Ungültiges Token oder unzureichende Berechtigungen",
     "error": "Anmeldung fehlgeschlagen"
   },
   "tournaments": {
     "title": "Turniere",
-    "subtitle": "Turnierliste verwalten · {email}",
+    "subtitle": "Turnierliste verwalten · leagues.json",
     "create": "Turnier erstellen",
     "searchPlaceholder": "Nach Titel suchen…",
     "empty": "Keine Turniere gefunden",
@@ -70,7 +70,8 @@
       "start": "Beginn",
       "end": "Ende",
       "priority": "Priorität"
-    }
+    },
+    "conflictError": "Daten wurden woanders aktualisiert. Neu laden und erneut versuchen."
   },
   "form": {
     "title": "Titel",

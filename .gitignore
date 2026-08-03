@@ -23,6 +23,5 @@ logs
 .env.*
 !.env.example
 
-# SQLite database
-data/*.sqlite
-data/*.sqlite-*
+# Legacy local SQLite (no longer used)
+/data/

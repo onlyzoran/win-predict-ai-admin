@@ -3,7 +3,7 @@ import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
-import type { Tournament } from '~/composables/useTournaments'
+import type { Tournament } from '~/utils/githubLeagues'
 
 definePageMeta({
   middleware: 'auth',
@@ -52,8 +52,11 @@ async function onSubmit(payload: {
     )
     toast.success(t('tournaments.updateSuccess'))
   }
-  catch {
-    toast.error(t('tournaments.updateError'))
+  catch (err: unknown) {
+    const status = typeof err === 'object' && err && 'statusCode' in err
+      ? (err as { statusCode?: number }).statusCode
+      : undefined
+    toast.error(status === 409 ? t('tournaments.conflictError') : t('tournaments.updateError'))
   }
   finally {
     submitting.value = false

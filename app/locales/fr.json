@@ -32,17 +32,17 @@
   },
   "login": {
     "title": "Connexion",
-    "subtitle": "Connectez-vous pour gérer les tournois",
-    "email": "E-mail",
-    "password": "Mot de passe",
+    "subtitle": "Connectez-vous avec un jeton GitHub pour gérer les tournois",
+    "token": "Jeton d’accès personnel GitHub",
+    "tokenHint": "PAT fine-grained avec Contents lecture/écriture sur win-predict-ai-data",
     "submit": "Se connecter",
     "submitting": "Connexion…",
-    "invalidCredentials": "E-mail ou mot de passe incorrect",
+    "invalidCredentials": "Jeton invalide ou permissions insuffisantes",
     "error": "Échec de la connexion"
   },
   "tournaments": {
     "title": "Tournois",
-    "subtitle": "Gérer la liste des tournois · {email}",
+    "subtitle": "Gérer la liste des tournois · leagues.json",
     "create": "Créer un tournoi",
     "searchPlaceholder": "Rechercher par titre…",
     "empty": "Aucun tournoi trouvé",
@@ -70,7 +70,8 @@
       "start": "Début",
       "end": "Fin",
       "priority": "Priorité"
-    }
+    },
+    "conflictError": "Données mises à jour ailleurs. Rechargez et réessayez."
   },
   "form": {
     "title": "Titre",

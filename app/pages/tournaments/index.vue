@@ -19,7 +19,6 @@ const { t } = useI18n()
 useHead({ title: () => t('tournaments.title') })
 
 const store = useTournamentsStore()
-const { data: session } = useAuth()
 const ready = ref(false)
 
 onMounted(async () => {
@@ -34,13 +33,20 @@ onMounted(async () => {
   }
 })
 
+function conflictOr(err: unknown, fallbackKey: string) {
+  const status = typeof err === 'object' && err && 'statusCode' in err
+    ? (err as { statusCode?: number }).statusCode
+    : undefined
+  toast.error(status === 409 ? t('tournaments.conflictError') : t(fallbackKey))
+}
+
 async function onReorder(ids: string[]) {
   try {
     await store.reorderTournaments(ids)
     toast.success(t('tournaments.reorderSuccess'))
   }
-  catch {
-    toast.error(t('tournaments.reorderError'))
+  catch (err) {
+    conflictOr(err, 'tournaments.reorderError')
   }
 }
 
@@ -49,8 +55,8 @@ async function onDelete(id: string) {
     await store.deleteTournament(id)
     toast.success(t('tournaments.deleteSuccess'))
   }
-  catch {
-    toast.error(t('tournaments.deleteError'))
+  catch (err) {
+    conflictOr(err, 'tournaments.deleteError')
   }
 }
 
@@ -70,7 +76,7 @@ const sportModel = computed({
           {{ t('tournaments.title') }}
         </h1>
         <p class="text-sm text-muted-foreground">
-          {{ t('tournaments.subtitle', { email: session?.user?.email || '' }) }}
+          {{ t('tournaments.subtitle') }}
         </p>
       </div>
       <Button @click="navigateTo('/tournaments/new')">

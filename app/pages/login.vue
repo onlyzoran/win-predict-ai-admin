@@ -6,26 +6,24 @@ import Input from '@/components/ui/input/Input.vue'
 import Label from '@/components/ui/label/Label.vue'
 
 definePageMeta({
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/tournaments',
-  },
+  middleware: undefined,
 })
 
 const { t } = useI18n()
+const { login, isAuthenticated, hydrate } = useGithubAuth()
+const route = useRoute()
 
 useHead({ title: () => t('login.title') })
 
-const { signIn, status } = useAuth()
-const email = ref('')
-const password = ref('')
+const token = ref('')
 const loading = ref(false)
-const route = useRoute()
+
+hydrate()
 
 watch(
-  status,
+  isAuthenticated,
   (value) => {
-    if (value === 'authenticated') {
+    if (value) {
       const callbackUrl = typeof route.query.callbackUrl === 'string'
         ? route.query.callbackUrl
         : '/tournaments'
@@ -38,28 +36,22 @@ watch(
 async function onSubmit() {
   loading.value = true
   try {
+    await login(token.value)
     const callbackUrl = typeof route.query.callbackUrl === 'string'
       ? route.query.callbackUrl
       : '/tournaments'
-
-    const result = await signIn('credentials', {
-      email: email.value,
-      password: password.value,
-      redirect: false,
-      callbackUrl,
-    })
-
-    if (result?.error) {
-      toast.error(t('login.invalidCredentials'))
-      return
-    }
-
-    const { getSession } = useAuth()
-    await getSession()
     await navigateTo(callbackUrl)
   }
-  catch {
-    toast.error(t('login.error'))
+  catch (err: unknown) {
+    const status = typeof err === 'object' && err && 'statusCode' in err
+      ? (err as { statusCode?: number }).statusCode
+      : undefined
+    if (status === 401) {
+      toast.error(t('login.invalidCredentials'))
+    }
+    else {
+      toast.error(t('login.error'))
+    }
   }
   finally {
     loading.value = false
@@ -83,25 +75,17 @@ async function onSubmit() {
       </div>
 
       <div class="space-y-2">
-        <Label for="email">{{ t('login.email') }}</Label>
+        <Label for="token">{{ t('login.token') }}</Label>
         <Input
-          id="email"
-          v-model="email"
-          type="email"
-          autocomplete="username"
-          required
-        />
-      </div>
-
-      <div class="space-y-2">
-        <Label for="password">{{ t('login.password') }}</Label>
-        <Input
-          id="password"
-          v-model="password"
+          id="token"
+          v-model="token"
           type="password"
-          autocomplete="current-password"
+          autocomplete="off"
           required
         />
+        <p class="text-xs text-muted-foreground">
+          {{ t('login.tokenHint') }}
+        </p>
       </div>
 
       <Button type="submit" class="w-full" :disabled="loading">

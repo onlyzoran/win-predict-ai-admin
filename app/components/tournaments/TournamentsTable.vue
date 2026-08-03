@@ -10,7 +10,7 @@ import {
 import draggable from 'vuedraggable'
 import { useI18n } from 'vue-i18n'
 import { GripVertical } from '@lucide/vue'
-import type { Tournament } from '~/composables/useTournaments'
+import type { Tournament } from '~/utils/githubLeagues'
 import Badge from '@/components/ui/badge/Badge.vue'
 import TournamentRowActions from '@/components/tournaments/TournamentRowActions.vue'
 

@@ -13,9 +13,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 const { t } = useI18n()
-const { status, signOut } = useAuth()
-
-const isAuthenticated = computed(() => status.value === 'authenticated')
+const { isAuthenticated, logout: signOut, hydrate } = useGithubAuth()
+hydrate()
 
 const mode = useColorMode({
   modes: {
@@ -37,7 +36,8 @@ function onLocaleChange(value: string) {
 }
 
 async function logout() {
-  await signOut({ callbackUrl: '/login' })
+  signOut()
+  await navigateTo('/login')
 }
 </script>
 

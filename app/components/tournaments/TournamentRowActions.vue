@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Pencil, Trash2 } from '@lucide/vue'
 import { useI18n } from 'vue-i18n'
-import type { Tournament } from '~/composables/useTournaments'
+import type { Tournament } from '~/utils/githubLeagues'
 import Button from '@/components/ui/button/Button.vue'
 import AlertDialog from '@/components/ui/alert-dialog/AlertDialog.vue'
 

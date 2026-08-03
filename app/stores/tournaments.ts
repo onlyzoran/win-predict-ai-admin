@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type { Sport } from '../../shared/tournament'
 import type { TournamentCreateInput, TournamentUpdateInput } from '../../schemas/tournament.schema'
-import type { Tournament } from '~/composables/useTournaments'
+import type { Tournament } from '~/utils/githubLeagues'
 
 export const useTournamentsStore = defineStore('tournaments', () => {
   const api = useTournamentsApi()

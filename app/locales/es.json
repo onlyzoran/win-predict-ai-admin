@@ -32,17 +32,17 @@
   },
   "login": {
     "title": "Iniciar sesión",
-    "subtitle": "Inicia sesión para gestionar torneos",
-    "email": "Email",
-    "password": "Contraseña",
+    "subtitle": "Inicia sesión con un token de GitHub para gestionar torneos",
+    "token": "Token de acceso personal de GitHub",
+    "tokenHint": "PAT fine-grained con Contents lectura/escritura en win-predict-ai-data",
     "submit": "Entrar",
     "submitting": "Entrando…",
-    "invalidCredentials": "Email o contraseña incorrectos",
+    "invalidCredentials": "Token inválido o permisos insuficientes",
     "error": "Error al iniciar sesión"
   },
   "tournaments": {
     "title": "Torneos",
-    "subtitle": "Gestión de la lista de torneos · {email}",
+    "subtitle": "Gestión de la lista de torneos · leagues.json",
     "create": "Crear torneo",
     "searchPlaceholder": "Buscar por título…",
     "empty": "No se encontraron torneos",
@@ -70,7 +70,8 @@
       "start": "Inicio",
       "end": "Fin",
       "priority": "Prioridad"
-    }
+    },
+    "conflictError": "Los datos se actualizaron en otro sitio. Recarga e inténtalo de nuevo."
   },
   "form": {
     "title": "Título",

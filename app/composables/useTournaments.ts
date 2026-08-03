@@ -1,51 +1,40 @@
-import type { Sport } from '../../shared/tournament'
 import type { TournamentCreateInput, TournamentUpdateInput } from '../../schemas/tournament.schema'
-
-export interface Tournament {
-  id: string
-  title: string
-  sport: Sport
-  file: string
-  startDate: string
-  endDate: string
-  endDateTo: string | null
-  popularPriority: number
-}
+import {
+  createLeague,
+  deleteLeague,
+  getLeagueById,
+  listLeagues,
+  reorderLeagues,
+  updateLeague,
+} from '~/utils/githubLeagues'
 
 export function useTournamentsApi() {
+  const { requireToken } = useGithubAuth()
+
   async function list() {
-    return $fetch<Tournament[]>('/api/tournaments')
+    return listLeagues(requireToken())
   }
 
   async function getById(id: string) {
-    return $fetch<Tournament>(`/api/tournaments/${id}`)
+    return getLeagueById(requireToken(), id)
   }
 
   async function create(payload: TournamentCreateInput) {
-    return $fetch<Tournament>('/api/tournaments', {
-      method: 'POST',
-      body: payload,
-    })
+    return createLeague(requireToken(), payload)
   }
 
   async function update(id: string, payload: TournamentUpdateInput) {
-    return $fetch<Tournament>(`/api/tournaments/${id}`, {
-      method: 'PATCH',
-      body: payload,
-    })
+    return updateLeague(requireToken(), id, payload)
   }
 
   async function remove(id: string) {
-    return $fetch<{ ok: boolean }>(`/api/tournaments/${id}`, {
-      method: 'DELETE',
-    })
+    await deleteLeague(requireToken(), id)
+    return { ok: true }
   }
 
   async function reorder(ids: string[]) {
-    return $fetch<{ ok: boolean }>('/api/tournaments/reorder', {
-      method: 'PATCH',
-      body: { ids },
-    })
+    await reorderLeagues(requireToken(), ids)
+    return { ok: true }
   }
 
   return {

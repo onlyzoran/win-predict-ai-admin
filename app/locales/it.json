@@ -32,17 +32,17 @@
   },
   "login": {
     "title": "Accedi",
-    "subtitle": "Accedi per gestire i tornei",
-    "email": "Email",
-    "password": "Password",
+    "subtitle": "Accedi con un token GitHub per gestire i tornei",
+    "token": "GitHub personal access token",
+    "tokenHint": "PAT fine-grained con Contents lettura/scrittura su win-predict-ai-data",
     "submit": "Accedi",
     "submitting": "Accesso…",
-    "invalidCredentials": "Email o password non validi",
+    "invalidCredentials": "Token non valido o permessi insufficienti",
     "error": "Accesso non riuscito"
   },
   "tournaments": {
     "title": "Tornei",
-    "subtitle": "Gestione elenco tornei · {email}",
+    "subtitle": "Gestione elenco tornei · leagues.json",
     "create": "Crea torneo",
     "searchPlaceholder": "Cerca per titolo…",
     "empty": "Nessun torneo trovato",
@@ -70,7 +70,8 @@
       "start": "Inizio",
       "end": "Fine",
       "priority": "Priorità"
-    }
+    },
+    "conflictError": "Dati aggiornati altrove. Ricarica e riprova."
   },
   "form": {
     "title": "Titolo",

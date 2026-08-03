@@ -4,9 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
 
+  app: {
+    baseURL: process.env.NUXT_APP_BASE_URL || '/win-predict-ai-admin/',
+  },
+
   modules: [
     '@pinia/nuxt',
-    '@sidebase/nuxt-auth',
     '@nuxtjs/tailwindcss',
     'shadcn-nuxt',
   ],
@@ -23,28 +26,17 @@ export default defineNuxtConfig({
     componentDir: './app/components/ui',
   },
 
-  auth: {
-    // Path to NuxtAuthHandler. AUTH_ORIGIN (full URL incl. /api/auth) overrides at runtime.
-    baseURL: '/api/auth',
-    originEnvKey: 'AUTH_ORIGIN',
-    disableServerSideAuth: false,
-    provider: {
-      type: 'authjs',
-    },
-    globalAppMiddleware: false,
-  },
-
   runtimeConfig: {
-    authSecret: process.env.NUXT_AUTH_SECRET || '',
-    adminEmail: process.env.ADMIN_EMAIL || '',
-    adminPassword: process.env.ADMIN_PASSWORD || '',
-    databaseUrl: process.env.DATABASE_URL || 'file:./data/admin.sqlite',
+    public: {
+      githubOwner: process.env.NUXT_PUBLIC_GITHUB_OWNER || 'onlyzoran',
+      githubRepo: process.env.NUXT_PUBLIC_GITHUB_REPO || 'win-predict-ai-data',
+      githubPath: process.env.NUXT_PUBLIC_GITHUB_PATH || 'data/leagues.json',
+      githubBranch: process.env.NUXT_PUBLIC_GITHUB_BRANCH || 'main',
+    },
   },
 
   nitro: {
-    externals: {
-      traceInclude: ['node_modules/better-sqlite3/**'],
-    },
+    preset: 'static',
   },
 
   pinia: {

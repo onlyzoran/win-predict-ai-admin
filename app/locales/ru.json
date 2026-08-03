@@ -32,17 +32,17 @@
   },
   "login": {
     "title": "Вход",
-    "subtitle": "Войдите, чтобы управлять турнирами",
-    "email": "Email",
-    "password": "Пароль",
+    "subtitle": "Войдите с GitHub-токеном, чтобы управлять турнирами",
+    "token": "GitHub personal access token",
+    "tokenHint": "Fine-grained PAT с правами Contents read/write на win-predict-ai-data",
     "submit": "Войти",
     "submitting": "Вход…",
-    "invalidCredentials": "Неверный email или пароль",
+    "invalidCredentials": "Неверный токен или недостаточно прав",
     "error": "Ошибка входа"
   },
   "tournaments": {
     "title": "Турниры",
-    "subtitle": "Управление списком турниров · {email}",
+    "subtitle": "Управление списком турниров · leagues.json",
     "create": "Создать турнир",
     "searchPlaceholder": "Поиск по названию…",
     "empty": "Турниры не найдены",
@@ -70,7 +70,8 @@
       "start": "Начало",
       "end": "Окончание",
       "priority": "Приоритет"
-    }
+    },
+    "conflictError": "Данные изменились в другом месте. Обновите список и повторите."
   },
   "form": {
     "title": "Название",
