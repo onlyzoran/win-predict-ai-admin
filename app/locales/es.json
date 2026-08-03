@@ -84,6 +84,7 @@
     "endDate": "Fecha de fin",
     "endDateTo": "Fin hasta (opcional)",
     "endDateToHint": "Límite superior de una posible fecha de fin (p. ej. playoffs prolongados)",
+    "datePlaceholder": "dd.mm.aaaa",
     "errors": {
       "titleRequired": "El título es obligatorio",
       "sportRequired": "Selecciona un deporte",

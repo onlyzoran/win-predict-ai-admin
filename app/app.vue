@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Toaster } from 'vue-sonner'
+import { locale } from '~/i18n'
 
 useHead({
   titleTemplate: (title) => (title ? `${title} · Win Predict AI Admin` : 'Win Predict AI Admin'),
   htmlAttrs: {
-    lang: 'en',
+    lang: () => locale.value,
   },
 })
 </script>

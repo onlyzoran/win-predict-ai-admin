@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { SPORT_VALUES, slugify } from '@/lib/utils'
 import type { Tournament } from '~/utils/githubLeagues'
 import Button from '@/components/ui/button/Button.vue'
+import DateInput from '@/components/ui/date-input/DateInput.vue'
 import Input from '@/components/ui/input/Input.vue'
 import Label from '@/components/ui/label/Label.vue'
 import NativeSelect from '@/components/ui/select/NativeSelect.vue'
@@ -150,14 +151,14 @@ const onSubmit = handleSubmit((values) => {
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-2">
         <Label for="startDate">{{ t('form.startDate') }}</Label>
-        <Input id="startDate" v-model="startDate" type="date" />
+        <DateInput id="startDate" v-model="startDate" />
         <p v-if="errors.startDate" class="text-sm text-destructive">
           {{ errors.startDate }}
         </p>
       </div>
       <div class="space-y-2">
         <Label for="endDate">{{ t('form.endDate') }}</Label>
-        <Input id="endDate" v-model="endDate" type="date" />
+        <DateInput id="endDate" v-model="endDate" />
         <p v-if="errors.endDate" class="text-sm text-destructive">
           {{ errors.endDate }}
         </p>
@@ -166,7 +167,7 @@ const onSubmit = handleSubmit((values) => {
 
     <div class="space-y-2">
       <Label for="endDateTo">{{ t('form.endDateTo') }}</Label>
-      <Input id="endDateTo" v-model="endDateTo" type="date" />
+      <DateInput id="endDateTo" v-model="endDateTo" />
       <p class="text-xs text-muted-foreground">
         {{ t('form.endDateToHint') }}
       </p>

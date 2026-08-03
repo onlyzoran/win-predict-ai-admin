@@ -84,6 +84,7 @@
     "endDate": "End date",
     "endDateTo": "End by (optional)",
     "endDateToHint": "Upper bound for a possible end date (e.g. extended playoffs)",
+    "datePlaceholder": "dd.mm.yyyy",
     "errors": {
       "titleRequired": "Title is required",
       "sportRequired": "Select a sport",
