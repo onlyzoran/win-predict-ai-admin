@@ -14,7 +14,11 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const router = useRouter()
 const confirmOpen = ref(false)
+
+const editTo = computed(() => `/tournaments/${props.tournament.id}`)
+const editHref = computed(() => router.resolve(editTo.value).href)
 </script>
 
 <template>
@@ -23,8 +27,8 @@ const confirmOpen = ref(false)
       as="a"
       variant="ghost"
       size="icon"
-      :href="`/tournaments/${props.tournament.id}`"
-      @click.prevent="navigateTo(`/tournaments/${props.tournament.id}`)"
+      :href="editHref"
+      @click.prevent="navigateTo(editTo)"
     >
       <Pencil class="size-4" />
       <span class="sr-only">{{ t('common.edit') }}</span>

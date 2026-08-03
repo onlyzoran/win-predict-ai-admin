@@ -19,6 +19,8 @@ npm run dev
 
 Open http://localhost:3000/win-predict-ai-admin/ — sign in with a GitHub personal access token that can read/write `data/leagues.json` in `onlyzoran/win-predict-ai-data` (fine-grained: Contents Read and write).
 
+Routing uses hash mode (`#/tournaments/...`) so deep links work on GitHub Pages without server rewrites.
+
 For local dev without the project Pages path prefix:
 
 ```bash

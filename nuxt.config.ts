@@ -35,6 +35,14 @@ export default defineNuxtConfig({
     },
   },
 
+  // History URLs like /tournaments/:id 404 on GitHub Pages (no static file).
+  // Hash routing keeps deep links working without a server rewrite.
+  router: {
+    options: {
+      hashMode: true,
+    },
+  },
+
   nitro: {
     preset: 'static',
   },
