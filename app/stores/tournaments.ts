@@ -19,8 +19,12 @@ export const useTournamentsStore = defineStore('tournaments', () => {
       if (sportFilter.value !== 'all' && item.sport !== sportFilter.value) {
         return false
       }
-      if (query && !item.title.toLowerCase().includes(query)) {
-        return false
+      if (query) {
+        const inTitle = item.title.toLowerCase().includes(query)
+        const inFullTitle = (item.fullTitle ?? '').toLowerCase().includes(query)
+        if (!inTitle && !inFullTitle) {
+          return false
+        }
       }
       return true
     })

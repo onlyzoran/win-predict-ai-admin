@@ -7,6 +7,7 @@ import { createApiError } from '~/utils/errors'
 export interface LeagueJson {
   id: string
   title: string
+  fullTitle?: string
   sport: Sport
   file: string
   startDate: string
@@ -19,6 +20,7 @@ export interface LeagueJson {
 export interface Tournament {
   id: string
   title: string
+  fullTitle: string
   sport: Sport
   file: string
   startDate: string
@@ -69,6 +71,7 @@ function authHeaders(token: string): HeadersInit {
 function fromJson(row: LeagueJson): Tournament {
   return {
     ...row,
+    fullTitle: row.fullTitle ?? '',
     endDateTo: row.endDateTo ? row.endDateTo : null,
   }
 }
@@ -77,6 +80,7 @@ function toJson(row: Tournament): LeagueJson {
   return {
     id: row.id,
     title: row.title,
+    fullTitle: row.fullTitle ?? '',
     sport: row.sport,
     file: row.file,
     startDate: row.startDate,
@@ -194,6 +198,7 @@ export async function createLeague(token: string, payload: TournamentCreateInput
   const created: Tournament = {
     id,
     title: payload.title,
+    fullTitle: payload.fullTitle ?? '',
     sport: payload.sport,
     file: payload.file,
     startDate: payload.startDate,
@@ -222,6 +227,7 @@ export async function updateLeague(
   const updated: Tournament = {
     id,
     title: payload.title ?? current.title,
+    fullTitle: payload.fullTitle ?? current.fullTitle,
     sport: payload.sport ?? current.sport,
     file: payload.file ?? current.file,
     startDate: payload.startDate ?? current.startDate,

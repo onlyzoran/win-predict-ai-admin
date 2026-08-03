@@ -44,7 +44,7 @@
     "title": "Turniere",
     "subtitle": "Turnierliste verwalten · leagues.json",
     "create": "Turnier erstellen",
-    "searchPlaceholder": "Nach Titel suchen…",
+    "searchPlaceholder": "Nach Titel oder vollständigem Titel suchen…",
     "empty": "Keine Turniere gefunden",
     "drag": "Zum Sortieren ziehen",
     "loadError": "Turniere konnten nicht geladen werden",
@@ -67,6 +67,7 @@
     "updateError": "Änderungen konnten nicht gespeichert werden",
     "columns": {
       "title": "Titel",
+      "fullTitle": "Vollständiger Titel",
       "sport": "Sport",
       "start": "Beginn",
       "end": "Ende",
@@ -76,6 +77,8 @@
   },
   "form": {
     "title": "Titel",
+    "fullTitle": "Vollständiger Titel",
+    "fullTitleHint": "Optional: langer oder offizieller Name",
     "id": "ID (Slug)",
     "idLocked": "ID kann nicht geändert werden",
     "idHint": "Wird beim Erstellen aus dem Titel generiert",

@@ -19,6 +19,7 @@ const submitting = ref(false)
 
 async function onSubmit(payload: {
   title: string
+  fullTitle: string
   sport: string
   file: string
   startDate: string

@@ -44,7 +44,7 @@
     "title": "Tournaments",
     "subtitle": "Manage tournament list · leagues.json",
     "create": "Create tournament",
-    "searchPlaceholder": "Search by title…",
+    "searchPlaceholder": "Search by title or full title…",
     "empty": "No tournaments found",
     "drag": "Drag to reorder",
     "loadError": "Failed to load tournaments",
@@ -67,6 +67,7 @@
     "updateError": "Failed to save changes",
     "columns": {
       "title": "Title",
+      "fullTitle": "Full title",
       "sport": "Sport",
       "start": "Start",
       "end": "End",
@@ -76,6 +77,8 @@
   },
   "form": {
     "title": "Title",
+    "fullTitle": "Full title",
+    "fullTitleHint": "Optional long or official name",
     "id": "ID (slug)",
     "idLocked": "ID cannot be changed",
     "idHint": "Generated from the title on create",

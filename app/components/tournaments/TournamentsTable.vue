@@ -41,6 +41,7 @@ const columns = computed<ColumnDef<Tournament>[]>(() => {
   return [
     { id: 'drag', header: '', enableSorting: false },
     { accessorKey: 'title', header: t('tournaments.columns.title') },
+    { accessorKey: 'fullTitle', header: t('tournaments.columns.fullTitle') },
     { accessorKey: 'sport', header: t('tournaments.columns.sport') },
     { accessorKey: 'startDate', header: t('tournaments.columns.start') },
     { accessorKey: 'endDate', header: t('tournaments.columns.end') },
@@ -150,6 +151,9 @@ function onDragEnd() {
             </td>
             <td class="p-2 align-middle font-medium">
               {{ element.title }}
+            </td>
+            <td class="p-2 align-middle text-muted-foreground">
+              {{ element.fullTitle || '—' }}
             </td>
             <td class="p-2 align-middle">
               <Badge variant="secondary">

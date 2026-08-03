@@ -12,6 +12,11 @@ export const tournamentCreateSchema = z
   .object({
     id: z.string().min(1).optional(),
     title: z.string().trim().min(1, 'Название обязательно'),
+    fullTitle: z
+      .string()
+      .trim()
+      .optional()
+      .transform((v) => v ?? ''),
     sport: sportSchema,
     file: z.string().trim().min(1, 'Имя файла обязательно'),
     startDate: dateString,
@@ -42,6 +47,7 @@ export const tournamentCreateSchema = z
 export const tournamentUpdateSchema = z
   .object({
     title: z.string().trim().min(1, 'Название обязательно').optional(),
+    fullTitle: z.string().trim().optional(),
     sport: sportSchema.optional(),
     file: z.string().trim().min(1, 'Имя файла обязательно').optional(),
     startDate: dateString.optional(),

@@ -44,7 +44,7 @@
     "title": "Tornei",
     "subtitle": "Gestione elenco tornei · leagues.json",
     "create": "Crea torneo",
-    "searchPlaceholder": "Cerca per titolo…",
+    "searchPlaceholder": "Cerca per titolo o titolo completo…",
     "empty": "Nessun torneo trovato",
     "drag": "Trascina per riordinare",
     "loadError": "Impossibile caricare i tornei",
@@ -67,6 +67,7 @@
     "updateError": "Impossibile salvare le modifiche",
     "columns": {
       "title": "Titolo",
+      "fullTitle": "Titolo completo",
       "sport": "Sport",
       "start": "Inizio",
       "end": "Fine",
@@ -76,6 +77,8 @@
   },
   "form": {
     "title": "Titolo",
+    "fullTitle": "Titolo completo",
+    "fullTitleHint": "Opzionale: nome lungo o ufficiale",
     "id": "ID (slug)",
     "idLocked": "L’ID non può essere modificato",
     "idHint": "Generato dal titolo in fase di creazione",

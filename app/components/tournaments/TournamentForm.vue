@@ -19,6 +19,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   submit: [payload: {
     title: string
+    fullTitle: string
     sport: typeof SPORT_VALUES[number]
     file: string
     startDate: string
@@ -37,6 +38,7 @@ const formSchema = computed(() => {
     z
       .object({
         title: z.string().trim().min(1, t('form.errors.titleRequired')),
+        fullTitle: z.string().trim().optional(),
         sport: z.enum(SPORT_VALUES, { required_error: t('form.errors.sportRequired') }),
         file: z.string().trim().min(1, t('form.errors.fileRequired')),
         startDate: z.string().min(1, t('form.errors.startDateRequired')),
@@ -66,6 +68,7 @@ const { defineField, handleSubmit, errors, values, resetForm } = useForm({
   validationSchema: formSchema,
   initialValues: {
     title: props.tournament?.title ?? '',
+    fullTitle: props.tournament?.fullTitle ?? '',
     sport: props.tournament?.sport ?? SPORT_VALUES[0],
     file: props.tournament?.file ?? '',
     startDate: props.tournament?.startDate ?? '',
@@ -75,6 +78,7 @@ const { defineField, handleSubmit, errors, values, resetForm } = useForm({
 })
 
 const [title] = defineField('title')
+const [fullTitle] = defineField('fullTitle')
 const [sport] = defineField('sport')
 const [file] = defineField('file')
 const [startDate] = defineField('startDate')
@@ -88,6 +92,7 @@ const isDirty = computed(() => {
   if (!original) return true
   return (
     values.title !== original.title
+    || (values.fullTitle || '') !== (original.fullTitle ?? '')
     || values.sport !== original.sport
     || values.file !== original.file
     || values.startDate !== original.startDate
@@ -105,6 +110,7 @@ watch(
     resetForm({
       values: {
         title: value.title,
+        fullTitle: value.fullTitle ?? '',
         sport: value.sport,
         file: value.file,
         startDate: value.startDate,
@@ -118,6 +124,7 @@ watch(
 const onSubmit = handleSubmit((values) => {
   emit('submit', {
     title: values.title,
+    fullTitle: values.fullTitle?.trim() ?? '',
     sport: values.sport,
     file: values.file,
     startDate: values.startDate,
@@ -149,6 +156,14 @@ const onSubmit = handleSubmit((values) => {
         <Input id="title" v-model="title" />
         <p v-if="errors.title" class="text-sm text-destructive">
           {{ errors.title }}
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <Label for="fullTitle">{{ t('form.fullTitle') }}</Label>
+        <Input id="fullTitle" v-model="fullTitle" />
+        <p class="text-xs text-muted-foreground">
+          {{ t('form.fullTitleHint') }}
         </p>
       </div>
 
