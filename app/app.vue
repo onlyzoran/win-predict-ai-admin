@@ -2,7 +2,7 @@
 import { Toaster } from 'vue-sonner'
 
 useHead({
-  titleTemplate: (title) => (title ? `${title} · Win Predict Admin` : 'Win Predict Admin'),
+  titleTemplate: (title) => (title ? `${title} · Win Predict AI Admin` : 'Win Predict AI Admin'),
   htmlAttrs: {
     lang: 'en',
   },
