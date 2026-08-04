@@ -28,7 +28,8 @@
     "hockey": "Хоккей",
     "baseball": "Бейсбол",
     "golf": "Гольф",
-    "politics": "Политика"
+    "politics": "Политика",
+    "motorsport": "Мотоспорт"
   },
   "login": {
     "title": "Вход",
