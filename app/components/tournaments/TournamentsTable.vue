@@ -9,7 +9,7 @@ import {
 } from '@tanstack/vue-table'
 import draggable from 'vuedraggable'
 import { useI18n } from 'vue-i18n'
-import { GripVertical } from '@lucide/vue'
+import { IconGripVertical } from '@onlyzoran/win-predict-ai-icons'
 import type { Tournament } from '~/utils/githubLeagues'
 import Badge from '@/components/ui/badge/Badge.vue'
 import TournamentRowActions from '@/components/tournaments/TournamentRowActions.vue'
@@ -147,7 +147,7 @@ function onDragEnd() {
                 :disabled="!canDrag"
                 :aria-label="t('tournaments.drag')"
               >
-                <GripVertical class="size-4" />
+                <IconGripVertical :size="16" />
               </button>
             </td>
             <td class="p-2 align-middle font-mono text-sm">

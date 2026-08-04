@@ -2,7 +2,7 @@
 import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft } from '@lucide/vue'
+import { IconArrowLeft } from '@onlyzoran/win-predict-ai-icons'
 import Button from '@/components/ui/button/Button.vue'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
 import type { Tournament } from '~/utils/githubLeagues'
@@ -75,7 +75,7 @@ async function onSubmit(payload: {
       class="-ml-3 text-muted-foreground"
       @click="navigateTo('/tournaments')"
     >
-      <ArrowLeft class="size-4" />
+      <IconArrowLeft :size="16" />
       {{ t('tournaments.backToList') }}
     </Button>
 

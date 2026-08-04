@@ -2,8 +2,12 @@
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { IconBrandGithub, IconMoon, IconSun } from '@onlyzoran/win-predict-ai-icons'
-import { LogOut } from '@lucide/vue'
+import {
+  IconBrandGithub,
+  IconLogout,
+  IconMoon,
+  IconSun,
+} from '@onlyzoran/win-predict-ai-icons'
 import { locale, localeLabels, locales, setLocale, type Locale } from '~/i18n'
 import {
   DropdownMenu,
@@ -102,7 +106,7 @@ async function logout() {
           class="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           @click="logout"
         >
-          <LogOut class="size-4" />
+          <IconLogout :size="16" />
           {{ t('common.logout') }}
         </button>
       </template>

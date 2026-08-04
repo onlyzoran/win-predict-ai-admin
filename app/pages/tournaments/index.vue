@@ -2,7 +2,7 @@
 import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
-import { Plus } from '@lucide/vue'
+import { IconPlus } from '@onlyzoran/win-predict-ai-icons'
 import { SPORT_VALUES } from '@/lib/utils'
 import Button from '@/components/ui/button/Button.vue'
 import Input from '@/components/ui/input/Input.vue'
@@ -80,7 +80,7 @@ const sportModel = computed({
         </p>
       </div>
       <Button @click="navigateTo('/tournaments/new')">
-        <Plus class="size-4" />
+        <IconPlus :size="16" />
         {{ t('tournaments.create') }}
       </Button>
     </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { Circle } from '@lucide/vue'
+import { IconCircleFilled } from '@onlyzoran/win-predict-ai-icons'
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem } from 'reka-ui'
 import { cn } from '@/lib/utils'
 
@@ -25,7 +25,7 @@ const props = defineProps<{
   >
     <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
       <DropdownMenuItemIndicator>
-        <Circle class="size-2 fill-current" />
+        <IconCircleFilled :size="8" />
       </DropdownMenuItemIndicator>
     </span>
     <slot />

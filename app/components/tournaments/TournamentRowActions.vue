@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Pencil, Trash2 } from '@lucide/vue'
+import { IconPencil, IconTrash } from '@onlyzoran/win-predict-ai-icons'
 import { useI18n } from 'vue-i18n'
 import type { Tournament } from '~/utils/githubLeagues'
 import Button from '@/components/ui/button/Button.vue'
@@ -30,12 +30,12 @@ const editHref = computed(() => router.resolve(editTo.value).href)
       :href="editHref"
       @click.prevent="navigateTo(editTo)"
     >
-      <Pencil class="size-4" />
+      <IconPencil :size="16" />
       <span class="sr-only">{{ t('common.edit') }}</span>
     </Button>
 
     <Button variant="ghost" size="icon" @click="confirmOpen = true">
-      <Trash2 class="size-4 text-destructive" />
+      <IconTrash :size="16" class="text-destructive" />
       <span class="sr-only">{{ t('common.delete') }}</span>
     </Button>
 
