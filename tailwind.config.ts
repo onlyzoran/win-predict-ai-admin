@@ -11,6 +11,7 @@ export default {
     './app/plugins/**/*.{js,ts}',
     './app/app.vue',
     './app/error.vue',
+    './node_modules/@onlyzoran/win-predict-ai-ui/dist/**/*.{js,mjs}',
   ],
   theme: {
     extend: {
