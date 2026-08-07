@@ -53,8 +53,9 @@ pm2 start deploy/ecosystem.config.cjs
 
 | Method | Path | Auth |
 |---|---|---|
-| GET | `/api/tournaments` | public |
-| GET | `/api/tournaments/:id` | public |
+| GET | `/api/leagues.json` | public (CORS) — manifest for the main front |
+| GET | `/api/tournaments` | public (CORS) |
+| GET | `/api/tournaments/:id` | public (CORS) |
 | POST | `/api/tournaments` | session |
 | PATCH | `/api/tournaments/:id` | session |
 | DELETE | `/api/tournaments/:id` | session |
@@ -67,4 +68,4 @@ pm2 start deploy/ecosystem.config.cjs
 ## Notes
 
 - `endDateTo` is stored as `""` in SQLite when empty; the UI treats it as optional.
-- Public front can later read `GET /api/tournaments` instead of GitHub Pages `leagues.json`.
+- Public front can read `GET /api/leagues.json` (CORS enabled) instead of GitHub Pages `leagues.json`. Prediction JSON files still come from the data repo on Pages.
