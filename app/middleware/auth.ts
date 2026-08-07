@@ -1,6 +1,6 @@
-export default defineNuxtRouteMiddleware((to) => {
-  const { isAuthenticated, hydrate } = useGithubAuth()
-  hydrate()
+export default defineNuxtRouteMiddleware(async (to) => {
+  const { isAuthenticated, ensureHydrated } = useAuth()
+  await ensureHydrated()
 
   if (!isAuthenticated.value) {
     return navigateTo({

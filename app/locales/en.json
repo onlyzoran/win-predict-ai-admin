@@ -33,17 +33,18 @@
   },
   "login": {
     "title": "Sign in",
-    "subtitle": "Sign in with a GitHub token to manage tournaments",
-    "token": "GitHub personal access token",
-    "tokenHint": "Fine-grained PAT with Contents read/write on win-predict-ai-data",
-    "submit": "Sign in",
-    "submitting": "Signing in…",
-    "invalidCredentials": "Invalid token or insufficient permissions",
-    "error": "Sign-in failed"
+    "subtitle": "Enter your email to receive a magic link",
+    "email": "Email",
+    "emailHint": "Only allowlisted admin emails can sign in",
+    "submit": "Send magic link",
+    "submitting": "Sending…",
+    "linkSent": "If this email is allowed, a sign-in link was sent",
+    "checkInbox": "Check your inbox and open the link to continue.",
+    "error": "Failed to send magic link"
   },
   "tournaments": {
     "title": "Tournaments",
-    "subtitle": "Manage tournament list · leagues.json",
+    "subtitle": "Manage tournament list",
     "create": "Create tournament",
     "searchPlaceholder": "Search by title or full title…",
     "empty": "No tournaments found",

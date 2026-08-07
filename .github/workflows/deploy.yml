@@ -1,19 +1,14 @@
-name: Deploy to GitHub Pages
+name: CI
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
   packages: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -30,32 +25,18 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@onlyzoran'
 
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y build-essential python3
+
       - name: Install
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate
-        run: npm run generate
+      - name: Build
+        run: npm run build
         env:
-          NUXT_APP_BASE_URL: /win-predict-ai-admin/
-          NUXT_PUBLIC_GITHUB_OWNER: onlyzoran
-          NUXT_PUBLIC_GITHUB_REPO: win-predict-ai-data
-          NUXT_PUBLIC_GITHUB_PATH: data/leagues.json
-          NUXT_PUBLIC_GITHUB_BRANCH: main
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+          APP_URL: http://localhost:3000
+          SESSION_SECRET: ci-build-secret
+          ADMIN_EMAILS: ci@example.com
+          DATABASE_PATH: .data/ci.sqlite

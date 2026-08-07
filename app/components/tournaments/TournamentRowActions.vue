@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IconPencil, IconTrash } from '@onlyzoran/win-predict-ai-icons'
 import { useI18n } from 'vue-i18n'
-import type { Tournament } from '~/utils/githubLeagues'
+import type { Tournament } from '../../../shared/tournament'
 import Button from '@/components/ui/button/Button.vue'
 import AlertDialog from '@/components/ui/alert-dialog/AlertDialog.vue'
 

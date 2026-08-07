@@ -10,7 +10,7 @@ import {
 import draggable from 'vuedraggable'
 import { useI18n } from 'vue-i18n'
 import { IconGripVertical } from '@onlyzoran/win-predict-ai-icons'
-import type { Tournament } from '~/utils/githubLeagues'
+import type { Tournament } from '../../../shared/tournament'
 import Badge from '@/components/ui/badge/Badge.vue'
 import TournamentRowActions from '@/components/tournaments/TournamentRowActions.vue'
 

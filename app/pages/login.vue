@@ -10,15 +10,16 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const { login, isAuthenticated, hydrate } = useGithubAuth()
+const { requestMagicLink, isAuthenticated, ensureHydrated } = useAuth()
 const route = useRoute()
 
 useHead({ title: () => t('login.title') })
 
-const token = ref('')
+const email = ref('')
 const loading = ref(false)
+const sent = ref(false)
 
-hydrate()
+await ensureHydrated()
 
 watch(
   isAuthenticated,
@@ -35,23 +36,14 @@ watch(
 
 async function onSubmit() {
   loading.value = true
+  sent.value = false
   try {
-    await login(token.value)
-    const callbackUrl = typeof route.query.callbackUrl === 'string'
-      ? route.query.callbackUrl
-      : '/tournaments'
-    await navigateTo(callbackUrl)
+    await requestMagicLink(email.value)
+    sent.value = true
+    toast.success(t('login.linkSent'))
   }
-  catch (err: unknown) {
-    const status = typeof err === 'object' && err && 'statusCode' in err
-      ? (err as { statusCode?: number }).statusCode
-      : undefined
-    if (status === 401) {
-      toast.error(t('login.invalidCredentials'))
-    }
-    else {
-      toast.error(t('login.error'))
-    }
+  catch {
+    toast.error(t('login.error'))
   }
   finally {
     loading.value = false
@@ -75,18 +67,22 @@ async function onSubmit() {
       </div>
 
       <div class="space-y-2">
-        <Label for="token">{{ t('login.token') }}</Label>
+        <Label for="email">{{ t('login.email') }}</Label>
         <Input
-          id="token"
-          v-model="token"
-          type="password"
-          autocomplete="off"
+          id="email"
+          v-model="email"
+          type="email"
+          autocomplete="email"
           required
         />
         <p class="text-xs text-muted-foreground">
-          {{ t('login.tokenHint') }}
+          {{ t('login.emailHint') }}
         </p>
       </div>
+
+      <p v-if="sent" class="text-sm text-muted-foreground">
+        {{ t('login.checkInbox') }}
+      </p>
 
       <Button type="submit" class="w-full" :disabled="loading">
         {{ loading ? t('login.submitting') : t('login.submit') }}

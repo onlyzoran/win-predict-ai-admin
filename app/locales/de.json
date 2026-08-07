@@ -33,17 +33,18 @@
   },
   "login": {
     "title": "Anmelden",
-    "subtitle": "Mit GitHub-Token anmelden, um Turniere zu verwalten",
-    "token": "GitHub Personal Access Token",
-    "tokenHint": "Fine-grained PAT mit Contents read/write für win-predict-ai-data",
-    "submit": "Anmelden",
-    "submitting": "Anmeldung…",
-    "invalidCredentials": "Ungültiges Token oder unzureichende Berechtigungen",
-    "error": "Anmeldung fehlgeschlagen"
+    "subtitle": "E-Mail eingeben, um einen Magic Link zu erhalten",
+    "email": "E-Mail",
+    "emailHint": "Nur freigegebene Admin-E-Mails können sich anmelden",
+    "submit": "Magic Link senden",
+    "submitting": "Senden…",
+    "linkSent": "Falls erlaubt, wurde ein Anmeldelink gesendet",
+    "checkInbox": "Prüfen Sie Ihr Postfach und öffnen Sie den Link.",
+    "error": "Magic Link konnte nicht gesendet werden"
   },
   "tournaments": {
     "title": "Turniere",
-    "subtitle": "Turnierliste verwalten · leagues.json",
+    "subtitle": "Turnierliste verwalten",
     "create": "Turnier erstellen",
     "searchPlaceholder": "Nach Titel oder vollständigem Titel suchen…",
     "empty": "Keine Turniere gefunden",

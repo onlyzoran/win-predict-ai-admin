@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { IconArrowLeft } from '@onlyzoran/win-predict-ai-icons'
 import Button from '@/components/ui/button/Button.vue'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
-import type { Tournament } from '~/utils/githubLeagues'
+import type { Tournament } from '../../../shared/tournament'
 
 definePageMeta({
   middleware: 'auth',

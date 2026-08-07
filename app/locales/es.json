@@ -33,17 +33,18 @@
   },
   "login": {
     "title": "Iniciar sesión",
-    "subtitle": "Inicia sesión con un token de GitHub para gestionar torneos",
-    "token": "Token de acceso personal de GitHub",
-    "tokenHint": "PAT fine-grained con Contents lectura/escritura en win-predict-ai-data",
-    "submit": "Entrar",
-    "submitting": "Entrando…",
-    "invalidCredentials": "Token inválido o permisos insuficientes",
-    "error": "Error al iniciar sesión"
+    "subtitle": "Introduce tu email para recibir un enlace mágico",
+    "email": "Email",
+    "emailHint": "Solo pueden entrar emails de admin permitidos",
+    "submit": "Enviar enlace",
+    "submitting": "Enviando…",
+    "linkSent": "Si el email está permitido, se envió un enlace",
+    "checkInbox": "Revisa tu bandeja y abre el enlace para continuar.",
+    "error": "No se pudo enviar el enlace"
   },
   "tournaments": {
     "title": "Torneos",
-    "subtitle": "Gestión de la lista de torneos · leagues.json",
+    "subtitle": "Gestión de la lista de torneos",
     "create": "Crear torneo",
     "searchPlaceholder": "Buscar por título o título completo…",
     "empty": "No se encontraron torneos",

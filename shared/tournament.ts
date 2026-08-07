@@ -11,6 +11,54 @@ export const SPORT_VALUES = [
 
 export type Sport = (typeof SPORT_VALUES)[number]
 
+/** App-facing tournament (null endDateTo for forms) */
+export interface Tournament {
+  id: string
+  title: string
+  fullTitle: string
+  sport: Sport
+  file: string
+  startDate: string
+  endDate: string
+  endDateTo: string | null
+  popularPriority: number
+}
+
+/** Shape stored in SQLite / leagues.json import */
+export interface LeagueJson {
+  id: string
+  title: string
+  fullTitle?: string
+  sport: Sport
+  file: string
+  startDate: string
+  endDate: string
+  endDateTo: string
+  popularPriority: number
+}
+
+export function fromLeagueJson(row: LeagueJson): Tournament {
+  return {
+    ...row,
+    fullTitle: row.fullTitle ?? '',
+    endDateTo: row.endDateTo ? row.endDateTo : null,
+  }
+}
+
+export function toLeagueJson(row: Tournament): LeagueJson {
+  return {
+    id: row.id,
+    title: row.title,
+    fullTitle: row.fullTitle ?? '',
+    sport: row.sport,
+    file: row.file,
+    startDate: row.startDate,
+    endDate: row.endDate,
+    endDateTo: row.endDateTo ?? '',
+    popularPriority: row.popularPriority,
+  }
+}
+
 export const SPORT_LABELS: Record<Sport, string> = {
   football: 'Football',
   basketball: 'Basketball',

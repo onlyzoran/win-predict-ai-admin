@@ -33,17 +33,18 @@
   },
   "login": {
     "title": "Вход",
-    "subtitle": "Войдите с GitHub-токеном, чтобы управлять турнирами",
-    "token": "GitHub personal access token",
-    "tokenHint": "Fine-grained PAT с правами Contents read/write на win-predict-ai-data",
-    "submit": "Войти",
-    "submitting": "Вход…",
-    "invalidCredentials": "Неверный токен или недостаточно прав",
-    "error": "Ошибка входа"
+    "subtitle": "Введите email, чтобы получить ссылку для входа",
+    "email": "Email",
+    "emailHint": "Войти могут только email из списка админов",
+    "submit": "Отправить ссылку",
+    "submitting": "Отправка…",
+    "linkSent": "Если email разрешён, ссылка для входа отправлена",
+    "checkInbox": "Проверьте почту и откройте ссылку, чтобы продолжить.",
+    "error": "Не удалось отправить ссылку"
   },
   "tournaments": {
     "title": "Турниры",
-    "subtitle": "Управление списком турниров · leagues.json",
+    "subtitle": "Управление списком турниров",
     "create": "Создать турнир",
     "searchPlaceholder": "Поиск по названию или полному названию…",
     "empty": "Турниры не найдены",

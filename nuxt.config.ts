@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   ssr: false,
 
   app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/win-predict-ai-admin/',
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
   },
 
   modules: [
@@ -27,24 +27,20 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    public: {
-      githubOwner: process.env.NUXT_PUBLIC_GITHUB_OWNER || 'onlyzoran',
-      githubRepo: process.env.NUXT_PUBLIC_GITHUB_REPO || 'win-predict-ai-data',
-      githubPath: process.env.NUXT_PUBLIC_GITHUB_PATH || 'data/leagues.json',
-      githubBranch: process.env.NUXT_PUBLIC_GITHUB_BRANCH || 'main',
-    },
-  },
-
-  // History URLs like /tournaments/:id 404 on GitHub Pages (no static file).
-  // Hash routing keeps deep links working without a server rewrite.
-  router: {
-    options: {
-      hashMode: true,
-    },
+    // Override at runtime with NUXT_* env vars (see .env.example)
+    databasePath: '.data/admin.sqlite',
+    adminEmails: '',
+    resendApiKey: '',
+    mailFrom: 'onboarding@resend.dev',
+    appUrl: 'http://localhost:3000',
+    sessionSecret: 'dev-secret-change-me',
+    public: {},
   },
 
   nitro: {
-    preset: 'static',
+    externals: {
+      external: ['better-sqlite3'],
+    },
   },
 
   pinia: {

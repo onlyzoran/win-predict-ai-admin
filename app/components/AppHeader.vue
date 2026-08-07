@@ -5,15 +5,15 @@ import { useI18n } from 'vue-i18n'
 import { locale, localeLabels, locales, setLocale, type Locale } from '~/i18n'
 
 const { t } = useI18n()
-const { isAuthenticated, logout: signOut, hydrate } = useGithubAuth()
-hydrate()
+const { isAuthenticated, logout: signOut, ensureHydrated } = useAuth()
+ensureHydrated()
 
 function onLocaleUpdate(code: string) {
   if (locales.includes(code as Locale)) setLocale(code as Locale)
 }
 
 async function logout() {
-  signOut()
+  await signOut()
   await navigateTo('/login')
 }
 </script>
