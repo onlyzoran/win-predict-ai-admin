@@ -22,8 +22,8 @@ definePageMeta({
 })
 
 const { t, locale } = useI18n()
-const { user, ensureHydrated } = useAuth()
-const { items, loading, fetchAll, create, setActive } = useAdmins()
+const { user, isSuperAdmin, ensureHydrated } = useAuth()
+const { items, loading, fetchAll, create, remove } = useAdmins()
 
 useHead({ title: () => t('admins.title') })
 
@@ -32,7 +32,7 @@ await ensureHydrated()
 const ready = ref(false)
 const email = ref('')
 const submitting = ref(false)
-const pendingDeactivate = ref<AdminUser | null>(null)
+const pendingDelete = ref<AdminUser | null>(null)
 const confirmOpen = ref(false)
 
 const dateFormatter = computed(() => {
@@ -43,9 +43,27 @@ const dateFormatter = computed(() => {
   })
 })
 
+const activeSuperadminCount = computed(
+  () => items.value.filter((item) => item.isActive && item.role === 'superadmin').length,
+)
+
 function formatTs(value: number | null) {
   if (!value) return t('admins.never')
   return dateFormatter.value.format(value)
+}
+
+function isSelf(admin: AdminUser) {
+  return user.value?.id === admin.id
+}
+
+function canDelete(admin: AdminUser) {
+  if (!isSuperAdmin.value || isSelf(admin)) return false
+  if (admin.role === 'superadmin' && activeSuperadminCount.value <= 1) return false
+  return true
+}
+
+function roleLabel(admin: AdminUser) {
+  return admin.role === 'superadmin' ? t('admins.roleSuperadmin') : t('admins.roleAdmin')
 }
 
 onMounted(async () => {
@@ -71,50 +89,46 @@ async function onCreate() {
     const status = typeof err === 'object' && err && 'statusCode' in err
       ? (err as { statusCode?: number }).statusCode
       : undefined
-    toast.error(status === 409 ? t('admins.createConflict') : t('admins.createError'))
+    toast.error(
+      status === 403
+        ? t('admins.forbidden')
+        : status === 409
+          ? t('admins.createConflict')
+          : t('admins.createError'),
+    )
   }
   finally {
     submitting.value = false
   }
 }
 
-function askDeactivate(admin: AdminUser) {
-  pendingDeactivate.value = admin
+function askDelete(admin: AdminUser) {
+  pendingDelete.value = admin
   confirmOpen.value = true
 }
 
-async function onConfirmDeactivate() {
-  const admin = pendingDeactivate.value
+async function onConfirmDelete() {
+  const admin = pendingDelete.value
   if (!admin) return
   try {
-    await setActive(admin.id, false)
-    toast.success(t('admins.deactivateSuccess'))
+    await remove(admin.id)
+    toast.success(t('admins.deleteSuccess'))
   }
   catch (err) {
     const status = typeof err === 'object' && err && 'statusCode' in err
       ? (err as { statusCode?: number }).statusCode
       : undefined
     toast.error(
-      status === 400 ? t('admins.deactivateLastError') : t('admins.deactivateError'),
+      status === 403
+        ? t('admins.forbidden')
+        : status === 400
+          ? t('admins.deleteLastError')
+          : t('admins.deleteError'),
     )
   }
   finally {
-    pendingDeactivate.value = null
+    pendingDelete.value = null
   }
-}
-
-async function onActivate(admin: AdminUser) {
-  try {
-    await setActive(admin.id, true)
-    toast.success(t('admins.activateSuccess'))
-  }
-  catch {
-    toast.error(t('admins.activateError'))
-  }
-}
-
-function isSelf(admin: AdminUser) {
-  return user.value?.id === admin.id
 }
 </script>
 
@@ -125,11 +139,12 @@ function isSelf(admin: AdminUser) {
         {{ t('admins.title') }}
       </h1>
       <p class="text-sm text-muted-foreground">
-        {{ t('admins.subtitle') }}
+        {{ isSuperAdmin ? t('admins.subtitle') : t('admins.subtitleReadonly') }}
       </p>
     </div>
 
     <form
+      v-if="isSuperAdmin"
       class="flex flex-col gap-3 rounded-lg border bg-card p-4 sm:flex-row sm:items-end"
       @submit.prevent="onCreate"
     >
@@ -163,10 +178,11 @@ function isSelf(admin: AdminUser) {
         <TableHeader>
           <TableRow>
             <TableHead>{{ t('admins.columns.email') }}</TableHead>
+            <TableHead>{{ t('admins.columns.role') }}</TableHead>
             <TableHead>{{ t('admins.columns.status') }}</TableHead>
             <TableHead>{{ t('admins.columns.created') }}</TableHead>
             <TableHead>{{ t('admins.columns.lastLogin') }}</TableHead>
-            <TableHead class="text-right">
+            <TableHead v-if="isSuperAdmin" class="text-right">
               {{ t('admins.columns.actions') }}
             </TableHead>
           </TableRow>
@@ -182,7 +198,12 @@ function isSelf(admin: AdminUser) {
               </div>
             </TableCell>
             <TableCell>
-              <Badge :variant="admin.isActive ? 'default' : 'secondary'">
+              <Badge :variant="admin.role === 'superadmin' ? 'default' : 'secondary'">
+                {{ roleLabel(admin) }}
+              </Badge>
+            </TableCell>
+            <TableCell>
+              <Badge :variant="admin.isActive ? 'outline' : 'secondary'">
                 {{ admin.isActive ? t('admins.statusActive') : t('admins.statusInactive') }}
               </Badge>
             </TableCell>
@@ -192,23 +213,14 @@ function isSelf(admin: AdminUser) {
             <TableCell class="whitespace-nowrap text-muted-foreground">
               {{ formatTs(admin.lastLoginAt) }}
             </TableCell>
-            <TableCell class="text-right">
+            <TableCell v-if="isSuperAdmin" class="text-right">
               <Button
-                v-if="admin.isActive"
                 variant="outline"
                 size="sm"
-                :disabled="isSelf(admin)"
-                @click="askDeactivate(admin)"
+                :disabled="!canDelete(admin)"
+                @click="askDelete(admin)"
               >
-                {{ t('admins.deactivate') }}
-              </Button>
-              <Button
-                v-else
-                variant="outline"
-                size="sm"
-                @click="onActivate(admin)"
-              >
-                {{ t('admins.activate') }}
+                {{ t('common.delete') }}
               </Button>
             </TableCell>
           </TableRow>
@@ -218,12 +230,12 @@ function isSelf(admin: AdminUser) {
 
     <AlertDialog
       v-model:open="confirmOpen"
-      :title="t('admins.deactivateConfirmTitle')"
-      :description="t('admins.deactivateConfirmDescription', { email: pendingDeactivate?.email || '' })"
-      :confirm-label="t('admins.deactivate')"
+      :title="t('admins.deleteConfirmTitle')"
+      :description="t('admins.deleteConfirmDescription', { email: pendingDelete?.email || '' })"
+      :confirm-label="t('common.delete')"
       :cancel-label="t('common.cancel')"
       destructive
-      @confirm="onConfirmDeactivate"
+      @confirm="onConfirmDelete"
     />
   </div>
 </template>

@@ -1,4 +1,4 @@
-export type UserRole = 'admin'
+export type UserRole = 'superadmin' | 'admin'
 
 export interface AdminUser {
   id: string
@@ -7,4 +7,8 @@ export interface AdminUser {
   isActive: boolean
   createdAt: number
   lastLoginAt: number | null
+}
+
+export function isSuperAdminRole(role: UserRole | string | undefined | null) {
+  return role === 'superadmin'
 }

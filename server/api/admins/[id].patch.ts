@@ -1,8 +1,8 @@
-import { requireSession } from '../../utils/auth'
+import { requireSuperAdmin } from '../../utils/auth'
 import { setUserActive } from '../../utils/users'
 
 export default defineEventHandler(async (event) => {
-  const session = requireSession(event)
+  const session = requireSuperAdmin(event)
   const id = getRouterParam(event, 'id')
   if (!id) {
     throw createError({ statusCode: 400, statusMessage: 'User id is required' })

@@ -34,18 +34,40 @@ function parseBootstrapEmails(): string[] {
     .filter((email) => email.includes('@'))
 }
 
-/** Seed missing emails from ADMIN_EMAILS; never reactivates deactivated users. */
+/**
+ * Seed missing emails from ADMIN_EMAILS as superadmin.
+ * Never reactivates deactivated users. Promotes existing bootstrap emails to superadmin.
+ */
 function bootstrapAdmins(database: Database.Database) {
   if (bootstrapped) return
   bootstrapped = true
 
   const insert = database.prepare(
     `INSERT OR IGNORE INTO users (id, email, role, is_active, created_at, last_login_at)
-     VALUES (?, ?, 'admin', 1, ?, NULL)`,
+     VALUES (?, ?, 'superadmin', 1, ?, NULL)`,
+  )
+  const promote = database.prepare(
+    `UPDATE users SET role = 'superadmin' WHERE email = ?`,
   )
   const now = Date.now()
   for (const email of parseBootstrapEmails()) {
     insert.run(randomBytes(16).toString('hex'), email, now)
+    promote.run(email)
+  }
+
+  const activeSuperadmins = database
+    .prepare(`SELECT COUNT(*) AS count FROM users WHERE is_active = 1 AND role = 'superadmin'`)
+    .get() as { count: number }
+
+  if (activeSuperadmins.count === 0) {
+    const fallback = database
+      .prepare(
+        `SELECT id FROM users WHERE is_active = 1 ORDER BY created_at ASC, email ASC LIMIT 1`,
+      )
+      .get() as { id: string } | undefined
+    if (fallback) {
+      database.prepare(`UPDATE users SET role = 'superadmin' WHERE id = ?`).run(fallback.id)
+    }
   }
 }
 

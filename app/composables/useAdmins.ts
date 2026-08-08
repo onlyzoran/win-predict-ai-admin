@@ -24,17 +24,16 @@ export function useAdmins() {
       method: 'POST',
       body: { email: trimmed },
     })
-    items.value = [...items.value, created].sort((a, b) => a.createdAt - b.createdAt)
+    items.value = [...items.value, created].sort((a, b) => {
+      if (a.role !== b.role) return a.role === 'superadmin' ? -1 : 1
+      return a.createdAt - b.createdAt
+    })
     return created
   }
 
-  async function setActive(id: string, isActive: boolean) {
-    const updated = await $fetch<AdminUser>(`/api/admins/${id}`, {
-      method: 'PATCH',
-      body: { isActive },
-    })
-    items.value = items.value.map((item) => (item.id === id ? updated : item))
-    return updated
+  async function remove(id: string) {
+    await $fetch(`/api/admins/${id}`, { method: 'DELETE' })
+    items.value = items.value.filter((item) => item.id !== id)
   }
 
   return {
@@ -42,6 +41,6 @@ export function useAdmins() {
     loading,
     fetchAll,
     create,
-    setActive,
+    remove,
   }
 }

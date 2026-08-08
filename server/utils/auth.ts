@@ -128,6 +128,14 @@ export function requireSession(event: H3Event): SessionUser {
   return user
 }
 
+export function requireSuperAdmin(event: H3Event): SessionUser {
+  const user = requireSession(event)
+  if (user.role !== 'superadmin') {
+    throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
+  }
+  return user
+}
+
 export function setSessionCookie(event: H3Event, token: string) {
   const secure = String(appUrl()).startsWith('https://')
   setCookie(event, SESSION_COOKIE, token, {

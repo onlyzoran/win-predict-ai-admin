@@ -31,7 +31,10 @@ export function listUsers(): AdminUser[] {
     .prepare(
       `SELECT id, email, role, is_active, created_at, last_login_at
        FROM users
-       ORDER BY created_at ASC, email ASC`,
+       ORDER BY
+         CASE role WHEN 'superadmin' THEN 0 ELSE 1 END,
+         created_at ASC,
+         email ASC`,
     )
     .all() as UserRow[]
   return rows.map(mapUser)
@@ -63,10 +66,10 @@ export function findActiveUserByEmail(email: string): AdminUser | null {
   return user
 }
 
-export function countActiveAdmins(): number {
+export function countActiveSuperadmins(): number {
   const row = useDb()
     .prepare(
-      `SELECT COUNT(*) AS count FROM users WHERE is_active = 1 AND role = 'admin'`,
+      `SELECT COUNT(*) AS count FROM users WHERE is_active = 1 AND role = 'superadmin'`,
     )
     .get() as { count: number }
   return row.count
@@ -103,10 +106,10 @@ export function setUserActive(id: string, isActive: boolean): AdminUser {
 
   if (user.isActive === isActive) return user
 
-  if (!isActive && user.role === 'admin' && countActiveAdmins() <= 1) {
+  if (!isActive && user.role === 'superadmin' && countActiveSuperadmins() <= 1) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Cannot deactivate the last active admin',
+      statusMessage: 'Cannot deactivate the last active SuperAdmin',
     })
   }
 
@@ -119,6 +122,29 @@ export function setUserActive(id: string, isActive: boolean): AdminUser {
   }
 
   return findUserById(id)!
+}
+
+export function deleteUser(id: string, actorId: string) {
+  const user = findUserById(id)
+  if (!user) {
+    throw createError({ statusCode: 404, statusMessage: 'User not found' })
+  }
+
+  if (user.id === actorId) {
+    throw createError({ statusCode: 400, statusMessage: 'Cannot delete your own account' })
+  }
+
+  if (user.role === 'superadmin' && countActiveSuperadmins() <= 1) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Cannot delete the last active SuperAdmin',
+    })
+  }
+
+  const db = useDb()
+  db.prepare(`DELETE FROM sessions WHERE email = ?`).run(user.email)
+  db.prepare(`DELETE FROM magic_links WHERE email = ?`).run(user.email)
+  db.prepare(`DELETE FROM users WHERE id = ?`).run(id)
 }
 
 export function touchLastLogin(email: string) {

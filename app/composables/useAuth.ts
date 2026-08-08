@@ -1,5 +1,5 @@
 import { createApiError } from '~/utils/errors'
-import type { AdminUser } from '../../shared/user'
+import { isSuperAdminRole, type AdminUser } from '../../shared/user'
 
 export type AuthUser = Pick<AdminUser, 'id' | 'email' | 'role'>
 
@@ -8,6 +8,7 @@ export function useAuth() {
   const hydrated = useState<boolean>('auth-hydrated', () => false)
 
   const isAuthenticated = computed(() => Boolean(user.value))
+  const isSuperAdmin = computed(() => isSuperAdminRole(user.value?.role))
 
   async function fetchMe() {
     try {
@@ -52,6 +53,7 @@ export function useAuth() {
     user,
     hydrated,
     isAuthenticated,
+    isSuperAdmin,
     fetchMe,
     ensureHydrated,
     requestMagicLink,

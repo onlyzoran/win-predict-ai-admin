@@ -63,8 +63,9 @@ pm2 start deploy/ecosystem.config.cjs
 | DELETE | `/api/tournaments/:id` | session |
 | POST | `/api/tournaments/reorder` | session |
 | GET | `/api/admins` | session |
-| POST | `/api/admins` | session |
-| PATCH | `/api/admins/:id` | session |
+| POST | `/api/admins` | superadmin |
+| PATCH | `/api/admins/:id` | superadmin |
+| DELETE | `/api/admins/:id` | superadmin |
 | POST | `/api/auth/request` | — |
 | GET | `/api/auth/verify?token=` | — |
 | GET | `/api/auth/me` | session |
@@ -75,3 +76,4 @@ pm2 start deploy/ecosystem.config.cjs
 - `endDateTo` is stored as `""` in SQLite when empty; the UI treats it as optional.
 - Public front can read `GET /api/leagues.json` (CORS enabled) instead of GitHub Pages `leagues.json`. Prediction JSON files still come from the data repo on Pages.
 - Deactivating an admin clears their sessions. You cannot deactivate yourself or the last active admin.
+- Roles: SuperAdmin (`superadmin`, from `ADMIN_EMAILS` bootstrap) can add/delete admins; `admin` can use the panel but not delete admins. The last active SuperAdmin cannot be deleted.
