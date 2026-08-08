@@ -1,8 +1,7 @@
 import { createApiError } from '~/utils/errors'
+import type { AdminUser } from '../../shared/user'
 
-export interface AuthUser {
-  email: string
-}
+export type AuthUser = Pick<AdminUser, 'id' | 'email' | 'role'>
 
 export function useAuth() {
   const user = useState<AuthUser | null>('auth-user', () => null)

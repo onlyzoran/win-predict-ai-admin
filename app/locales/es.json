@@ -9,6 +9,10 @@
   "language": {
     "label": "Idioma"
   },
+  "nav": {
+    "tournaments": "Torneos",
+    "admins": "Admins"
+  },
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
@@ -35,12 +39,44 @@
     "title": "Iniciar sesión",
     "subtitle": "Introduce tu email para recibir un enlace mágico",
     "email": "Email",
-    "emailHint": "Solo pueden entrar emails de admin permitidos",
+    "emailHint": "Solo pueden entrar cuentas de admin activas",
     "submit": "Enviar enlace",
     "submitting": "Enviando…",
     "linkSent": "Si el email está permitido, se envió un enlace",
     "checkInbox": "Revisa tu bandeja y abre el enlace para continuar.",
     "error": "No se pudo enviar el enlace"
+  },
+  "admins": {
+    "title": "Admins",
+    "subtitle": "Gestionar quién puede acceder al panel",
+    "email": "Email",
+    "emailPlaceholder": "admin{'@'}example.com",
+    "add": "Añadir admin",
+    "empty": "Aún no hay admins",
+    "you": "Tú",
+    "never": "Nunca",
+    "statusActive": "Activo",
+    "statusInactive": "Inactivo",
+    "activate": "Activar",
+    "deactivate": "Desactivar",
+    "loadError": "No se pudieron cargar los admins",
+    "createSuccess": "Admin añadido",
+    "createConflict": "Ya existe un admin con este email",
+    "createError": "No se pudo añadir el admin",
+    "activateSuccess": "Admin activado",
+    "activateError": "No se pudo activar el admin",
+    "deactivateSuccess": "Admin desactivado",
+    "deactivateError": "No se pudo desactivar el admin",
+    "deactivateLastError": "No se puede desactivar el último admin activo",
+    "deactivateConfirmTitle": "¿Desactivar admin?",
+    "deactivateConfirmDescription": "«{email}» ya no podrá iniciar sesión.",
+    "columns": {
+      "email": "Email",
+      "status": "Estado",
+      "created": "Creado",
+      "lastLogin": "Último acceso",
+      "actions": "Acciones"
+    }
   },
   "tournaments": {
     "title": "Torneos",

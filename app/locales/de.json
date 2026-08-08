@@ -9,6 +9,10 @@
   "language": {
     "label": "Sprache"
   },
+  "nav": {
+    "tournaments": "Turniere",
+    "admins": "Admins"
+  },
   "common": {
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
@@ -35,12 +39,44 @@
     "title": "Anmelden",
     "subtitle": "E-Mail eingeben, um einen Magic Link zu erhalten",
     "email": "E-Mail",
-    "emailHint": "Nur freigegebene Admin-E-Mails können sich anmelden",
+    "emailHint": "Nur aktive Admin-Konten können sich anmelden",
     "submit": "Magic Link senden",
     "submitting": "Senden…",
     "linkSent": "Falls erlaubt, wurde ein Anmeldelink gesendet",
     "checkInbox": "Prüfen Sie Ihr Postfach und öffnen Sie den Link.",
     "error": "Magic Link konnte nicht gesendet werden"
+  },
+  "admins": {
+    "title": "Admins",
+    "subtitle": "Zugänge zur Admin-Oberfläche verwalten",
+    "email": "E-Mail",
+    "emailPlaceholder": "admin{'@'}example.com",
+    "add": "Admin hinzufügen",
+    "empty": "Noch keine Admins",
+    "you": "Sie",
+    "never": "Nie",
+    "statusActive": "Aktiv",
+    "statusInactive": "Inaktiv",
+    "activate": "Aktivieren",
+    "deactivate": "Deaktivieren",
+    "loadError": "Admins konnten nicht geladen werden",
+    "createSuccess": "Admin hinzugefügt",
+    "createConflict": "Ein Admin mit dieser E-Mail existiert bereits",
+    "createError": "Admin konnte nicht hinzugefügt werden",
+    "activateSuccess": "Admin aktiviert",
+    "activateError": "Admin konnte nicht aktiviert werden",
+    "deactivateSuccess": "Admin deaktiviert",
+    "deactivateError": "Admin konnte nicht deaktiviert werden",
+    "deactivateLastError": "Der letzte aktive Admin kann nicht deaktiviert werden",
+    "deactivateConfirmTitle": "Admin deaktivieren?",
+    "deactivateConfirmDescription": "„{email}“ kann sich danach nicht mehr anmelden.",
+    "columns": {
+      "email": "E-Mail",
+      "status": "Status",
+      "created": "Erstellt",
+      "lastLogin": "Letzte Anmeldung",
+      "actions": "Aktionen"
+    }
   },
   "tournaments": {
     "title": "Turniere",

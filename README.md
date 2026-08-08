@@ -6,7 +6,7 @@ Nuxt admin app for tournament metadata. Runs as a Node server with SQLite and ma
 
 - Nuxt 4 (SPA client + Nitro API)
 - SQLite (`better-sqlite3`)
-- Magic link auth (allowlisted emails + Resend)
+- Magic link auth (users table + Resend; `ADMIN_EMAILS` seeds initial admins)
 - Tailwind CSS + shadcn-vue style components
 - Pinia, VeeValidate + Zod, TanStack Table, vuedraggable
 
@@ -14,13 +14,15 @@ Nuxt admin app for tournament metadata. Runs as a Node server with SQLite and ma
 
 ```bash
 cp .env.example .env
-# set ADMIN_EMAILS, SESSION_SECRET; RESEND_API_KEY optional in dev
+# set ADMIN_EMAILS (bootstrap), SESSION_SECRET; RESEND_API_KEY optional in dev
 npm install
 npm run import:leagues   # pulls leagues.json from win-predict-ai-data
 npm run dev
 ```
 
-Open http://localhost:3000 — enter an allowlisted email. Without `RESEND_API_KEY`, the magic link is printed in the server console.
+Open http://localhost:3000 — enter an active admin email. Without `RESEND_API_KEY`, the magic link is printed in the server console.
+
+`ADMIN_EMAILS` is only used to seed missing rows into the `users` table on startup. After that, manage admins in the **Admins** UI (`/admins`).
 
 ## Scripts
 
@@ -60,6 +62,9 @@ pm2 start deploy/ecosystem.config.cjs
 | PATCH | `/api/tournaments/:id` | session |
 | DELETE | `/api/tournaments/:id` | session |
 | POST | `/api/tournaments/reorder` | session |
+| GET | `/api/admins` | session |
+| POST | `/api/admins` | session |
+| PATCH | `/api/admins/:id` | session |
 | POST | `/api/auth/request` | — |
 | GET | `/api/auth/verify?token=` | — |
 | GET | `/api/auth/me` | session |
@@ -69,3 +74,4 @@ pm2 start deploy/ecosystem.config.cjs
 
 - `endDateTo` is stored as `""` in SQLite when empty; the UI treats it as optional.
 - Public front can read `GET /api/leagues.json` (CORS enabled) instead of GitHub Pages `leagues.json`. Prediction JSON files still come from the data repo on Pages.
+- Deactivating an admin clears their sessions. You cannot deactivate yourself or the last active admin.

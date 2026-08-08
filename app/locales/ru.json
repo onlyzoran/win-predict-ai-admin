@@ -9,6 +9,10 @@
   "language": {
     "label": "Язык"
   },
+  "nav": {
+    "tournaments": "Турниры",
+    "admins": "Админы"
+  },
   "common": {
     "cancel": "Отмена",
     "confirm": "Подтвердить",
@@ -35,12 +39,44 @@
     "title": "Вход",
     "subtitle": "Введите email, чтобы получить ссылку для входа",
     "email": "Email",
-    "emailHint": "Войти могут только email из списка админов",
+    "emailHint": "Войти могут только активные аккаунты админов",
     "submit": "Отправить ссылку",
     "submitting": "Отправка…",
     "linkSent": "Если email разрешён, ссылка для входа отправлена",
     "checkInbox": "Проверьте почту и откройте ссылку, чтобы продолжить.",
     "error": "Не удалось отправить ссылку"
+  },
+  "admins": {
+    "title": "Админы",
+    "subtitle": "Кто может входить в админку",
+    "email": "Email",
+    "emailPlaceholder": "admin{'@'}example.com",
+    "add": "Добавить админа",
+    "empty": "Админов пока нет",
+    "you": "Это вы",
+    "never": "Никогда",
+    "statusActive": "Активен",
+    "statusInactive": "Неактивен",
+    "activate": "Активировать",
+    "deactivate": "Деактивировать",
+    "loadError": "Не удалось загрузить админов",
+    "createSuccess": "Админ добавлен",
+    "createConflict": "Админ с таким email уже есть",
+    "createError": "Не удалось добавить админа",
+    "activateSuccess": "Админ активирован",
+    "activateError": "Не удалось активировать админа",
+    "deactivateSuccess": "Админ деактивирован",
+    "deactivateError": "Не удалось деактивировать админа",
+    "deactivateLastError": "Нельзя деактивировать последнего активного админа",
+    "deactivateConfirmTitle": "Деактивировать админа?",
+    "deactivateConfirmDescription": "«{email}» больше не сможет войти.",
+    "columns": {
+      "email": "Email",
+      "status": "Статус",
+      "created": "Создан",
+      "lastLogin": "Последний вход",
+      "actions": "Действия"
+    }
   },
   "tournaments": {
     "title": "Турниры",

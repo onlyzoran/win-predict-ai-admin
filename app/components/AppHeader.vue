@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { locale, localeLabels, locales, setLocale, type Locale } from '~/i18n'
 
 const { t } = useI18n()
+const route = useRoute()
 const { isAuthenticated, logout: signOut, ensureHydrated } = useAuth()
 ensureHydrated()
 
@@ -15,6 +16,16 @@ function onLocaleUpdate(code: string) {
 async function logout() {
   await signOut()
   await navigateTo('/login')
+}
+
+function navClass(path: string) {
+  const active = route.path === path || route.path.startsWith(`${path}/`)
+  return [
+    'rounded-md px-2 py-1.5 text-sm transition-colors',
+    active
+      ? 'bg-accent text-foreground'
+      : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+  ]
 }
 </script>
 
@@ -33,6 +44,14 @@ async function logout() {
       <span class="font-semibold text-foreground">{{ t('app.title') }}</span>
     </template>
     <template v-if="isAuthenticated" #actions>
+      <nav class="mr-1 flex items-center gap-1">
+        <NuxtLink to="/tournaments" :class="navClass('/tournaments')">
+          {{ t('nav.tournaments') }}
+        </NuxtLink>
+        <NuxtLink to="/admins" :class="navClass('/admins')">
+          {{ t('nav.admins') }}
+        </NuxtLink>
+      </nav>
       <button
         class="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
         @click="logout"

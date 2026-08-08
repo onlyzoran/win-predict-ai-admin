@@ -9,6 +9,10 @@
   "language": {
     "label": "Language"
   },
+  "nav": {
+    "tournaments": "Tournaments",
+    "admins": "Admins"
+  },
   "common": {
     "cancel": "Cancel",
     "confirm": "Confirm",
@@ -35,12 +39,44 @@
     "title": "Sign in",
     "subtitle": "Enter your email to receive a magic link",
     "email": "Email",
-    "emailHint": "Only allowlisted admin emails can sign in",
+    "emailHint": "Only active admin accounts can sign in",
     "submit": "Send magic link",
     "submitting": "Sending…",
     "linkSent": "If this email is allowed, a sign-in link was sent",
     "checkInbox": "Check your inbox and open the link to continue.",
     "error": "Failed to send magic link"
+  },
+  "admins": {
+    "title": "Admins",
+    "subtitle": "Manage who can access this admin panel",
+    "email": "Email",
+    "emailPlaceholder": "admin{'@'}example.com",
+    "add": "Add admin",
+    "empty": "No admins yet",
+    "you": "You",
+    "never": "Never",
+    "statusActive": "Active",
+    "statusInactive": "Inactive",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "loadError": "Failed to load admins",
+    "createSuccess": "Admin added",
+    "createConflict": "An admin with this email already exists",
+    "createError": "Failed to add admin",
+    "activateSuccess": "Admin activated",
+    "activateError": "Failed to activate admin",
+    "deactivateSuccess": "Admin deactivated",
+    "deactivateError": "Failed to deactivate admin",
+    "deactivateLastError": "Cannot deactivate the last active admin",
+    "deactivateConfirmTitle": "Deactivate admin?",
+    "deactivateConfirmDescription": "“{email}” will no longer be able to sign in.",
+    "columns": {
+      "email": "Email",
+      "status": "Status",
+      "created": "Created",
+      "lastLogin": "Last login",
+      "actions": "Actions"
+    }
   },
   "tournaments": {
     "title": "Tournaments",

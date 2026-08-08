@@ -3,6 +3,7 @@ import {
   createSession,
   setSessionCookie,
 } from '../../utils/auth'
+import { findActiveUserByEmail } from '../../utils/users'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
@@ -15,6 +16,10 @@ export default defineEventHandler(async (event) => {
   const email = consumeMagicLink(token)
   if (!email) {
     throw createError({ statusCode: 401, statusMessage: 'Invalid or expired link' })
+  }
+
+  if (!findActiveUserByEmail(email)) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 
   const sessionToken = createSession(email)

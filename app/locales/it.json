@@ -9,6 +9,10 @@
   "language": {
     "label": "Lingua"
   },
+  "nav": {
+    "tournaments": "Tornei",
+    "admins": "Admin"
+  },
   "common": {
     "cancel": "Annulla",
     "confirm": "Conferma",
@@ -35,12 +39,44 @@
     "title": "Accedi",
     "subtitle": "Inserisci la email per ricevere un magic link",
     "email": "Email",
-    "emailHint": "Possono accedere solo le email admin autorizzate",
+    "emailHint": "Possono accedere solo gli account admin attivi",
     "submit": "Invia magic link",
     "submitting": "Invio…",
     "linkSent": "Se l’email è autorizzata, è stato inviato un link",
     "checkInbox": "Controlla la posta e apri il link per continuare.",
     "error": "Invio del link non riuscito"
+  },
+  "admins": {
+    "title": "Admin",
+    "subtitle": "Gestisci chi può accedere all’admin",
+    "email": "Email",
+    "emailPlaceholder": "admin{'@'}example.com",
+    "add": "Aggiungi admin",
+    "empty": "Nessun admin ancora",
+    "you": "Tu",
+    "never": "Mai",
+    "statusActive": "Attivo",
+    "statusInactive": "Inattivo",
+    "activate": "Attiva",
+    "deactivate": "Disattiva",
+    "loadError": "Caricamento admin non riuscito",
+    "createSuccess": "Admin aggiunto",
+    "createConflict": "Esiste già un admin con questa email",
+    "createError": "Aggiunta admin non riuscita",
+    "activateSuccess": "Admin attivato",
+    "activateError": "Attivazione admin non riuscita",
+    "deactivateSuccess": "Admin disattivato",
+    "deactivateError": "Disattivazione admin non riuscita",
+    "deactivateLastError": "Non puoi disattivare l’ultimo admin attivo",
+    "deactivateConfirmTitle": "Disattivare admin?",
+    "deactivateConfirmDescription": "«{email}» non potrà più accedere.",
+    "columns": {
+      "email": "Email",
+      "status": "Stato",
+      "created": "Creato",
+      "lastLogin": "Ultimo accesso",
+      "actions": "Azioni"
+    }
   },
   "tournaments": {
     "title": "Tornei",

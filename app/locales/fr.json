@@ -9,6 +9,10 @@
   "language": {
     "label": "Langue"
   },
+  "nav": {
+    "tournaments": "Tournois",
+    "admins": "Admins"
+  },
   "common": {
     "cancel": "Annuler",
     "confirm": "Confirmer",
@@ -35,12 +39,44 @@
     "title": "Connexion",
     "subtitle": "Entrez votre e-mail pour recevoir un lien magique",
     "email": "E-mail",
-    "emailHint": "Seuls les e-mails admin autorisés peuvent se connecter",
+    "emailHint": "Seuls les comptes admin actifs peuvent se connecter",
     "submit": "Envoyer le lien",
     "submitting": "Envoi…",
     "linkSent": "Si cet e-mail est autorisé, un lien a été envoyé",
     "checkInbox": "Vérifiez votre boîte mail et ouvrez le lien.",
     "error": "Échec de l’envoi du lien"
+  },
+  "admins": {
+    "title": "Admins",
+    "subtitle": "Gérer qui peut accéder à l’admin",
+    "email": "E-mail",
+    "emailPlaceholder": "admin{'@'}example.com",
+    "add": "Ajouter un admin",
+    "empty": "Aucun admin pour le moment",
+    "you": "Vous",
+    "never": "Jamais",
+    "statusActive": "Actif",
+    "statusInactive": "Inactif",
+    "activate": "Activer",
+    "deactivate": "Désactiver",
+    "loadError": "Échec du chargement des admins",
+    "createSuccess": "Admin ajouté",
+    "createConflict": "Un admin avec cet e-mail existe déjà",
+    "createError": "Échec de l’ajout de l’admin",
+    "activateSuccess": "Admin activé",
+    "activateError": "Échec de l’activation de l’admin",
+    "deactivateSuccess": "Admin désactivé",
+    "deactivateError": "Échec de la désactivation de l’admin",
+    "deactivateLastError": "Impossible de désactiver le dernier admin actif",
+    "deactivateConfirmTitle": "Désactiver l’admin ?",
+    "deactivateConfirmDescription": "« {email} » ne pourra plus se connecter.",
+    "columns": {
+      "email": "E-mail",
+      "status": "Statut",
+      "created": "Créé",
+      "lastLogin": "Dernière connexion",
+      "actions": "Actions"
+    }
   },
   "tournaments": {
     "title": "Tournois",

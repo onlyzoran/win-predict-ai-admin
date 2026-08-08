@@ -1,6 +1,6 @@
 import {
+  canRequestMagicLink,
   createMagicLink,
-  isAllowedAdminEmail,
   purgeExpiredAuthRows,
 } from '../../utils/auth'
 import { sendMagicLinkEmail } from '../../utils/mail'
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   purgeExpiredAuthRows()
 
   // Always return ok to avoid email enumeration
-  if (!isAllowedAdminEmail(email)) {
+  if (!canRequestMagicLink(email)) {
     return { ok: true }
   }
 

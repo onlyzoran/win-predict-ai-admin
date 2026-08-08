@@ -31,6 +31,7 @@ NUXT_DATABASE_PATH=/var/www/win-predict-ai-admin/.data/admin.sqlite
 DATABASE_PATH=/var/www/win-predict-ai-admin/.data/admin.sqlite
 NUXT_ADMIN_EMAILS=you@example.com,other@example.com
 ADMIN_EMAILS=you@example.com,other@example.com
+# Bootstraps missing users on startup; manage admins afterwards in the UI
 NUXT_RESEND_API_KEY=re_xxx
 RESEND_API_KEY=re_xxx
 NUXT_MAIL_FROM=onboarding@resend.dev
