@@ -161,7 +161,11 @@ function onDragEnd() {
             </td>
             <td class="p-2 align-middle">
               <Badge variant="secondary">
-                {{ t(`sports.${element.sport}`) }}
+                {{
+                  t(`sports.${element.sport}`) === `sports.${element.sport}`
+                    ? element.sport
+                    : t(`sports.${element.sport}`)
+                }}
               </Badge>
             </td>
             <td class="p-2 align-middle">

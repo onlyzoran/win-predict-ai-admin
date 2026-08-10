@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     mailFrom: 'onboarding@resend.dev',
     appUrl: 'http://localhost:3000',
     sessionSecret: 'dev-secret-change-me',
+    apiPort: '3001',
     public: {},
   },
 

@@ -1,4 +1,4 @@
-const PUBLIC_PATHS = ['/api/tournaments', '/api/leagues.json']
+const PUBLIC_PATHS = ['/api/tournaments', '/api/leagues.json', '/api/sports']
 
 function isPublicReadApi(pathname: string) {
   return PUBLIC_PATHS.some(
