@@ -38,6 +38,8 @@ NUXT_MAIL_FROM=onboarding@resend.dev
 MAIL_FROM=onboarding@resend.dev
 NUXT_SESSION_SECRET=<long-random-string>
 SESSION_SECRET=<long-random-string>
+API_PORT=3001
+NUXT_API_PORT=3001
 ```
 
 Generate a secret:
@@ -50,7 +52,9 @@ openssl rand -hex 32
 
 ```bash
 npm ci
+npm ci --prefix api
 npm run build
+npm run build:api
 npm run import:leagues
 ```
 
@@ -66,7 +70,9 @@ Useful:
 
 ```bash
 pm2 logs win-predict-ai-admin
+pm2 logs win-predict-ai-admin-api
 pm2 restart win-predict-ai-admin
+pm2 restart win-predict-ai-admin-api
 ```
 
 ## 5. Nginx
@@ -86,8 +92,18 @@ Open http://202.71.15.138
 cd /var/www/win-predict-ai-admin
 git pull
 npm ci
+npm ci --prefix api
 npm run build
-pm2 restart win-predict-ai-admin
+npm run build:api
+pm2 restart deploy/ecosystem.config.cjs
+# or: pm2 restart win-predict-ai-admin win-predict-ai-admin-api
+```
+
+If the Nest process is not registered yet:
+
+```bash
+pm2 start deploy/ecosystem.config.cjs
+pm2 save
 ```
 
 ## Domain later

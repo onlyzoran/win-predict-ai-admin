@@ -13,5 +13,17 @@ module.exports = {
         PORT: 3000,
       },
     },
+    {
+      name: 'win-predict-ai-admin-api',
+      cwd: '/var/www/win-predict-ai-admin/api',
+      script: 'dist/main.js',
+      interpreter_args: '--env-file=../.env',
+      instances: 1,
+      exec_mode: 'fork',
+      env: {
+        NODE_ENV: 'production',
+        API_PORT: 3001,
+      },
+    },
   ],
 }
