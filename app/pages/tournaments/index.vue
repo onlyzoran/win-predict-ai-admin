@@ -3,11 +3,11 @@ import { useTournamentsStore } from '~/stores/tournaments'
 import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
 import { IconPlus } from '@onlyzoran/win-predict-ai-icons'
-import { SPORT_VALUES } from '@/lib/utils'
 import Button from '@/components/ui/button/Button.vue'
 import Input from '@/components/ui/input/Input.vue'
 import NativeSelect from '@/components/ui/select/NativeSelect.vue'
 import TournamentsTable from '@/components/tournaments/TournamentsTable.vue'
+import type { SportCatalogItem } from '../../../shared/sport'
 import type { Sport } from '../../../shared/tournament'
 
 definePageMeta({
@@ -19,11 +19,16 @@ const { t } = useI18n()
 useHead({ title: () => t('tournaments.title') })
 
 const store = useTournamentsStore()
+const sportsApi = useSportsApi()
+const sportOptions = ref<SportCatalogItem[]>([])
 const ready = ref(false)
 
 onMounted(async () => {
   try {
-    await store.fetchAll()
+    const [,] = await Promise.all([
+      store.fetchAll(),
+      sportsApi.listAll().then((items) => { sportOptions.value = items }),
+    ])
   }
   catch {
     toast.error(t('tournaments.loadError'))
@@ -32,6 +37,12 @@ onMounted(async () => {
     ready.value = true
   }
 })
+
+function sportOptionLabel(item: SportCatalogItem) {
+  const key = `sports.${item.slug}`
+  const translated = t(key)
+  return translated === key ? item.label : translated
+}
 
 function conflictOr(err: unknown, fallbackKey: string) {
   const status = typeof err === 'object' && err && 'statusCode' in err
@@ -95,8 +106,8 @@ const sportModel = computed({
         <option value="all">
           {{ t('sports.all') }}
         </option>
-        <option v-for="sport in SPORT_VALUES" :key="sport" :value="sport">
-          {{ t(`sports.${sport}`) }}
+        <option v-for="sport in sportOptions" :key="sport.id" :value="sport.slug">
+          {{ sportOptionLabel(sport) }}
         </option>
       </NativeSelect>
     </div>

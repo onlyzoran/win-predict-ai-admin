@@ -1,7 +1,6 @@
 import { z } from 'zod'
-import { SPORT_VALUES } from '../shared/tournament'
 
-export const sportSchema = z.enum(SPORT_VALUES)
+export const sportSchema = z.string().trim().min(1, 'Sport is required')
 
 const dateString = z
   .string()

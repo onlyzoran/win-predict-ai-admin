@@ -11,7 +11,8 @@
   },
   "nav": {
     "tournaments": "Турниры",
-    "admins": "Админы"
+    "admins": "Админы",
+    "sports": "Спорты"
   },
   "common": {
     "cancel": "Отмена",
@@ -33,7 +34,11 @@
     "baseball": "Бейсбол",
     "golf": "Гольф",
     "politics": "Политика",
-    "motorsport": "Мотоспорт"
+    "motorsport": "Мотоспорт",
+    "tennis": "Tennis",
+    "rugby": "Rugby",
+    "boxing": "Boxing",
+    "waterPolo": "WaterPolo"
   },
   "login": {
     "title": "Вход",
@@ -137,6 +142,44 @@
       "endDateRequired": "Дата окончания обязательна",
       "endBeforeStart": "Дата окончания не может быть раньше даты начала",
       "endDateToBeforeEnd": "«Окончание до» не может быть раньше даты окончания"
+    }
+  },
+  "sportsPage": {
+    "title": "Спорты",
+    "subtitle": "Управление фильтрами для публичного приложения",
+    "create": "Добавить спорт",
+    "createTitle": "Новый спорт",
+    "editTitle": "Редактировать спорт",
+    "empty": "Пока нет спортов",
+    "drag": "Перетащите для сортировки",
+    "enabled": "Включён",
+    "disabled": "Выключен",
+    "enable": "Включить",
+    "disable": "Выключить",
+    "loadError": "Не удалось загрузить спорты",
+    "createSuccess": "Спорт создан",
+    "createError": "Не удалось создать спорт",
+    "updateSuccess": "Спорт обновлён",
+    "updateError": "Не удалось обновить спорт",
+    "deleteSuccess": "Спорт удалён",
+    "deleteError": "Не удалось удалить спорт",
+    "conflictError": "Спорт используется или конфликтует со slug",
+    "reorderSuccess": "Порядок сохранён",
+    "reorderError": "Не удалось сохранить порядок",
+    "deleteTitle": "Удалить спорт?",
+    "deleteDescription": "Удалить «{slug}»? Не получится, если есть турниры с этим спортом.",
+    "fields": {
+      "slug": "Slug",
+      "label": "Название",
+      "iconKey": "Иконка",
+      "enabled": "Включён"
+    },
+    "columns": {
+      "slug": "Slug",
+      "label": "Название",
+      "icon": "Иконка",
+      "status": "Статус",
+      "actions": "Действия"
     }
   }
 }

@@ -1,3 +1,4 @@
+/** Known default sports (seeded into Nest sports table). Prefer API for live list. */
 export const SPORT_VALUES = [
   'football',
   'basketball',
@@ -9,7 +10,8 @@ export const SPORT_VALUES = [
   'motorsport',
 ] as const
 
-export type Sport = (typeof SPORT_VALUES)[number]
+/** Sport slug stored on tournaments (dynamic catalog via Nest). */
+export type Sport = string
 
 /** App-facing tournament (null endDateTo for forms) */
 export interface Tournament {
@@ -59,7 +61,7 @@ export function toLeagueJson(row: Tournament): LeagueJson {
   }
 }
 
-export const SPORT_LABELS: Record<Sport, string> = {
+export const SPORT_LABELS: Record<string, string> = {
   football: 'Football',
   basketball: 'Basketball',
   americanFootball: 'American Football',

@@ -3,7 +3,8 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
-import { SPORT_VALUES, slugify } from '@/lib/utils'
+import { slugify } from '@/lib/utils'
+import type { SportCatalogItem } from '../../../shared/sport'
 import type { Tournament } from '../../../shared/tournament'
 import Button from '@/components/ui/button/Button.vue'
 import DateInput from '@/components/ui/date-input/DateInput.vue'
@@ -20,7 +21,7 @@ const emit = defineEmits<{
   submit: [payload: {
     title: string
     fullTitle: string
-    sport: typeof SPORT_VALUES[number]
+    sport: string
     file: string
     startDate: string
     endDate: string
@@ -31,6 +32,30 @@ const emit = defineEmits<{
 
 const { t, locale } = useI18n()
 const isEdit = computed(() => Boolean(props.tournament))
+const sportsApi = useSportsApi()
+const sportOptions = ref<SportCatalogItem[]>([])
+
+onMounted(async () => {
+  try {
+    sportOptions.value = await sportsApi.listAll()
+  }
+  catch {
+    sportOptions.value = []
+  }
+})
+
+function optionLabel(item: SportCatalogItem) {
+  const key = `sports.${item.slug}`
+  const translated = t(key)
+  return translated === key ? item.label : translated
+}
+
+const defaultSport = computed(
+  () => props.tournament?.sport
+    || sportOptions.value.find((s) => s.isEnabled)?.slug
+    || sportOptions.value[0]?.slug
+    || '',
+)
 
 const formSchema = computed(() => {
   void locale.value
@@ -39,7 +64,7 @@ const formSchema = computed(() => {
       .object({
         title: z.string().trim().min(1, t('form.errors.titleRequired')),
         fullTitle: z.string().trim().optional(),
-        sport: z.enum(SPORT_VALUES, { required_error: t('form.errors.sportRequired') }),
+        sport: z.string().trim().min(1, t('form.errors.sportRequired')),
         file: z.string().trim().min(1, t('form.errors.fileRequired')),
         startDate: z.string().min(1, t('form.errors.startDateRequired')),
         endDate: z.string().min(1, t('form.errors.endDateRequired')),
@@ -64,17 +89,21 @@ const formSchema = computed(() => {
   )
 })
 
-const { defineField, handleSubmit, errors, values, resetForm } = useForm({
+const { defineField, handleSubmit, errors, values, resetForm, setFieldValue } = useForm({
   validationSchema: formSchema,
   initialValues: {
     title: props.tournament?.title ?? '',
     fullTitle: props.tournament?.fullTitle ?? '',
-    sport: props.tournament?.sport ?? SPORT_VALUES[0],
+    sport: props.tournament?.sport ?? '',
     file: props.tournament?.file ?? '',
     startDate: props.tournament?.startDate ?? '',
     endDate: props.tournament?.endDate ?? '',
     endDateTo: props.tournament?.endDateTo ?? '',
   },
+})
+
+watch(defaultSport, (slug) => {
+  if (!values.sport && slug) setFieldValue('sport', slug)
 })
 
 const [title] = defineField('title')
@@ -178,8 +207,8 @@ const onSubmit = handleSubmit((values) => {
       <div class="space-y-2">
         <Label for="sport">{{ t('form.sport') }}</Label>
         <NativeSelect id="sport" v-model="sport">
-          <option v-for="value in SPORT_VALUES" :key="value" :value="value">
-            {{ t(`sports.${value}`) }}
+          <option v-for="item in sportOptions" :key="item.id" :value="item.slug">
+            {{ optionLabel(item) }}
           </option>
         </NativeSelect>
         <p v-if="errors.sport" class="text-sm text-destructive">

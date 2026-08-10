@@ -48,6 +48,9 @@ function navClass(path: string) {
         <NuxtLink to="/tournaments" :class="navClass('/tournaments')">
           {{ t('nav.tournaments') }}
         </NuxtLink>
+        <NuxtLink to="/sports" :class="navClass('/sports')">
+          {{ t('nav.sports') }}
+        </NuxtLink>
         <NuxtLink to="/admins" :class="navClass('/admins')">
           {{ t('nav.admins') }}
         </NuxtLink>

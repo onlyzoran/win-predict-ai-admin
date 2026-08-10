@@ -5,6 +5,7 @@ Nuxt admin app for tournament metadata. Runs as a Node server with SQLite and ma
 ## Stack
 
 - Nuxt 4 (SPA client + Nitro API)
+- NestJS sidecar (`api/`) for sports catalog
 - SQLite (`better-sqlite3`)
 - Magic link auth (users table + Resend; `ADMIN_EMAILS` seeds initial admins)
 - Tailwind CSS + shadcn-vue style components
@@ -16,13 +17,27 @@ Nuxt admin app for tournament metadata. Runs as a Node server with SQLite and ma
 cp .env.example .env
 # set ADMIN_EMAILS (bootstrap), SESSION_SECRET; RESEND_API_KEY optional in dev
 npm install
+npm install --prefix api
 npm run import:leagues   # pulls leagues.json from win-predict-ai-data
-npm run dev
+npm run dev:api          # Nest sports API on :3001
+npm run dev              # Nuxt admin on :3000 (proxies /api/sports → Nest)
 ```
 
 Open http://localhost:3000 — enter an active admin email. Without `RESEND_API_KEY`, the magic link is printed in the server console.
 
 `ADMIN_EMAILS` is only used to seed missing rows into the `users` table on startup. After that, manage admins in the **Admins** UI (`/admins`).
+
+## Nest sports API (experimental)
+
+Sports filter catalog lives in a Nest sidecar (`api/`), sharing the same SQLite file. Manage it in the admin **Sports** page (`/sports`).
+
+| Script | Description |
+|---|---|
+| `npm run dev:api` | Nest watch mode (`API_PORT`, default 3001) |
+| `npm run build:api` | Compile Nest to `api/dist` |
+| `npm run start:api` | Run compiled Nest |
+
+Nuxt proxies `/api/sports/**` to Nest so the browser stays same-origin (session cookie works). Tournaments / auth / admins remain on Nitro.
 
 ## Scripts
 
@@ -33,6 +48,9 @@ Open http://localhost:3000 — enter an active admin email. Without `RESEND_API_
 | `npm start` | Run production server |
 | `npm run import:leagues` | Import tournaments into SQLite |
 | `npm run preview` | Preview production build |
+| `npm run dev:api` | Nest sports API (dev) |
+| `npm run build:api` | Build Nest API |
+| `npm run start:api` | Run Nest API |
 
 ## Deploy (VPS)
 
@@ -62,6 +80,12 @@ pm2 start deploy/ecosystem.config.cjs
 | PATCH | `/api/tournaments/:id` | session |
 | DELETE | `/api/tournaments/:id` | session |
 | POST | `/api/tournaments/reorder` | session |
+| GET | `/api/sports` | public — enabled sports (Nest proxy) |
+| GET | `/api/sports/all` | session — all sports (Nest proxy) |
+| POST | `/api/sports` | session |
+| PATCH | `/api/sports/:id` | session |
+| DELETE | `/api/sports/:id` | session |
+| POST | `/api/sports/reorder` | session |
 | GET | `/api/admins` | session |
 | POST | `/api/admins` | superadmin |
 | PATCH | `/api/admins/:id` | superadmin |

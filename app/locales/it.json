@@ -11,7 +11,8 @@
   },
   "nav": {
     "tournaments": "Tornei",
-    "admins": "Admin"
+    "admins": "Admin",
+    "sports": "Sport"
   },
   "common": {
     "cancel": "Annulla",
@@ -33,7 +34,11 @@
     "baseball": "Baseball",
     "golf": "Golf",
     "politics": "Politica",
-    "motorsport": "Motorsport"
+    "motorsport": "Motorsport",
+    "tennis": "Tennis",
+    "rugby": "Rugby",
+    "boxing": "Boxing",
+    "waterPolo": "WaterPolo"
   },
   "login": {
     "title": "Accedi",
@@ -137,6 +142,44 @@
       "endDateRequired": "La data di fine è obbligatoria",
       "endBeforeStart": "La data di fine non può essere precedente a quella di inizio",
       "endDateToBeforeEnd": "«Fine entro» non può essere precedente alla data di fine"
+    }
+  },
+  "sportsPage": {
+    "title": "Sport",
+    "subtitle": "Gestisci i filtri dell'app pubblica",
+    "create": "Aggiungi sport",
+    "createTitle": "New sport",
+    "editTitle": "Edit sport",
+    "empty": "No sports yet",
+    "drag": "Drag to reorder",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "enable": "Enable",
+    "disable": "Disable",
+    "loadError": "Failed to load sports",
+    "createSuccess": "Sport created",
+    "createError": "Failed to create sport",
+    "updateSuccess": "Sport updated",
+    "updateError": "Failed to update sport",
+    "deleteSuccess": "Sport deleted",
+    "deleteError": "Failed to delete sport",
+    "conflictError": "Sport is in use or conflicts with an existing slug",
+    "reorderSuccess": "Order saved",
+    "reorderError": "Failed to save order",
+    "deleteTitle": "Delete sport?",
+    "deleteDescription": "Delete \"{slug}\"? This fails if tournaments still use it.",
+    "fields": {
+      "slug": "Slug",
+      "label": "Label",
+      "iconKey": "Icon",
+      "enabled": "Enabled"
+    },
+    "columns": {
+      "slug": "Slug",
+      "label": "Label",
+      "icon": "Icon",
+      "status": "Status",
+      "actions": "Actions"
     }
   }
 }
