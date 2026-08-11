@@ -97,7 +97,11 @@ pm2 start deploy/ecosystem.config.cjs
 
 ## Notes
 
+- Catalog entries support two data layouts from win-predict-ai-data:
+  - **legacy** — `file` (e.g. `ucl-26-27.json`)
+  - **contests** — `layout: "contests"` + `contestPath` (e.g. `contests/rpl-26-27`); no `file`
+- `GET /api/leagues.json` exports the same dual shape for the public front.
 - `endDateTo` is stored as `""` in SQLite when empty; the UI treats it as optional.
-- Public front can read `GET /api/leagues.json` (CORS enabled) instead of GitHub Pages `leagues.json`. Prediction JSON files still come from the data repo on Pages.
+- Public front can read `GET /api/leagues.json` (CORS enabled) instead of GitHub Pages `leagues.json`. Prediction/facts JSON still come from the data repo on Pages.
 - Deactivating an admin clears their sessions. You cannot deactivate yourself or the last active admin.
 - Roles: SuperAdmin (`superadmin`, from `ADMIN_EMAILS` bootstrap) can add/delete admins; `admin` can use the panel but not delete admins. The last active SuperAdmin cannot be deleted.

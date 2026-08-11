@@ -44,6 +44,7 @@ const columns = computed<ColumnDef<Tournament>[]>(() => {
     { accessorKey: 'title', header: t('tournaments.columns.title') },
     { accessorKey: 'fullTitle', header: t('tournaments.columns.fullTitle') },
     { accessorKey: 'sport', header: t('tournaments.columns.sport') },
+    { accessorKey: 'layout', header: t('tournaments.columns.layout') },
     { accessorKey: 'startDate', header: t('tournaments.columns.start') },
     { accessorKey: 'endDate', header: t('tournaments.columns.end') },
     { accessorKey: 'popularPriority', header: t('tournaments.columns.priority') },
@@ -167,6 +168,18 @@ function onDragEnd() {
                     : t(`sports.${element.sport}`)
                 }}
               </Badge>
+            </td>
+            <td class="p-2 align-middle">
+              <Badge :variant="element.layout === 'contests' ? 'default' : 'outline'">
+                {{
+                  element.layout === 'contests'
+                    ? t('form.layoutContests')
+                    : t('form.layoutLegacy')
+                }}
+              </Badge>
+              <div class="mt-1 font-mono text-xs text-muted-foreground">
+                {{ element.layout === 'contests' ? element.contestPath : element.file }}
+              </div>
             </td>
             <td class="p-2 align-middle">
               {{ element.startDate }}

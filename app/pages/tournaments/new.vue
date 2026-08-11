@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { IconArrowLeft } from '@onlyzoran/win-predict-ai-icons'
 import Button from '@/components/ui/button/Button.vue'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
+import type { TournamentFormPayload } from '@/components/tournaments/TournamentForm.vue'
 
 definePageMeta({
   middleware: 'auth',
@@ -17,15 +18,7 @@ useHead({ title: () => t('tournaments.newTitle') })
 const store = useTournamentsStore()
 const submitting = ref(false)
 
-async function onSubmit(payload: {
-  title: string
-  fullTitle: string
-  sport: string
-  file: string
-  startDate: string
-  endDate: string
-  endDateTo: string | null
-}) {
+async function onSubmit(payload: TournamentFormPayload) {
   submitting.value = true
   try {
     const created = await store.createTournament(payload as Parameters<typeof store.createTournament>[0])

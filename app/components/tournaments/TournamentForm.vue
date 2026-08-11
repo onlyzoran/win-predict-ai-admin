@@ -5,12 +5,25 @@ import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
 import { slugify } from '@/lib/utils'
 import type { SportCatalogItem } from '../../../shared/sport'
-import type { Tournament } from '../../../shared/tournament'
+import type { Tournament, TournamentLayout } from '../../../shared/tournament'
+import { TOURNAMENT_LAYOUTS } from '../../../shared/tournament'
 import Button from '@/components/ui/button/Button.vue'
 import DateInput from '@/components/ui/date-input/DateInput.vue'
 import Input from '@/components/ui/input/Input.vue'
 import Label from '@/components/ui/label/Label.vue'
 import NativeSelect from '@/components/ui/select/NativeSelect.vue'
+
+export type TournamentFormPayload = {
+  title: string
+  fullTitle: string
+  sport: string
+  layout: TournamentLayout
+  file: string | null
+  contestPath: string | null
+  startDate: string
+  endDate: string
+  endDateTo: string | null
+}
 
 const props = defineProps<{
   tournament?: Tournament | null
@@ -18,15 +31,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  submit: [payload: {
-    title: string
-    fullTitle: string
-    sport: string
-    file: string
-    startDate: string
-    endDate: string
-    endDateTo: string | null
-  }]
+  submit: [payload: TournamentFormPayload]
   cancel: []
 }>()
 
@@ -65,12 +70,30 @@ const formSchema = computed(() => {
         title: z.string().trim().min(1, t('form.errors.titleRequired')),
         fullTitle: z.string().trim().optional(),
         sport: z.string().trim().min(1, t('form.errors.sportRequired')),
-        file: z.string().trim().min(1, t('form.errors.fileRequired')),
+        layout: z.enum(TOURNAMENT_LAYOUTS),
+        file: z.string().trim().optional(),
+        contestPath: z.string().trim().optional(),
         startDate: z.string().min(1, t('form.errors.startDateRequired')),
         endDate: z.string().min(1, t('form.errors.endDateRequired')),
         endDateTo: z.string().optional(),
       })
       .superRefine((data, ctx) => {
+        if (data.layout === 'contests') {
+          if (!data.contestPath?.trim()) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: t('form.errors.contestPathRequired'),
+              path: ['contestPath'],
+            })
+          }
+        }
+        else if (!data.file?.trim()) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t('form.errors.fileRequired'),
+            path: ['file'],
+          })
+        }
         if (data.endDate < data.startDate) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -95,7 +118,9 @@ const { defineField, handleSubmit, errors, values, resetForm, setFieldValue } = 
     title: props.tournament?.title ?? '',
     fullTitle: props.tournament?.fullTitle ?? '',
     sport: props.tournament?.sport ?? '',
+    layout: props.tournament?.layout ?? 'legacy',
     file: props.tournament?.file ?? '',
+    contestPath: props.tournament?.contestPath ?? '',
     startDate: props.tournament?.startDate ?? '',
     endDate: props.tournament?.endDate ?? '',
     endDateTo: props.tournament?.endDateTo ?? '',
@@ -109,12 +134,21 @@ watch(defaultSport, (slug) => {
 const [title] = defineField('title')
 const [fullTitle] = defineField('fullTitle')
 const [sport] = defineField('sport')
+const [layout] = defineField('layout')
 const [file] = defineField('file')
+const [contestPath] = defineField('contestPath')
 const [startDate] = defineField('startDate')
 const [endDate] = defineField('endDate')
 const [endDateTo] = defineField('endDateTo')
 
 const previewId = computed(() => (isEdit.value ? props.tournament!.id : slugify(title.value || '')))
+
+watch(layout, (next, prev) => {
+  if (next === prev) return
+  if (next === 'contests' && !contestPath.value && previewId.value) {
+    setFieldValue('contestPath', `contests/${previewId.value}`)
+  }
+})
 
 const isDirty = computed(() => {
   const original = props.tournament
@@ -123,7 +157,9 @@ const isDirty = computed(() => {
     values.title !== original.title
     || (values.fullTitle || '') !== (original.fullTitle ?? '')
     || values.sport !== original.sport
-    || values.file !== original.file
+    || values.layout !== original.layout
+    || (values.file || '') !== (original.file ?? '')
+    || (values.contestPath || '') !== (original.contestPath ?? '')
     || values.startDate !== original.startDate
     || values.endDate !== original.endDate
     || (values.endDateTo || '') !== (original.endDateTo ?? '')
@@ -141,7 +177,9 @@ watch(
         title: value.title,
         fullTitle: value.fullTitle ?? '',
         sport: value.sport,
-        file: value.file,
+        layout: value.layout,
+        file: value.file ?? '',
+        contestPath: value.contestPath ?? '',
         startDate: value.startDate,
         endDate: value.endDate,
         endDateTo: value.endDateTo ?? '',
@@ -150,15 +188,18 @@ watch(
   },
 )
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit((formValues) => {
+  const nextLayout = formValues.layout
   emit('submit', {
-    title: values.title,
-    fullTitle: values.fullTitle?.trim() ?? '',
-    sport: values.sport,
-    file: values.file,
-    startDate: values.startDate,
-    endDate: values.endDate,
-    endDateTo: values.endDateTo?.trim() ? values.endDateTo : null,
+    title: formValues.title,
+    fullTitle: formValues.fullTitle?.trim() ?? '',
+    sport: formValues.sport,
+    layout: nextLayout,
+    file: nextLayout === 'legacy' ? (formValues.file?.trim() || null) : null,
+    contestPath: nextLayout === 'contests' ? (formValues.contestPath?.trim() || null) : null,
+    startDate: formValues.startDate,
+    endDate: formValues.endDate,
+    endDateTo: formValues.endDateTo?.trim() ? formValues.endDateTo : null,
   })
 })
 </script>
@@ -217,10 +258,39 @@ const onSubmit = handleSubmit((values) => {
       </div>
 
       <div class="space-y-2">
+        <Label for="layout">{{ t('form.layout') }}</Label>
+        <NativeSelect id="layout" v-model="layout">
+          <option value="legacy">
+            {{ t('form.layoutLegacy') }}
+          </option>
+          <option value="contests">
+            {{ t('form.layoutContests') }}
+          </option>
+        </NativeSelect>
+        <p class="text-xs text-muted-foreground">
+          {{ t('form.layoutHint') }}
+        </p>
+      </div>
+
+      <div v-if="layout === 'legacy'" class="space-y-2">
         <Label for="file">{{ t('form.file') }}</Label>
         <Input id="file" v-model="file" placeholder="ucl-26-27.json" />
+        <p class="text-xs text-muted-foreground">
+          {{ t('form.fileHint') }}
+        </p>
         <p v-if="errors.file" class="text-sm text-destructive">
           {{ errors.file }}
+        </p>
+      </div>
+
+      <div v-else class="space-y-2">
+        <Label for="contestPath">{{ t('form.contestPath') }}</Label>
+        <Input id="contestPath" v-model="contestPath" placeholder="contests/rpl-26-27" />
+        <p class="text-xs text-muted-foreground">
+          {{ t('form.contestPathHint') }}
+        </p>
+        <p v-if="errors.contestPath" class="text-sm text-destructive">
+          {{ errors.contestPath }}
         </p>
       </div>
 

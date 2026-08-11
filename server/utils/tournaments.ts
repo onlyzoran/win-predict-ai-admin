@@ -1,6 +1,6 @@
 import type { TournamentCreateInput, TournamentUpdateInput } from '../../schemas/tournament.schema'
-import type { LeagueJson, Sport, Tournament } from '../../shared/tournament'
-import { fromLeagueJson, slugify, toLeagueJson } from '../../shared/tournament'
+import type { LeagueJson, Sport, Tournament, TournamentLayout } from '../../shared/tournament'
+import { fromLeagueJson, normalizeLayout, slugify, toLeagueJson } from '../../shared/tournament'
 import { useDb } from './db'
 
 interface TournamentRow {
@@ -8,12 +8,18 @@ interface TournamentRow {
   title: string
   full_title: string
   sport: string
+  layout: string
   file: string
+  contest_path: string
   start_date: string
   end_date: string
   end_date_to: string
   popular_priority: number
 }
+
+const TOURNAMENT_SELECT = `SELECT id, title, full_title, sport, layout, file, contest_path,
+       start_date, end_date, end_date_to, popular_priority
+       FROM tournaments`
 
 function rowToTournament(row: TournamentRow): Tournament {
   return fromLeagueJson({
@@ -21,12 +27,21 @@ function rowToTournament(row: TournamentRow): Tournament {
     title: row.title,
     fullTitle: row.full_title,
     sport: row.sport as Sport,
-    file: row.file,
+    layout: normalizeLayout(row.layout),
+    file: row.file || undefined,
+    contestPath: row.contest_path || undefined,
     startDate: row.start_date,
     endDate: row.end_date,
     endDateTo: row.end_date_to,
     popularPriority: row.popular_priority,
   })
+}
+
+function storagePaths(layout: TournamentLayout, file: string | null | undefined, contestPath: string | null | undefined) {
+  if (layout === 'contests') {
+    return { file: '', contestPath: contestPath?.trim() || '' }
+  }
+  return { file: file?.trim() || '', contestPath: '' }
 }
 
 function validateDates(startDate: string, endDate: string, endDateTo: string | null) {
@@ -38,23 +53,27 @@ function validateDates(startDate: string, endDate: string, endDateTo: string | n
   }
 }
 
+function validateLayoutPaths(layout: TournamentLayout, file: string | null, contestPath: string | null) {
+  if (layout === 'contests') {
+    if (!contestPath?.trim()) {
+      throw createError({ statusCode: 400, statusMessage: 'contestPath is required for contests layout' })
+    }
+  }
+  else if (!file?.trim()) {
+    throw createError({ statusCode: 400, statusMessage: 'file is required for legacy layout' })
+  }
+}
+
 export function listTournaments(): Tournament[] {
   const rows = useDb()
-    .prepare(
-      `SELECT id, title, full_title, sport, file, start_date, end_date, end_date_to, popular_priority
-       FROM tournaments
-       ORDER BY popular_priority ASC, title ASC`,
-    )
+    .prepare(`${TOURNAMENT_SELECT} ORDER BY popular_priority ASC, title ASC`)
     .all() as TournamentRow[]
   return rows.map(rowToTournament)
 }
 
 export function getTournamentById(id: string): Tournament {
   const row = useDb()
-    .prepare(
-      `SELECT id, title, full_title, sport, file, start_date, end_date, end_date_to, popular_priority
-       FROM tournaments WHERE id = ?`,
-    )
+    .prepare(`${TOURNAMENT_SELECT} WHERE id = ?`)
     .get(id) as TournamentRow | undefined
 
   if (!row) {
@@ -84,31 +103,38 @@ export function createTournament(payload: TournamentCreateInput): Tournament {
     popularPriority = (maxRow.max ?? 0) + 10
   }
 
+  const layout = payload.layout
+  const paths = storagePaths(layout, payload.file, payload.contestPath)
   const created: Tournament = {
     id,
     title: payload.title,
     fullTitle: payload.fullTitle ?? '',
     sport: payload.sport,
-    file: payload.file,
+    layout,
+    file: layout === 'legacy' ? paths.file : null,
+    contestPath: layout === 'contests' ? paths.contestPath : null,
     startDate: payload.startDate,
     endDate: payload.endDate,
     endDateTo: payload.endDateTo ?? null,
     popularPriority,
   }
 
+  validateLayoutPaths(created.layout, created.file, created.contestPath)
   validateDates(created.startDate, created.endDate, created.endDateTo)
   const json = toLeagueJson(created)
 
   db.prepare(
     `INSERT INTO tournaments
-      (id, title, full_title, sport, file, start_date, end_date, end_date_to, popular_priority)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (id, title, full_title, sport, layout, file, contest_path, start_date, end_date, end_date_to, popular_priority)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   ).run(
     json.id,
     json.title,
     json.fullTitle ?? '',
     json.sport,
-    json.file,
+    created.layout,
+    paths.file,
+    paths.contestPath,
     json.startDate,
     json.endDate,
     json.endDateTo,
@@ -120,25 +146,33 @@ export function createTournament(payload: TournamentCreateInput): Tournament {
 
 export function updateTournament(id: string, payload: TournamentUpdateInput): Tournament {
   const current = getTournamentById(id)
+  const layout = payload.layout ?? current.layout
+  const nextFile = payload.file !== undefined ? payload.file : current.file
+  const nextContestPath = payload.contestPath !== undefined ? payload.contestPath : current.contestPath
+  const paths = storagePaths(layout, nextFile, nextContestPath)
+
   const updated: Tournament = {
     id,
     title: payload.title ?? current.title,
     fullTitle: payload.fullTitle ?? current.fullTitle,
     sport: payload.sport ?? current.sport,
-    file: payload.file ?? current.file,
+    layout,
+    file: layout === 'legacy' ? paths.file : null,
+    contestPath: layout === 'contests' ? paths.contestPath : null,
     startDate: payload.startDate ?? current.startDate,
     endDate: payload.endDate ?? current.endDate,
     endDateTo: payload.endDateTo === undefined ? current.endDateTo : payload.endDateTo,
     popularPriority: payload.popularPriority ?? current.popularPriority,
   }
 
+  validateLayoutPaths(updated.layout, updated.file, updated.contestPath)
   validateDates(updated.startDate, updated.endDate, updated.endDateTo)
   const json = toLeagueJson(updated)
 
   useDb()
     .prepare(
       `UPDATE tournaments SET
-        title = ?, full_title = ?, sport = ?, file = ?,
+        title = ?, full_title = ?, sport = ?, layout = ?, file = ?, contest_path = ?,
         start_date = ?, end_date = ?, end_date_to = ?, popular_priority = ?
        WHERE id = ?`,
     )
@@ -146,7 +180,9 @@ export function updateTournament(id: string, payload: TournamentUpdateInput): To
       json.title,
       json.fullTitle ?? '',
       json.sport,
-      json.file,
+      updated.layout,
+      paths.file,
+      paths.contestPath,
       json.startDate,
       json.endDate,
       json.endDateTo,
@@ -179,13 +215,15 @@ export function importLeagues(leagues: LeagueJson[]) {
   const db = useDb()
   const insert = db.prepare(
     `INSERT INTO tournaments
-      (id, title, full_title, sport, file, start_date, end_date, end_date_to, popular_priority)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (id, title, full_title, sport, layout, file, contest_path, start_date, end_date, end_date_to, popular_priority)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(id) DO UPDATE SET
       title = excluded.title,
       full_title = excluded.full_title,
       sport = excluded.sport,
+      layout = excluded.layout,
       file = excluded.file,
+      contest_path = excluded.contest_path,
       start_date = excluded.start_date,
       end_date = excluded.end_date,
       end_date_to = excluded.end_date_to,
@@ -194,16 +232,20 @@ export function importLeagues(leagues: LeagueJson[]) {
 
   const tx = db.transaction((rows: LeagueJson[]) => {
     for (const row of rows) {
+      const tournament = fromLeagueJson(row)
+      const paths = storagePaths(tournament.layout, tournament.file, tournament.contestPath)
       insert.run(
-        row.id,
-        row.title,
-        row.fullTitle ?? '',
-        row.sport,
-        row.file,
-        row.startDate,
-        row.endDate,
-        row.endDateTo ?? '',
-        row.popularPriority,
+        tournament.id,
+        tournament.title,
+        tournament.fullTitle ?? '',
+        tournament.sport,
+        tournament.layout,
+        paths.file,
+        paths.contestPath,
+        tournament.startDate,
+        tournament.endDate,
+        tournament.endDateTo ?? '',
+        tournament.popularPriority,
       )
     }
   })

@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { IconArrowLeft } from '@onlyzoran/win-predict-ai-icons'
 import Button from '@/components/ui/button/Button.vue'
 import TournamentForm from '@/components/tournaments/TournamentForm.vue'
+import type { TournamentFormPayload } from '@/components/tournaments/TournamentForm.vue'
 import type { Tournament } from '../../../shared/tournament'
 
 definePageMeta({
@@ -38,15 +39,7 @@ onMounted(async () => {
   }
 })
 
-async function onSubmit(payload: {
-  title: string
-  fullTitle: string
-  sport: string
-  file: string
-  startDate: string
-  endDate: string
-  endDateTo: string | null
-}) {
+async function onSubmit(payload: TournamentFormPayload) {
   submitting.value = true
   try {
     tournament.value = await store.updateTournament(

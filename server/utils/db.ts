@@ -85,6 +85,11 @@ export function useDb() {
   return db
 }
 
+function tableColumns(database: Database.Database, table: string): Set<string> {
+  const rows = database.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>
+  return new Set(rows.map((row) => row.name))
+}
+
 function migrate(database: Database.Database) {
   database.exec(`
     CREATE TABLE IF NOT EXISTS tournaments (
@@ -92,7 +97,9 @@ function migrate(database: Database.Database) {
       title TEXT NOT NULL,
       full_title TEXT NOT NULL DEFAULT '',
       sport TEXT NOT NULL,
-      file TEXT NOT NULL,
+      layout TEXT NOT NULL DEFAULT 'legacy',
+      file TEXT NOT NULL DEFAULT '',
+      contest_path TEXT NOT NULL DEFAULT '',
       start_date TEXT NOT NULL,
       end_date TEXT NOT NULL,
       end_date_to TEXT NOT NULL DEFAULT '',
@@ -127,4 +134,12 @@ function migrate(database: Database.Database) {
     CREATE INDEX IF NOT EXISTS idx_magic_links_expires ON magic_links(expires_at);
     CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);
   `)
+
+  const columns = tableColumns(database, 'tournaments')
+  if (!columns.has('layout')) {
+    database.exec(`ALTER TABLE tournaments ADD COLUMN layout TEXT NOT NULL DEFAULT 'legacy'`)
+  }
+  if (!columns.has('contest_path')) {
+    database.exec(`ALTER TABLE tournaments ADD COLUMN contest_path TEXT NOT NULL DEFAULT ''`)
+  }
 }
