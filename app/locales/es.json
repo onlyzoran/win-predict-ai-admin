@@ -12,7 +12,8 @@
   "nav": {
     "tournaments": "Torneos",
     "admins": "Admins",
-    "sports": "Deportes"
+    "sports": "Deportes",
+    "management": "Gestión"
   },
   "common": {
     "cancel": "Cancelar",

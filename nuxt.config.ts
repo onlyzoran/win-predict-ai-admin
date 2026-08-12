@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import fs from 'node:fs'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -50,5 +52,16 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true,
+  },
+
+  vite: {
+    vue: {
+      script: {
+        fs: {
+          fileExists: (file: string) => fs.existsSync(file),
+          readFile: (file: string) => fs.readFileSync(file, 'utf-8'),
+        },
+      },
+    },
   },
 })

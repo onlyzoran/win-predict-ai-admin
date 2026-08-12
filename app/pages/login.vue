@@ -52,7 +52,7 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div class="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
+  <div class="flex min-h-svh items-center justify-center px-4">
     <form
       class="w-full max-w-sm space-y-6 rounded-lg border bg-card p-6 shadow-sm"
       @submit.prevent="onSubmit"

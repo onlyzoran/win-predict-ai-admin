@@ -12,7 +12,8 @@
   "nav": {
     "tournaments": "Tournaments",
     "admins": "Admins",
-    "sports": "Sports"
+    "sports": "Sports",
+    "management": "Management"
   },
   "common": {
     "cancel": "Cancel",

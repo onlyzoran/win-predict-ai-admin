@@ -12,7 +12,8 @@
   "nav": {
     "tournaments": "Турниры",
     "admins": "Админы",
-    "sports": "Спорты"
+    "sports": "Спорты",
+    "management": "Управление"
   },
   "common": {
     "cancel": "Отмена",
