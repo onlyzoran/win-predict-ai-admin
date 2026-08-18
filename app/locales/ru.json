@@ -4,7 +4,14 @@
   },
   "theme": {
     "switchToLight": "Переключить на светлую тему",
-    "switchToDark": "Переключить на тёмную тему"
+    "switchToDark": "Переключить на тёмную тему",
+    "paletteLabel": "Цветовая схема",
+    "palettes": {
+      "zinc": "Zinc",
+      "slate-teal": "Slate + Teal",
+      "claude-plus": "Claude+",
+      "pastel": "Pastel"
+    }
   },
   "language": {
     "label": "Язык"
