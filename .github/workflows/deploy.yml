@@ -29,9 +29,19 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential python3
 
       - name: Install
-        run: npm ci
+        run: |
+          npm update @onlyzoran/win-predict-ai-ui --package-lock-only
+          npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload lockfile for sync
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-lock
+          path: package-lock.json
+          retention-days: 1
 
       - name: Build
         run: npm run build
