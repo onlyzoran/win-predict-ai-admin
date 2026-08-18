@@ -4,7 +4,14 @@
   },
   "theme": {
     "switchToLight": "Zum hellen Modus wechseln",
-    "switchToDark": "Zum dunklen Modus wechseln"
+    "switchToDark": "Zum dunklen Modus wechseln",
+    "paletteLabel": "Farbpalette",
+    "palettes": {
+      "zinc": "Zinc",
+      "slate-teal": "Slate + Teal",
+      "claude-plus": "Claude+",
+      "pastel": "Pastel"
+    }
   },
   "language": {
     "label": "Sprache"

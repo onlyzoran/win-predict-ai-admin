@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { LocaleSwitcher, ThemeToggle } from '@onlyzoran/win-predict-ai-ui'
+import PaletteSwitcher from '@/components/PaletteSwitcher.vue'
 import { IconBrandGithub } from '@onlyzoran/win-predict-ai-icons'
 import { useI18n } from 'vue-i18n'
 import { locale, localeLabels, locales, setLocale, type Locale } from '~/i18n'
@@ -80,6 +81,7 @@ const breadcrumbs = computed((): BreadcrumbEntry[] => {
         </BreadcrumbList>
       </Breadcrumb>
       <div class="ml-auto flex items-center gap-1">
+        <PaletteSwitcher />
         <LocaleSwitcher
           :model-value="locale"
           :locales="locales"

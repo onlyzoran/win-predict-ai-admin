@@ -4,7 +4,14 @@
   },
   "theme": {
     "switchToLight": "Cambiar a modo claro",
-    "switchToDark": "Cambiar a modo oscuro"
+    "switchToDark": "Cambiar a modo oscuro",
+    "paletteLabel": "Paleta de colores",
+    "palettes": {
+      "zinc": "Zinc",
+      "slate-teal": "Slate + Teal",
+      "claude-plus": "Claude+",
+      "pastel": "Pastel"
+    }
   },
   "language": {
     "label": "Idioma"
