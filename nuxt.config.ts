@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import fs from 'node:fs'
+import path from 'node:path'
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
+const uiPackageRoot = path.dirname(require.resolve('@onlyzoran/win-predict-ai-ui'))
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -8,6 +13,15 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: process.env.NUXT_APP_BASE_URL || '/',
+    head: {
+      script: [
+        {
+          key: 'theme-init',
+          innerHTML: `(function(){try{var schemeRaw=localStorage.getItem('vueuse-color-scheme');var preference=schemeRaw?JSON.parse(schemeRaw):'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var isDark=preference==='dark'||(preference!=='light'&&prefersDark);document.documentElement.classList.toggle('dark',isDark);document.documentElement.setAttribute('data-palette','claude-plus')}catch(_){}})();`,
+          type: 'text/javascript',
+        },
+      ],
+    },
   },
 
   modules: [
@@ -55,6 +69,15 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    resolve: {
+      alias: {
+        // До publish UI-пакета с export ./themes/claude-plus.css (см. win-predict-ai-ui#10).
+        '@onlyzoran/win-predict-ai-ui/themes/claude-plus.css': path.join(
+          uiPackageRoot,
+          '../src/themes/claude-plus.css',
+        ),
+      },
+    },
     vue: {
       script: {
         fs: {
