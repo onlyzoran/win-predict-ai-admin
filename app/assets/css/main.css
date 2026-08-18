@@ -1,4 +1,4 @@
-@import '@onlyzoran/win-predict-ai-ui/themes/slate-teal.css';
+@import '@onlyzoran/win-predict-ai-ui/themes';
 
 @tailwind base;
 @tailwind components;

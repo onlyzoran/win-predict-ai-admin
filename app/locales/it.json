@@ -6,6 +6,36 @@
     "switchToLight": "Passa alla modalità chiara",
     "switchToDark": "Passa alla modalità scura"
   },
+  "appearance": {
+    "openSettings": "Impostazioni aspetto",
+    "shortLabel": "Aspetto",
+    "title": "Aspetto",
+    "subtitle": "Scegli uno schema colore per la modalità chiara e uno per la scura.",
+    "defaultsNote": "Predefinito: Slate + Teal in entrambe le modalità; chiaro/scuro segue l'impostazione di sistema finché non lo cambi nell'intestazione.",
+    "back": "Torna ai tornei",
+    "lightMode": "Schema per modalità chiara",
+    "lightModeHint": "Applicato quando il pannello admin è in modalità chiara.",
+    "darkMode": "Schema per modalità scura",
+    "darkModeHint": "Applicato quando il pannello admin è in modalità scura.",
+    "palettes": {
+      "zinc": {
+        "name": "Zinc",
+        "description": "Palette shadcn neutra senza tinta cromatica."
+      },
+      "slate-teal": {
+        "name": "Slate + Teal",
+        "description": "Superfici slate fredde con accento teal per dati e azioni."
+      },
+      "claude-plus": {
+        "name": "Claude+",
+        "description": "Superfici avorio calde con accento terracotta clay — mood Claude+ per il terminale."
+      },
+      "pastel": {
+        "name": "Pastel",
+        "description": "Neutri lavanda morbidi con accento pervinca; verde e giallo per i risultati delle partite."
+      }
+    }
+  },
   "language": {
     "label": "Lingua"
   },
