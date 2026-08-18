@@ -17,7 +17,7 @@ await ensureHydrated()
   </div>
   <SidebarProvider v-else class="app-shell-sidebar">
     <AppSidebar />
-    <SidebarInset class="app-shell-main bg-white">
+    <SidebarInset class="app-shell-main bg-background">
       <SiteHeader />
       <div class="flex flex-1 flex-col">
         <slot />
