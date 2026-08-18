@@ -1,0 +1,41 @@
+name: Update lockfile
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to update
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  update-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: '@onlyzoran'
+
+      - run: sudo apt-get update && sudo apt-get install -y build-essential python3
+
+      - run: npm update @onlyzoran/win-predict-ai-ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: |
+          git config user.name "Dmitriy S"
+          git config user.email "onlyzoran@gmail.com"
+          git add package-lock.json
+          git diff --staged --quiet || git commit -m "chore(deps): lockfile для win-predict-ai-ui 0.1.9"
+          git push
