@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@lucide/vue": "^1.31.0",
-    "@onlyzoran/win-predict-ai-icons": "^0.13.0",
+    "@onlyzoran/win-predict-ai-icons": "^0.14.0",
     "@onlyzoran/win-predict-ai-ui": "^0.3.0",
     "@pinia/nuxt": "^1.0.1",
     "@tanstack/vue-table": "^8.21.3",
