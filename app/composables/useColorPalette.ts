@@ -6,14 +6,17 @@ import {
 import { useColorMode, useStorage } from '@vueuse/core'
 import { computed, watch } from 'vue'
 
-export type ColorPalette = Palette
+/** Nexora — пока не в PALETTES npm-пакета (Storybook-only в UI #37). */
+export const NEXORA_PALETTE = 'nexora' as const
+
+export type ColorPalette = Palette | typeof NEXORA_PALETTE
 
 export interface PalettePreferences {
   light: ColorPalette
   dark: ColorPalette
 }
 
-export const COLOR_PALETTES: readonly ColorPalette[] = PALETTES
+export const COLOR_PALETTES: readonly ColorPalette[] = [...PALETTES, NEXORA_PALETTE]
 
 export const DEFAULT_PALETTE_PREFERENCES: PalettePreferences = {
   light: DEFAULT_PALETTE,
@@ -28,7 +31,7 @@ export const palettePreferences = useStorage<PalettePreferences>(
 )
 
 function isColorPalette(value: unknown): value is ColorPalette {
-  return COLOR_PALETTES.includes(value as ColorPalette)
+  return (COLOR_PALETTES as readonly string[]).includes(value as string)
 }
 
 export function normalizePalettePreferences(raw: unknown): PalettePreferences {
@@ -59,11 +62,17 @@ export function useColorPalette() {
 
   const isDark = computed(() => resolveIsDark(mode.value))
 
+  const activePalette = computed((): ColorPalette =>
+    isDark.value ? palettePreferences.value.dark : palettePreferences.value.light,
+  )
+
+  const isNexoraActive = computed(() => activePalette.value === NEXORA_PALETTE)
+
   watch(
     [isDark, palettePreferences],
     () => applyColorPalette(isDark.value, palettePreferences.value),
     { immediate: true, deep: true },
   )
 
-  return { palettePreferences, isDark, mode }
+  return { palettePreferences, isDark, mode, activePalette, isNexoraActive }
 }

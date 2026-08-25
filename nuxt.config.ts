@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
+
+const nexoraThemePath = fileURLToPath(new URL('./app/assets/css/nexora.css', import.meta.url))
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -55,6 +58,12 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    resolve: {
+      alias: {
+        // UI #37: nexora пока Storybook-only — alias до экспорта themes/nexora.css в npm
+        '@onlyzoran/win-predict-ai-ui/themes/nexora.css': nexoraThemePath,
+      },
+    },
     vue: {
       script: {
         fs: {
