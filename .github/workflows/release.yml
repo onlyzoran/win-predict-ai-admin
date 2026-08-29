@@ -1,0 +1,71 @@
+name: Release and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Version + CHANGELOG are set by the orchestrator releaser before merge.
+      # Here we only tag (and create a GitHub Release) when the tag is missing.
+      - name: Tag release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VER="$(node -p "require('./package.json').version")"
+          if [ -z "$VER" ] || [ "$VER" = "undefined" ]; then
+            echo "No version in package.json — skip tag"
+            exit 0
+          fi
+          if git rev-parse "v${VER}" >/dev/null 2>&1; then
+            echo "Tag v${VER} already exists"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git tag "v${VER}"
+          git push origin "v${VER}"
+          gh release create "v${VER}" --title "v${VER}" --generate-notes || true
+
+      - name: Install SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy to VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes \
+            "${VPS_USER}@${VPS_HOST}" \
+            "set -euo pipefail
+             cd $(printf %q "${VPS_PATH}")
+             git fetch origin
+             git reset --hard origin/main
+             export NODE_AUTH_TOKEN=$(printf %q "${NODE_AUTH_TOKEN}")
+             npm ci
+             npm ci --prefix api
+             npm run build
+             npm run build:api
+             pm2 restart win-predict-ai-admin win-predict-ai-admin-api \
+               || pm2 start deploy/ecosystem.config.cjs"
