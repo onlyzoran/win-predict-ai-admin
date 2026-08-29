@@ -49,6 +49,8 @@ cp "${SCRIPT_DIR}/nginx.conf" "$NGINX_SITE"
 ln -sfn "$NGINX_SITE" /etc/nginx/sites-enabled/win-predict-ai-admin
 # Drop default site if it steals default_server
 rm -f /etc/nginx/sites-enabled/default
+mkdir -p /etc/nginx/win-predict-ai-admin-preview
+printf '# placeholder\n' > /etc/nginx/win-predict-ai-admin-preview/.keep.conf
 nginx -t
 systemctl reload nginx
 

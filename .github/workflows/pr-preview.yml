@@ -1,0 +1,93 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+  packages: read
+
+jobs:
+  deploy-preview:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Sync PR tree to VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          PR: ${{ github.event.number }}
+        run: |
+          REMOTE_DIR="/var/www/win-predict-ai-admin-preview/pr-${PR}"
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes \
+            "${VPS_USER}@${VPS_HOST}" \
+            "mkdir -p $(printf %q "$REMOTE_DIR")"
+          rsync -avz --delete \
+            --exclude node_modules \
+            --exclude .data \
+            --exclude .output \
+            --exclude .nuxt \
+            --exclude .git \
+            -e 'ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes' \
+            ./ \
+            "${VPS_USER}@${VPS_HOST}:${REMOTE_DIR}/"
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes \
+            "${VPS_USER}@${VPS_HOST}" \
+            "chmod +x ${REMOTE_DIR}/deploy/preview-up.sh ${REMOTE_DIR}/deploy/preview-down.sh
+             export NODE_AUTH_TOKEN=$(printf %q "${NODE_AUTH_TOKEN}")
+             ${REMOTE_DIR}/deploy/preview-up.sh ${PR}"
+
+      - name: Comment preview URL on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            **Demo:** https://win-predict-ai.com/admin-preview/pr-${{ github.event.number }}/
+
+  cleanup-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Remove preview from VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          PR: ${{ github.event.number }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes \
+            "${VPS_USER}@${VPS_HOST}" \
+            "PREVIEW_ROOT=/var/www/win-predict-ai-admin-preview
+             SCRIPT=\${PREVIEW_ROOT}/pr-${PR}/deploy/preview-down.sh
+             if [ -x \"\$SCRIPT\" ]; then
+               \"\$SCRIPT\" ${PR}
+             else
+               pm2 delete admin-preview-pr-${PR} >/dev/null 2>&1 || true
+               pm2 delete admin-preview-pr-${PR}-api >/dev/null 2>&1 || true
+               rm -rf \${PREVIEW_ROOT}/pr-${PR}
+               rm -f /etc/nginx/win-predict-ai-admin-preview/pr-${PR}.conf
+               nginx -t && systemctl reload nginx || true
+             fi"
+
+      - name: Update PR comment on close
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ~~Demo~~ (удалён после закрытия PR)

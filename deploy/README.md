@@ -133,5 +133,12 @@ The script installs `deploy/nginx.conf`, sets `APP_URL`/`NUXT_APP_URL` to `https
 | --- | --- |
 | `https://win-predict-ai.com/` | Public app |
 | `https://win-predict-ai.com/admin/` | Admin |
+| `https://win-predict-ai.com/admin-preview/pr-N/` | Admin PR demo (Actions `pr-preview.yml`; removed when PR closes) |
 | `https://win-predict-ai.com/api/leagues.json` | Public API |
 | `https://win-predict-ai.com/ops/` | Orchestrator status |
+
+## PR demos
+
+On each open/sync PR, Actions rsyncs the branch to `/var/www/win-predict-ai-admin-preview/pr-N/`, runs `deploy/preview-up.sh` (isolated SQLite + pm2 + nginx snippet), and comments the Demo URL. Closing the PR runs `deploy/preview-down.sh`.
+
+One-time on the VPS (if nginx include is missing): ensure `include /etc/nginx/win-predict-ai-admin-preview/*.conf;` is in the site config (re-run `deploy/enable-domain.sh`, or let the first `preview-up.sh` inject it).

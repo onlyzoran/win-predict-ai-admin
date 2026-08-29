@@ -1,6 +1,7 @@
 import { createHmac, randomBytes } from 'node:crypto'
 import type { H3Event } from 'h3'
 import type { UserRole } from '../../shared/user'
+import { appBaseURL } from './appBase'
 import { useDb } from './db'
 import { findActiveUserByEmail, touchLastLogin } from './users'
 
@@ -141,7 +142,7 @@ export function setSessionCookie(event: H3Event, token: string) {
   setCookie(event, SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: 'lax',
-    path: '/',
+    path: appBaseURL(),
     maxAge: Math.floor(SESSION_TTL_MS / 1000),
     secure,
   })
@@ -152,7 +153,7 @@ export function clearSessionCookie(event: H3Event) {
   if (token) {
     useDb().prepare(`DELETE FROM sessions WHERE token_hash = ?`).run(hashToken(token))
   }
-  deleteCookie(event, SESSION_COOKIE, { path: '/' })
+  deleteCookie(event, SESSION_COOKIE, { path: appBaseURL() })
 }
 
 export function purgeExpiredAuthRows() {
