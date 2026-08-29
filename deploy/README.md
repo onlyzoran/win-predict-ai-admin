@@ -131,7 +131,7 @@ The script installs `deploy/nginx.conf`, sets `APP_URL`/`NUXT_APP_URL` to `https
 
 | URL | What |
 | --- | --- |
-| `https://win-predict-ai.com/` | Admin |
-| `https://win-predict-ai.com/win-predict-ai/` | Public app |
+| `https://win-predict-ai.com/` | Public app |
+| `https://win-predict-ai.com/admin/` | Admin |
 | `https://win-predict-ai.com/api/leagues.json` | Public API |
 | `https://win-predict-ai.com/ops/` | Orchestrator status |

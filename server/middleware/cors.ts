@@ -1,8 +1,11 @@
+import { pathWithoutAppBase } from '../utils/appBase'
+
 const PUBLIC_PATHS = ['/api/tournaments', '/api/leagues.json', '/api/sports']
 
 function isPublicReadApi(pathname: string) {
+  const path = pathWithoutAppBase(pathname)
   return PUBLIC_PATHS.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+    (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   )
 }
 

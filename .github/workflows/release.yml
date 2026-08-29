@@ -63,6 +63,12 @@ jobs:
              git fetch origin
              git reset --hard origin/main
              export NODE_AUTH_TOKEN=$(printf %q "${NODE_AUTH_TOKEN}")
+             export NUXT_APP_BASE_URL=/admin/
+             if grep -q '^NUXT_APP_BASE_URL=' .env; then
+               sed -i 's|^NUXT_APP_BASE_URL=.*|NUXT_APP_BASE_URL=/admin/|' .env
+             else
+               printf 'NUXT_APP_BASE_URL=/admin/\n' >> .env
+             fi
              npm ci
              npm ci --prefix api
              npm run build
