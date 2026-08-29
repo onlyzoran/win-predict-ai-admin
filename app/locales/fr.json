@@ -18,7 +18,7 @@
     "shortLabel": "Apparence",
     "title": "Apparence",
     "subtitle": "Choisissez un schéma de couleurs pour les modes clair et sombre.",
-    "defaultsNote": "Par défaut : Slate + Teal dans les deux modes ; clair/sombre suit le réglage système tant que vous ne le changez pas dans l'en-tête.",
+    "defaultsNote": "Par défaut : Pastel dans les deux modes ; clair/sombre suit le réglage système tant que vous ne le changez pas dans l'en-tête.",
     "back": "Retour aux tournois",
     "lightMode": "Schéma pour le mode clair",
     "lightModeHint": "Appliqué lorsque l'admin est en mode clair.",

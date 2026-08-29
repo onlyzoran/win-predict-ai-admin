@@ -18,7 +18,7 @@
     "shortLabel": "Aspetto",
     "title": "Aspetto",
     "subtitle": "Scegli uno schema colore per la modalità chiara e uno per la scura.",
-    "defaultsNote": "Predefinito: Slate + Teal in entrambe le modalità; chiaro/scuro segue l'impostazione di sistema finché non lo cambi nell'intestazione.",
+    "defaultsNote": "Predefinito: Pastel in entrambe le modalità; chiaro/scuro segue l'impostazione di sistema finché non lo cambi nell'intestazione.",
     "back": "Torna ai tornei",
     "lightMode": "Schema per modalità chiara",
     "lightModeHint": "Applicato quando il pannello admin è in modalità chiara.",

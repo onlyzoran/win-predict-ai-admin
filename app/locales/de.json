@@ -18,7 +18,7 @@
     "shortLabel": "Darstellung",
     "title": "Darstellung",
     "subtitle": "Wählen Sie für den hellen und dunklen Modus jeweils ein Farbschema.",
-    "defaultsNote": "Standard: Slate + Teal in beiden Modi; Hell/Dunkel folgt der Systemeinstellung, bis Sie es in der Kopfzeile ändern.",
+    "defaultsNote": "Standard: Pastel in beiden Modi; Hell/Dunkel folgt der Systemeinstellung, bis Sie es in der Kopfzeile ändern.",
     "back": "Zu den Turnieren",
     "lightMode": "Farbschema für den hellen Modus",
     "lightModeHint": "Wird angewendet, wenn das Admin-Panel im hellen Modus ist.",
