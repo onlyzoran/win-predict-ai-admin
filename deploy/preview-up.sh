@@ -74,38 +74,6 @@ PORT=${NUXT_PORT}
 NODE_ENV=production
 EOF
 
-cat > "${DIR}/ecosystem.preview.cjs" <<EOF
-module.exports = {
-  apps: [
-    {
-      name: '${PM2_APP}',
-      cwd: '${DIR}',
-      script: '.output/server/index.mjs',
-      interpreter_args: '--env-file=.env',
-      instances: 1,
-      exec_mode: 'fork',
-      env: {
-        NODE_ENV: 'production',
-        HOST: '127.0.0.1',
-        PORT: '${NUXT_PORT}',
-      },
-    },
-    {
-      name: '${PM2_API}',
-      cwd: '${DIR}/api',
-      script: 'dist/main.js',
-      interpreter_args: '--env-file=../.env',
-      instances: 1,
-      exec_mode: 'fork',
-      env: {
-        NODE_ENV: 'production',
-        API_PORT: '${API_PORT}',
-      },
-    },
-  ],
-}
-EOF
-
 cd "$DIR"
 npm ci
 npm ci --prefix api
@@ -114,7 +82,24 @@ npm run build:api
 
 pm2 delete "$PM2_APP" >/dev/null 2>&1 || true
 pm2 delete "$PM2_API" >/dev/null 2>&1 || true
-pm2 start "${DIR}/ecosystem.preview.cjs"
+# Legacy: older previews started ecosystem.preview.cjs as a script instead of apps.
+pm2 delete ecosystem.preview >/dev/null 2>&1 || true
+
+pm2 start "${DIR}/.output/server/index.mjs" \
+  --name "$PM2_APP" \
+  --cwd "$DIR" \
+  --interpreter-args="--env-file=${DIR}/.env" \
+  --env NODE_ENV=production \
+  --env HOST=127.0.0.1 \
+  --env PORT="$NUXT_PORT"
+
+pm2 start "${DIR}/api/dist/main.js" \
+  --name "$PM2_API" \
+  --cwd "${DIR}/api" \
+  --interpreter-args="--env-file=${DIR}/.env" \
+  --env NODE_ENV=production \
+  --env API_PORT="$API_PORT"
+
 pm2 save >/dev/null 2>&1 || true
 
 mkdir -p "$NGINX_SNIPPET_DIR"
