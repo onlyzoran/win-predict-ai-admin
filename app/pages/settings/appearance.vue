@@ -74,7 +74,7 @@ function selectDarkPalette(palette: ColorPalette) {
           <div
             :class="
               cn(
-                'flex h-full flex-col rounded-lg border bg-card text-card-foreground shadow-sm transition-colors hover:border-ring/50',
+                'palette-option-card flex h-full flex-col rounded-lg border bg-card text-card-foreground shadow-sm transition-colors hover:border-ring/50',
                 palettePreferences.light === palette && 'border-primary ring-2 ring-ring/30',
               )
             "
@@ -90,7 +90,7 @@ function selectDarkPalette(palette: ColorPalette) {
             <div class="p-6 pt-0">
               <div
                 :data-palette="palette"
-                class="overflow-hidden rounded-lg border"
+                class="palette-preview-swatch overflow-hidden rounded-lg border"
               >
                 <div class="flex h-16 bg-background">
                   <div class="flex flex-1 flex-col justify-end gap-1 p-2">
@@ -132,7 +132,7 @@ function selectDarkPalette(palette: ColorPalette) {
           <div
             :class="
               cn(
-                'flex h-full flex-col rounded-lg border bg-card text-card-foreground shadow-sm transition-colors hover:border-ring/50',
+                'palette-option-card flex h-full flex-col rounded-lg border bg-card text-card-foreground shadow-sm transition-colors hover:border-ring/50',
                 palettePreferences.dark === palette && 'border-primary ring-2 ring-ring/30',
               )
             "
@@ -148,7 +148,7 @@ function selectDarkPalette(palette: ColorPalette) {
             <div class="p-6 pt-0">
               <div
                 :data-palette="palette"
-                class="dark overflow-hidden rounded-lg border"
+                class="palette-preview-swatch dark overflow-hidden rounded-lg border"
               >
                 <div class="flex h-16 bg-background">
                   <div class="flex flex-1 flex-col justify-end gap-1 p-2">

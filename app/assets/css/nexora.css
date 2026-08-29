@@ -239,3 +239,52 @@
   background-image: var(--nexora-primary-gradient);
   box-shadow: var(--nexora-primary-shadow);
 }
+
+/*
+ * Appearance /settings/appearance — palette picker cards and nested swatches must
+ * keep each palette's own tokens when Nexora is active (orchestrator #27).
+ * Guard :not([data-palette] [data-palette] *) alone is insufficient: semi-transparent
+ * --card + backdrop-filter on the outer option card still tints inner previews.
+ */
+[data-palette='nexora'] .palette-option-card.bg-card {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: oklch(0.995 0.01 278);
+  box-shadow: 0 1px 2px 0 oklch(0.22 0.042 278 / 6%);
+}
+
+[data-palette='nexora'].dark .palette-option-card.bg-card {
+  background-color: oklch(0.22 0.05 278);
+  box-shadow: 0 1px 2px 0 oklch(0.05 0.04 278 / 40%);
+}
+
+[data-palette='nexora'] .palette-preview-swatch {
+  isolation: isolate;
+}
+
+[data-palette='nexora'] .palette-preview-swatch :is(
+    .bg-card,
+    .bg-background,
+    .bg-sidebar,
+    .bg-popover,
+    .bg-secondary,
+    .bg-accent,
+    .bg-muted,
+    [class*='bg-card/'],
+    [class*='bg-sidebar/'],
+    [class*='bg-muted/'],
+    [class*='bg-background/']
+  ) {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+[data-palette='nexora']
+  .palette-preview-swatch
+  .bg-primary:not(:is(button, a, [data-slot='button'])) {
+  background-color: var(--primary);
+  background-image: none;
+  box-shadow: none;
+  border-color: transparent;
+}
