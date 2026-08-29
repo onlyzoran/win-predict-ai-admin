@@ -3,6 +3,7 @@ import {
   createMagicLink,
   purgeExpiredAuthRows,
 } from '../../utils/auth'
+import { withAppBase } from '../../utils/appBase'
 import { sendMagicLinkEmail } from '../../utils/mail'
 
 export default defineEventHandler(async (event) => {
@@ -21,12 +22,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const token = createMagicLink(email)
-  const base = String(
+  const origin = String(
     process.env.APP_URL
     || process.env.NUXT_APP_URL
     || useRuntimeConfig().appUrl,
   ).replace(/\/$/, '')
-  const magicUrl = `${base}/api/auth/verify?token=${encodeURIComponent(token)}`
+  const magicUrl = `${origin}${withAppBase('/api/auth/verify')}?token=${encodeURIComponent(token)}`
 
   await sendMagicLinkEmail(email, magicUrl)
   return { ok: true }

@@ -1,6 +1,6 @@
 # VPS deploy (Ubuntu + Nginx + pm2)
 
-Target example: `http://202.71.15.138` (Arcturus VPS).
+Production: `https://win-predict-ai.com` (VPS `202.71.15.138`).
 
 ## 1. App directory
 
@@ -25,8 +25,8 @@ nano .env
 Required:
 
 ```env
-NUXT_APP_URL=http://202.71.15.138
-APP_URL=http://202.71.15.138
+NUXT_APP_URL=https://win-predict-ai.com
+APP_URL=https://win-predict-ai.com
 NUXT_DATABASE_PATH=/var/www/win-predict-ai-admin/.data/admin.sqlite
 DATABASE_PATH=/var/www/win-predict-ai-admin/.data/admin.sqlite
 NUXT_ADMIN_EMAILS=you@example.com,other@example.com
@@ -84,7 +84,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-Open http://202.71.15.138
+Open https://win-predict-ai.com (or http://202.71.15.138 before DNS/TLS).
 
 ## 6. Updates
 
@@ -106,12 +106,39 @@ pm2 start deploy/ecosystem.config.cjs
 pm2 save
 ```
 
-## Domain later
+## Domain + HTTPS (`win-predict-ai.com`)
 
-Point an A record to the VPS IP, set `APP_URL=https://your.domain`, then:
+1. **Namecheap → Advanced DNS** (delete Parking / URL Redirect for `@` / `www` if present):
+
+   | Type | Host | Value | TTL |
+   | --- | --- | --- | --- |
+   | A | `@` | `202.71.15.138` | Automatic or 5 min |
+   | A | `www` | `202.71.15.138` | Automatic or 5 min |
+
+2. Wait until `dig +short win-predict-ai.com` returns `202.71.15.138`.
+
+3. Enable on the VPS (from this repo via Actions, or SSH):
 
 ```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d your.domain
-pm2 restart win-predict-ai-admin
+# GitHub Actions (uses VPS_* secrets):
+gh workflow run enable-domain.yml -R onlyzoran/win-predict-ai-admin
+
+# Or on the VPS as root, from /var/www/win-predict-ai-admin:
+sudo bash deploy/enable-domain.sh
 ```
+
+The script installs `deploy/nginx.conf`, sets `APP_URL`/`NUXT_APP_URL` to `https://win-predict-ai.com`, runs certbot (HTTP→HTTPS redirect), and restarts pm2.
+
+| URL | What |
+| --- | --- |
+| `https://win-predict-ai.com/` | Public app |
+| `https://win-predict-ai.com/admin/` | Admin |
+| `https://win-predict-ai.com/admin-preview/pr-N/` | Admin PR demo (Actions `pr-preview.yml`; removed when PR closes) |
+| `https://win-predict-ai.com/api/leagues.json` | Public API |
+| `https://win-predict-ai.com/ops/` | Orchestrator status |
+
+## PR demos
+
+On each open/sync PR, Actions rsyncs the branch to `/var/www/win-predict-ai-admin-preview/pr-N/`, runs `deploy/preview-up.sh` (isolated SQLite + pm2 + nginx snippet), and comments the Demo URL. Closing the PR runs `deploy/preview-down.sh`.
+
+One-time on the VPS (if nginx include is missing): ensure `include /etc/nginx/win-predict-ai-admin-preview/*.conf;` is in the site config (re-run `deploy/enable-domain.sh`, or let the first `preview-up.sh` inject it).
