@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased (2026-08-21)
+## 0.1.1 (2026-08-29)
+
+* chore: bump @onlyzoran/win-predict-ai-ui to 0.3.0-pr.39.611e0be ([PR](https://github.com/onlyzoran/win-predict-ai-admin/pull/19), [issue](https://github.com/onlyzoran/win-predict-ai-admin/issues/18))
 
 * Обновить @onlyzoran/win-predict-ai-icons до 0.14.0 ([PR](https://github.com/onlyzoran/win-predict-ai-admin/pull/17), [issue](https://github.com/onlyzoran/win-predict-ai-admin/issues/16))
 

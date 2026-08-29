@@ -1,6 +1,6 @@
 {
   "name": "win-predict-ai-admin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "private": true,
   "scripts": {
