@@ -17,6 +17,7 @@ PM2_API="admin-preview-pr-${PR}-api"
 
 pm2 delete "$PM2_APP" >/dev/null 2>&1 || true
 pm2 delete "$PM2_API" >/dev/null 2>&1 || true
+pm2 delete ecosystem.preview >/dev/null 2>&1 || true
 pm2 save >/dev/null 2>&1 || true
 
 rm -f "${NGINX_SNIPPET_DIR}/pr-${PR}.conf"
