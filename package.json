@@ -1,5 +1,6 @@
 {
   "name": "win-predict-ai-admin",
+  "version": "0.1.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -15,8 +16,8 @@
   },
   "dependencies": {
     "@lucide/vue": "^1.31.0",
-    "@onlyzoran/win-predict-ai-icons": "^0.4.0",
-    "@onlyzoran/win-predict-ai-ui": "^0.1.0",
+    "@onlyzoran/win-predict-ai-icons": "^0.14.0",
+    "@onlyzoran/win-predict-ai-ui": "^0.3.0",
     "@pinia/nuxt": "^1.0.1",
     "@tanstack/vue-table": "^8.21.3",
     "@vee-validate/zod": "^4.15.1",

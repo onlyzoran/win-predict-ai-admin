@@ -13,6 +13,36 @@
       "pastel": "Pastel"
     }
   },
+  "appearance": {
+    "openSettings": "Darstellungseinstellungen",
+    "shortLabel": "Darstellung",
+    "title": "Darstellung",
+    "subtitle": "Wählen Sie für den hellen und dunklen Modus jeweils ein Farbschema.",
+    "defaultsNote": "Standard: Slate + Teal in beiden Modi; Hell/Dunkel folgt der Systemeinstellung, bis Sie es in der Kopfzeile ändern.",
+    "back": "Zu den Turnieren",
+    "lightMode": "Farbschema für den hellen Modus",
+    "lightModeHint": "Wird angewendet, wenn das Admin-Panel im hellen Modus ist.",
+    "darkMode": "Farbschema für den dunklen Modus",
+    "darkModeHint": "Wird angewendet, wenn das Admin-Panel im dunklen Modus ist.",
+    "palettes": {
+      "zinc": {
+        "name": "Zinc",
+        "description": "Neutrale shadcn-Palette ohne Farbstich."
+      },
+      "slate-teal": {
+        "name": "Slate + Teal",
+        "description": "Kühle Slate-Flächen mit Teal-Akzent für Daten und Aktionen."
+      },
+      "claude-plus": {
+        "name": "Claude+",
+        "description": "Warme Ivory-Oberflächen mit Clay-Terrakotta — Claude+-Stimmung fürs Terminal."
+      },
+      "pastel": {
+        "name": "Pastel",
+        "description": "Sanfte Lavendel-Neutrals mit Periwinkle-Akzent; Grün und Gelb für Spielergebnisse."
+      }
+    }
+  },
   "language": {
     "label": "Sprache"
   },

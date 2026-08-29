@@ -3,6 +3,7 @@ import {
   createSession,
   setSessionCookie,
 } from '../../utils/auth'
+import { withAppBase } from '../../utils/appBase'
 import { findActiveUserByEmail } from '../../utils/users'
 
 export default defineEventHandler(async (event) => {
@@ -31,5 +32,6 @@ export default defineEventHandler(async (event) => {
   }
 
   const callback = typeof query.callbackUrl === 'string' ? query.callbackUrl : '/tournaments'
-  return sendRedirect(event, callback.startsWith('/') ? callback : '/tournaments')
+  const target = callback.startsWith('/') ? withAppBase(callback) : withAppBase('/tournaments')
+  return sendRedirect(event, target)
 })

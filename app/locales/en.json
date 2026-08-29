@@ -13,6 +13,36 @@
       "pastel": "Pastel"
     }
   },
+  "appearance": {
+    "openSettings": "Appearance settings",
+    "shortLabel": "Appearance",
+    "title": "Appearance",
+    "subtitle": "Choose a color scheme for light and dark mode independently.",
+    "defaultsNote": "Defaults: Slate + Teal in both modes; light/dark follows your system setting until you change it in the header.",
+    "back": "Back to tournaments",
+    "lightMode": "Light mode scheme",
+    "lightModeHint": "Applied when the admin panel is in light mode.",
+    "darkMode": "Dark mode scheme",
+    "darkModeHint": "Applied when the admin panel is in dark mode.",
+    "palettes": {
+      "zinc": {
+        "name": "Zinc",
+        "description": "Neutral shadcn palette without color tint."
+      },
+      "slate-teal": {
+        "name": "Slate + Teal",
+        "description": "Cool slate surfaces with a teal accent for data and actions."
+      },
+      "claude-plus": {
+        "name": "Claude+",
+        "description": "Warm ivory surfaces with clay terracotta accent — Claude+ mood for the terminal."
+      },
+      "pastel": {
+        "name": "Pastel",
+        "description": "Soft lavender neutrals with periwinkle accent; green and yellow reserved for match outcomes."
+      }
+    }
+  },
   "language": {
     "label": "Language"
   },

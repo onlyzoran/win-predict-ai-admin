@@ -1,36 +1,71 @@
-import { PALETTES, type Palette } from '@onlyzoran/win-predict-ai-ui'
-import { useStorage } from '@vueuse/core'
+import {
+  PALETTES,
+  type Palette,
+} from '@onlyzoran/win-predict-ai-ui'
+import { useColorMode, useStorage } from '@vueuse/core'
+import { computed, watch } from 'vue'
 
-/** localStorage key — синхронизирован с FOUC-скриптом в nuxt.config.ts */
-export const PALETTE_STORAGE_KEY = 'win-predict-palette'
+export type ColorPalette = Palette
+
+export interface PalettePreferences {
+  light: ColorPalette
+  dark: ColorPalette
+}
+
+export const COLOR_PALETTES: readonly ColorPalette[] = PALETTES
 
 /** Палитра по умолчанию для admin после интеграции pastel (win-predict-ai-admin#9). */
 export const ADMIN_DEFAULT_PALETTE: Palette = 'pastel'
 
-export function applyPalette(palette: Palette) {
+export const DEFAULT_PALETTE_PREFERENCES: PalettePreferences = {
+  light: ADMIN_DEFAULT_PALETTE,
+  dark: ADMIN_DEFAULT_PALETTE,
+}
+
+export const PALETTE_STORAGE_KEY = 'color-palette-preferences'
+
+export const palettePreferences = useStorage<PalettePreferences>(
+  PALETTE_STORAGE_KEY,
+  DEFAULT_PALETTE_PREFERENCES,
+)
+
+function isColorPalette(value: unknown): value is ColorPalette {
+  return COLOR_PALETTES.includes(value as ColorPalette)
+}
+
+export function normalizePalettePreferences(raw: unknown): PalettePreferences {
+  if (!raw || typeof raw !== 'object') {
+    return { ...DEFAULT_PALETTE_PREFERENCES }
+  }
+
+  const prefs = raw as Partial<PalettePreferences>
+  return {
+    light: isColorPalette(prefs.light) ? prefs.light : DEFAULT_PALETTE_PREFERENCES.light,
+    dark: isColorPalette(prefs.dark) ? prefs.dark : DEFAULT_PALETTE_PREFERENCES.dark,
+  }
+}
+
+export function resolveIsDark(mode: string): boolean {
+  if (mode === 'dark') return true
+  if (mode === 'light') return false
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+}
+
+export function applyColorPalette(isDark: boolean, prefs: PalettePreferences) {
+  const palette = isDark ? prefs.dark : prefs.light
   document.documentElement.setAttribute('data-palette', palette)
 }
 
 export function useColorPalette() {
-  const palette = useStorage<Palette>(PALETTE_STORAGE_KEY, ADMIN_DEFAULT_PALETTE)
+  const mode = useColorMode()
+
+  const isDark = computed(() => resolveIsDark(mode.value))
 
   watch(
-    palette,
-    (value) => {
-      if (PALETTES.includes(value)) {
-        applyPalette(value)
-      }
-    },
-    { immediate: true },
+    [isDark, palettePreferences],
+    () => applyColorPalette(isDark.value, palettePreferences.value),
+    { immediate: true, deep: true },
   )
 
-  function setPalette(next: Palette) {
-    palette.value = next
-  }
-
-  return {
-    palette,
-    palettes: PALETTES,
-    setPalette,
-  }
+  return { palettePreferences, isDark, mode }
 }

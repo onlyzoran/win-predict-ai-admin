@@ -1,0 +1,45 @@
+name: Enable domain (HTTPS)
+
+# After Namecheap A records point at the VPS, run:
+#   gh workflow run enable-domain.yml -R onlyzoran/win-predict-ai-admin
+on:
+  workflow_dispatch:
+    inputs:
+      skip_dns_check:
+        description: 'Set to 1 to skip DNS→IP check (not recommended)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: read
+
+jobs:
+  enable-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Sync deploy scripts and enable domain on VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+          SKIP_DNS_CHECK: ${{ inputs.skip_dns_check }}
+        run: |
+          set -euo pipefail
+          rsync -avz \
+            -e 'ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes' \
+            deploy/nginx.conf deploy/enable-domain.sh \
+            "${VPS_USER}@${VPS_HOST}:${VPS_PATH}/deploy/"
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes \
+            "${VPS_USER}@${VPS_HOST}" \
+            "chmod +x $(printf %q "${VPS_PATH}")/deploy/enable-domain.sh
+             sudo SKIP_DNS_CHECK=$(printf %q "${SKIP_DNS_CHECK}") \
+               $(printf %q "${VPS_PATH}")/deploy/enable-domain.sh"

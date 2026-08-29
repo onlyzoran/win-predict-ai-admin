@@ -1,9 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import fs from 'node:fs'
 
-const PALETTE_STORAGE_KEY = 'win-predict-palette'
-const ADMIN_DEFAULT_PALETTE = 'pastel'
-
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -11,15 +8,6 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: process.env.NUXT_APP_BASE_URL || '/',
-    head: {
-      script: [
-        {
-          key: 'theme-init',
-          innerHTML: `(function(){try{var paletteRaw=localStorage.getItem('${PALETTE_STORAGE_KEY}');var palette=paletteRaw?JSON.parse(paletteRaw):'${ADMIN_DEFAULT_PALETTE}';var schemeRaw=localStorage.getItem('vueuse-color-scheme');var preference=schemeRaw?JSON.parse(schemeRaw):'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var isDark=preference==='dark'||(preference!=='light'&&prefersDark);document.documentElement.classList.toggle('dark',isDark);document.documentElement.setAttribute('data-palette',palette)}catch(_){}})();`,
-          type: 'text/javascript',
-        },
-      ],
-    },
   },
 
   modules: [
