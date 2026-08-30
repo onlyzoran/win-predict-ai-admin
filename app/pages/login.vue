@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BrandTitle } from '@onlyzoran/win-predict-ai-ui'
 import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
 import Button from '@/components/ui/button/Button.vue'
@@ -58,8 +59,8 @@ async function onSubmit() {
       @submit.prevent="onSubmit"
     >
       <div class="space-y-1">
-        <h1 class="text-2xl font-semibold tracking-tight">
-          {{ t('app.title') }}
+        <h1 class="text-2xl tracking-tight">
+          <BrandTitle suffix=" Admin" class="text-2xl" />
         </h1>
         <p class="text-sm text-muted-foreground">
           {{ t('login.subtitle') }}
