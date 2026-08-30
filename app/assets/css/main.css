@@ -1,5 +1,6 @@
 @import '@onlyzoran/win-predict-ai-ui/themes';
 @import '@onlyzoran/win-predict-ai-ui/themes/nexora.css';
+@import '@onlyzoran/win-predict-ai-ui/component-styles.css';
 
 @tailwind base;
 @tailwind components;
