@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppHeaderShell } from '@onlyzoran/win-predict-ai-ui'
+import { AppHeaderShell, BrandTitle } from '@onlyzoran/win-predict-ai-ui'
 import { IconLogout } from '@onlyzoran/win-predict-ai-icons'
 import { useI18n } from 'vue-i18n'
 import { locale, localeLabels, locales, setLocale, type Locale } from '~/i18n'
@@ -41,7 +41,7 @@ function navClass(path: string) {
     @update:locale="onLocaleUpdate"
   >
     <template #brand>
-      <span class="font-semibold text-foreground">{{ t('app.title') }}</span>
+      <BrandTitle suffix=" Admin" />
     </template>
     <template v-if="isAuthenticated" #actions>
       <nav class="mr-1 flex items-center gap-1">

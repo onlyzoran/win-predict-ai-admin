@@ -3,6 +3,9 @@ import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
 const nexoraThemePath = fileURLToPath(new URL('./app/assets/css/nexora.css', import.meta.url))
+const uiComponentStylesPath = fileURLToPath(
+  new URL('./node_modules/@onlyzoran/win-predict-ai-ui/dist/win-predict-ai-ui.css', import.meta.url),
+)
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -62,6 +65,8 @@ export default defineNuxtConfig({
       alias: {
         // UI #37: nexora пока Storybook-only — alias до экспорта themes/nexora.css в npm
         '@onlyzoran/win-predict-ai-ui/themes/nexora.css': nexoraThemePath,
+        // BrandTitle scoped styles — dist/win-predict-ai-ui.css не в package exports
+        '@onlyzoran/win-predict-ai-ui/component-styles.css': uiComponentStylesPath,
       },
     },
     vue: {

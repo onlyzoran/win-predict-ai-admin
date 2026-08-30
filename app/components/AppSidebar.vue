@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BrandTitle } from '@onlyzoran/win-predict-ai-ui'
 import {
   GalleryVerticalEnd,
   Shield,
@@ -62,10 +63,7 @@ const navItems = computed(() => [
             <NuxtLink to="/tournaments">
               <Trophy class="size-5 shrink-0" />
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{ t('app.title') }}</span>
-                <span class="truncate text-xs text-muted-foreground">
-                  Admin
-                </span>
+                <BrandTitle suffix=" Admin" class="truncate" />
               </div>
             </NuxtLink>
           </SidebarMenuButton>

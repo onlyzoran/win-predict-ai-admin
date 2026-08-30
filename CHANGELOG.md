@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 (2026-08-30)
+
+* Акцент «AI» в header админки ([PR](https://github.com/onlyzoran/win-predict-ai-admin/pull/23), [issue](https://github.com/onlyzoran/win-predict-ai-orchestrator/issues/31))
+
 ## 0.1.1 (2026-08-29)
 
 * chore: bump @onlyzoran/win-predict-ai-ui to 0.3.0-pr.39.611e0be ([PR](https://github.com/onlyzoran/win-predict-ai-admin/pull/19), [issue](https://github.com/onlyzoran/win-predict-ai-admin/issues/18))
