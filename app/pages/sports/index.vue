@@ -6,11 +6,10 @@ import { IconGripVertical, IconPlus } from '@onlyzoran/win-predict-ai-icons'
 import { SPORT_ICON_KEYS } from '../../../shared/sport'
 import type { SportCatalogItem } from '../../../shared/sport'
 import { useSportsStore } from '~/stores/sports'
-import Button from '@/components/ui/button/Button.vue'
+import { Badge, Button } from '@onlyzoran/win-predict-ai-ui'
 import Input from '@/components/ui/input/Input.vue'
 import Label from '@/components/ui/label/Label.vue'
 import NativeSelect from '@/components/ui/select/NativeSelect.vue'
-import Badge from '@/components/ui/badge/Badge.vue'
 import AlertDialog from '@/components/ui/alert-dialog/AlertDialog.vue'
 
 definePageMeta({

@@ -4,7 +4,6 @@ import {
   LogOut,
 } from '@lucide/vue'
 import { useI18n } from 'vue-i18n'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +11,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@onlyzoran/win-predict-ai-ui'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   SidebarMenu,
   SidebarMenuButton,

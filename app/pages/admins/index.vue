@@ -3,10 +3,9 @@ import { toast } from 'vue-sonner'
 import { useI18n } from 'vue-i18n'
 import { IconPlus } from '@onlyzoran/win-predict-ai-icons'
 import type { AdminUser } from '../../../shared/user'
-import Button from '@/components/ui/button/Button.vue'
+import { Badge, Button } from '@onlyzoran/win-predict-ai-ui'
 import Input from '@/components/ui/input/Input.vue'
 import Label from '@/components/ui/label/Label.vue'
-import Badge from '@/components/ui/badge/Badge.vue'
 import AlertDialog from '@/components/ui/alert-dialog/AlertDialog.vue'
 import {
   Table,

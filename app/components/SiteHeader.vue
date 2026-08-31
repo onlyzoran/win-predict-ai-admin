@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LocaleSwitcher, ThemeToggle } from '@onlyzoran/win-predict-ai-ui'
+import { LocaleSwitcher, Separator, ThemeToggle } from '@onlyzoran/win-predict-ai-ui'
 import { IconBrandGithub } from '@onlyzoran/win-predict-ai-icons'
 import { Palette } from '@lucide/vue'
 import { useI18n } from 'vue-i18n'
@@ -12,7 +12,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 
 const { t } = useI18n()
