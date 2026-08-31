@@ -30,6 +30,10 @@
         "name": "Claude+",
         "description": "Warme Ivory-Oberflächen mit Clay-Terrakotta — Claude+-Stimmung fürs Terminal."
       },
+      "pastel": {
+        "name": "Pastel",
+        "description": "Sanfte Sage-Oberflächen mit Butter-Akzent — ruhige Palette für finale und Zwischenergebnisse."
+      },
       "nexora": {
         "name": "Nexora",
         "description": "Futuristisches Violet-Cockpit — Glasoberflächen und Gradient-CTAs."

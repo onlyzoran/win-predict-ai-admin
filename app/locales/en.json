@@ -30,6 +30,10 @@
         "name": "Claude+",
         "description": "Warm ivory surfaces with clay terracotta accent — Claude+ mood for the terminal."
       },
+      "pastel": {
+        "name": "Pastel",
+        "description": "Soft sage surfaces with butter accent — calm palette for final and intermediate results."
+      },
       "nexora": {
         "name": "Nexora",
         "description": "Futuristic violet cockpit — frosted glass surfaces and gradient CTAs."
