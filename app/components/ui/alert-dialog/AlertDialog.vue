@@ -12,7 +12,7 @@ import {
 } from 'reka-ui'
 import { useI18n } from 'vue-i18n'
 import { cn } from '@/lib/utils'
-import Button from '@/components/ui/button/Button.vue'
+import { Button } from '@onlyzoran/win-predict-ai-ui'
 
 const open = defineModel<boolean>('open', { default: false })
 

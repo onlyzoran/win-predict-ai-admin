@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue"
 import { cn } from "@/lib/utils"
-import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { Sheet, SheetContent } from '@onlyzoran/win-predict-ai-ui'
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from "./utils"
 
 defineOptions({

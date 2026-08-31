@@ -11,7 +11,7 @@ import draggable from 'vuedraggable'
 import { useI18n } from 'vue-i18n'
 import { IconGripVertical } from '@onlyzoran/win-predict-ai-icons'
 import type { Tournament } from '../../../shared/tournament'
-import Badge from '@/components/ui/badge/Badge.vue'
+import { Badge } from '@onlyzoran/win-predict-ai-ui'
 import TournamentRowActions from '@/components/tournaments/TournamentRowActions.vue'
 
 const props = defineProps<{

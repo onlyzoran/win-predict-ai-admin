@@ -2,7 +2,7 @@
 import { IconPencil, IconTrash } from '@onlyzoran/win-predict-ai-icons'
 import { useI18n } from 'vue-i18n'
 import type { Tournament } from '../../../shared/tournament'
-import Button from '@/components/ui/button/Button.vue'
+import { Button } from '@onlyzoran/win-predict-ai-ui'
 import AlertDialog from '@/components/ui/alert-dialog/AlertDialog.vue'
 
 const props = defineProps<{
