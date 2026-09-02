@@ -38,6 +38,37 @@
         "name": "Nexora",
         "description": "Cockpit violet futuristico — superfici vetro e CTA con gradiente."
       }
+    },
+    "resultPreview": {
+      "title": "Schede risultati",
+      "subtitle": "Anteprima pastel — sage per il finale, butter per l'intermedio.",
+      "pastelHint": "Seleziona Pastel sopra per vedere i token sul chrome admin; le schede sotto usano sempre la palette attiva.",
+      "legendFinal": "Risultato finale (chart-1 / sage)",
+      "legendIntermediate": "In corso (chart-2 / butter)",
+      "statusFinal": "Finale",
+      "statusIntermediate": "In corso",
+      "cards": {
+        "eplFinal": {
+          "league": "Premier League",
+          "match": "Arsenal — Chelsea",
+          "detail": "Classifica confermata · titolo assicurato"
+        },
+        "laligaFinal": {
+          "league": "La Liga",
+          "match": "Real Madrid — Barcelona",
+          "detail": "Tempo regolamentare · punti bloccati"
+        },
+        "bundesligaLive": {
+          "league": "Bundesliga",
+          "match": "Bayern — Dortmund",
+          "detail": "Giornata 34 · 67'"
+        },
+        "serieaLive": {
+          "league": "Serie A",
+          "match": "Inter — Milan",
+          "detail": "Stagione in corso · 2 partite rimaste"
+        }
+      }
     }
   },
   "language": {
