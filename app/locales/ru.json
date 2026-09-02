@@ -66,10 +66,12 @@
     "golf": "Гольф",
     "politics": "Политика",
     "motorsport": "Мотоспорт",
-    "tennis": "Tennis",
-    "rugby": "Rugby",
-    "boxing": "Boxing",
-    "waterPolo": "WaterPolo"
+    "tennis": "Теннис",
+    "rugby": "Регби",
+    "cricket": "Крикет",
+    "mma": "MMA",
+    "boxing": "Бокс",
+    "waterPolo": "Водное поло"
   },
   "login": {
     "title": "Вход",
