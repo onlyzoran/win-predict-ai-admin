@@ -68,8 +68,10 @@
     "motorsport": "Motorsport",
     "tennis": "Tennis",
     "rugby": "Rugby",
+    "cricket": "Cricket",
+    "mma": "MMA",
     "boxing": "Boxing",
-    "waterPolo": "WaterPolo"
+    "waterPolo": "Water polo"
   },
   "login": {
     "title": "Accedi",

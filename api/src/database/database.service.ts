@@ -13,6 +13,10 @@ const SEED_SPORTS: Array<{ slug: string; label: string; iconKey: string; sortOrd
   { slug: 'motorsport', label: 'Motorsport', iconKey: 'motorsport', sortOrder: 60 },
   { slug: 'golf', label: 'Golf', iconKey: 'golf', sortOrder: 70 },
   { slug: 'politics', label: 'Politics', iconKey: 'politics', sortOrder: 80 },
+  { slug: 'tennis', label: 'Tennis', iconKey: 'tennis', sortOrder: 90 },
+  { slug: 'rugby', label: 'Rugby', iconKey: 'rugby', sortOrder: 100 },
+  { slug: 'cricket', label: 'Cricket', iconKey: 'baseball', sortOrder: 110 },
+  { slug: 'mma', label: 'MMA', iconKey: 'boxing', sortOrder: 120 },
 ]
 
 @Injectable()
@@ -26,7 +30,7 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     this.db.pragma('journal_mode = WAL')
     this.db.pragma('foreign_keys = ON')
     this.migrate()
-    this.seedSports()
+    this.ensureSeedSports()
   }
 
   onModuleDestroy() {
@@ -67,15 +71,10 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     `)
   }
 
-  private seedSports() {
-    const count = (
-      this.db.prepare(`SELECT COUNT(*) AS count FROM sports`).get() as { count: number }
-    ).count
-    if (count > 0) return
-
+  private ensureSeedSports() {
     const now = Date.now()
     const insert = this.db.prepare(
-      `INSERT INTO sports (id, slug, label, icon_key, sort_order, is_enabled, created_at, updated_at)
+      `INSERT OR IGNORE INTO sports (id, slug, label, icon_key, sort_order, is_enabled, created_at, updated_at)
        VALUES (?, ?, ?, ?, ?, 1, ?, ?)`,
     )
     const tx = this.db.transaction(() => {
