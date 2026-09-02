@@ -30,9 +30,44 @@
         "name": "Claude+",
         "description": "Тёплые ivory-поверхности с clay terracotta — настроение Claude+ для терминала."
       },
+      "pastel": {
+        "name": "Pastel",
+        "description": "Мягкие sage-поверхности с butter-акцентом — спокойная палитра для финальных и промежуточных итогов."
+      },
       "nexora": {
         "name": "Nexora",
         "description": "Футуристичный violet-кокpit — стеклянные поверхности и gradient CTA."
+      }
+    },
+    "resultPreview": {
+      "title": "Карточки итогов",
+      "subtitle": "Превью пастельной темы — sage для финала, butter для промежуточного итога.",
+      "pastelHint": "Выберите Pastel выше, чтобы увидеть токены на живом chrome админки; карточки ниже всегда используют активную палитру.",
+      "legendFinal": "Финальный итог (chart-1 / sage)",
+      "legendIntermediate": "Промежуточный (chart-2 / butter)",
+      "statusFinal": "Финал",
+      "statusIntermediate": "В процессе",
+      "cards": {
+        "eplFinal": {
+          "league": "Premier League",
+          "match": "Arsenal — Chelsea",
+          "detail": "Таблица подтверждена · место чемпиона зафиксировано"
+        },
+        "laligaFinal": {
+          "league": "La Liga",
+          "match": "Real Madrid — Barcelona",
+          "detail": "Матч завершён · очки зафиксированы"
+        },
+        "bundesligaLive": {
+          "league": "Bundesliga",
+          "match": "Bayern — Dortmund",
+          "detail": "34-й тур · 67'"
+        },
+        "serieaLive": {
+          "league": "Serie A",
+          "match": "Inter — Milan",
+          "detail": "Сезон идёт · осталось 2 матча"
+        }
       }
     }
   },

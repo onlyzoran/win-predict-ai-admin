@@ -30,9 +30,44 @@
         "name": "Claude+",
         "description": "Superficies marfil cálidas con acento terracotta clay — ambiente Claude+ para el terminal."
       },
+      "pastel": {
+        "name": "Pastel",
+        "description": "Superficies sage suaves con acento butter — paleta tranquila para resultados finales e intermedios."
+      },
       "nexora": {
         "name": "Nexora",
         "description": "Cabina violeta futurista — superficies de cristal y CTAs con gradiente."
+      }
+    },
+    "resultPreview": {
+      "title": "Tarjetas de resultados",
+      "subtitle": "Vista previa pastel — sage para final, butter para intermedio.",
+      "pastelHint": "Selecciona Pastel arriba para ver los tokens en el chrome del admin; las tarjetas abajo usan siempre la paleta activa.",
+      "legendFinal": "Resultado final (chart-1 / sage)",
+      "legendIntermediate": "En curso (chart-2 / butter)",
+      "statusFinal": "Final",
+      "statusIntermediate": "En curso",
+      "cards": {
+        "eplFinal": {
+          "league": "Premier League",
+          "match": "Arsenal — Chelsea",
+          "detail": "Clasificación confirmada · título asegurado"
+        },
+        "laligaFinal": {
+          "league": "La Liga",
+          "match": "Real Madrid — Barcelona",
+          "detail": "Tiempo completo · puntos fijados"
+        },
+        "bundesligaLive": {
+          "league": "Bundesliga",
+          "match": "Bayern — Dortmund",
+          "detail": "Jornada 34 · 67'"
+        },
+        "serieaLive": {
+          "league": "Serie A",
+          "match": "Inter — Milan",
+          "detail": "Temporada en curso · 2 partidos restantes"
+        }
       }
     }
   },

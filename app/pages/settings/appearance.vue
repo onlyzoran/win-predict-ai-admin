@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { IconArrowLeft } from '@onlyzoran/win-predict-ai-icons'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@onlyzoran/win-predict-ai-ui'
 import { Palette } from '@lucide/vue'
 import { useI18n } from 'vue-i18n'
+import MatchResultCardsPreview from '~/components/appearance/MatchResultCardsPreview.vue'
 import {
   COLOR_PALETTES,
   type ColorPalette,
   palettePreferences,
+  useColorPalette,
 } from '~/composables/useColorPalette'
 import { cn } from '@/lib/utils'
 
@@ -14,6 +23,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const { activePalette } = useColorPalette()
 
 useHead({ title: () => t('appearance.title') })
 
@@ -71,23 +81,23 @@ function selectDarkPalette(palette: ColorPalette) {
           :aria-pressed="palettePreferences.light === palette"
           @click="selectLightPalette(palette)"
         >
-          <div
+          <Card
             :class="
               cn(
-                'palette-option-card flex h-full flex-col rounded-lg border bg-card text-card-foreground shadow-sm transition-colors hover:border-ring/50',
+                'palette-option-card h-full transition-colors hover:border-ring/50',
                 palettePreferences.light === palette && 'border-primary ring-2 ring-ring/30',
               )
             "
           >
-            <div class="flex flex-col space-y-1.5 p-6 pb-3">
-              <h3 class="text-base font-semibold leading-none tracking-tight">
+            <CardHeader class="pb-3">
+              <CardTitle class="text-base">
                 {{ t(`appearance.palettes.${palette}.name`) }}
-              </h3>
-              <p class="text-sm text-muted-foreground">
+              </CardTitle>
+              <CardDescription>
                 {{ t(`appearance.palettes.${palette}.description`) }}
-              </p>
-            </div>
-            <div class="p-6 pt-0">
+              </CardDescription>
+            </CardHeader>
+            <CardContent class="mt-auto">
               <div
                 :data-palette="palette"
                 class="palette-preview-swatch overflow-hidden rounded-lg border"
@@ -107,8 +117,8 @@ function selectDarkPalette(palette: ColorPalette) {
                   <span class="size-2 rounded-full bg-chart-5" />
                 </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </button>
       </div>
     </section>
@@ -129,23 +139,23 @@ function selectDarkPalette(palette: ColorPalette) {
           :aria-pressed="palettePreferences.dark === palette"
           @click="selectDarkPalette(palette)"
         >
-          <div
+          <Card
             :class="
               cn(
-                'palette-option-card flex h-full flex-col rounded-lg border bg-card text-card-foreground shadow-sm transition-colors hover:border-ring/50',
+                'palette-option-card h-full transition-colors hover:border-ring/50',
                 palettePreferences.dark === palette && 'border-primary ring-2 ring-ring/30',
               )
             "
           >
-            <div class="flex flex-col space-y-1.5 p-6 pb-3">
-              <h3 class="text-base font-semibold leading-none tracking-tight">
+            <CardHeader class="pb-3">
+              <CardTitle class="text-base">
                 {{ t(`appearance.palettes.${palette}.name`) }}
-              </h3>
-              <p class="text-sm text-muted-foreground">
+              </CardTitle>
+              <CardDescription>
                 {{ t(`appearance.palettes.${palette}.description`) }}
-              </p>
-            </div>
-            <div class="p-6 pt-0">
+              </CardDescription>
+            </CardHeader>
+            <CardContent class="mt-auto">
               <div
                 :data-palette="palette"
                 class="palette-preview-swatch dark overflow-hidden rounded-lg border"
@@ -165,10 +175,44 @@ function selectDarkPalette(palette: ColorPalette) {
                   <span class="size-2 rounded-full bg-chart-5" />
                 </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </button>
       </div>
+    </section>
+
+    <section class="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
+      <div>
+        <h2 class="text-sm font-medium text-foreground">
+          {{ t('appearance.resultPreview.title') }}
+        </h2>
+        <p class="mt-1 text-sm text-muted-foreground">
+          {{ t('appearance.resultPreview.subtitle') }}
+        </p>
+        <p
+          v-if="activePalette !== 'pastel'"
+          class="mt-2 text-sm text-muted-foreground"
+        >
+          {{ t('appearance.resultPreview.pastelHint') }}
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-3 text-xs">
+        <span
+          class="inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/60 px-2.5 py-1.5 text-muted-foreground"
+        >
+          <span class="size-2.5 rounded-sm bg-chart-1" aria-hidden="true" />
+          {{ t('appearance.resultPreview.legendFinal') }}
+        </span>
+        <span
+          class="inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/60 px-2.5 py-1.5 text-muted-foreground"
+        >
+          <span class="size-2.5 rounded-sm bg-chart-2" aria-hidden="true" />
+          {{ t('appearance.resultPreview.legendIntermediate') }}
+        </span>
+      </div>
+
+      <MatchResultCardsPreview />
     </section>
   </div>
 </template>
